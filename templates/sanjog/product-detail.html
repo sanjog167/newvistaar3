@@ -1,0 +1,796 @@
+{% extends "sanjog/header.html" %}
+{% block title %}
+<title>{{product}}</title>
+{% endblock %}
+{% block meta %}
+<meta name="description" content="Find wholesalers, suppliers, importers, exporters, bulk sellers, and manufacturers for {{product}} in Nepal "></meta>
+{% endblock %}
+{% block content %}
+
+{% load static %}
+
+
+<div id="header"></div>
+<main class="main mb-10 pb-1 productdetailpage">
+    <!-- Start of Breadcrumb -->
+    <nav class="breadcrumb-nav container">
+        <ul class="breadcrumb bb-no">
+            <li><a href="{% url 'home'%}">Home</a></li>
+            <li><a href="{% url 'products:category_detail' id=product.category.id slug=product.category.slug %}">{{product.category}}</a></li>
+            <li><a href="{% url 'products:category_detail' id=product.category.id slug=product.category.slug %}?subcat={{product.sub_category.slug}}">{{product.sub_category}}</a></li>
+            <li>{{product}}</li>
+        </ul>
+    </nav>
+    <!-- End of Breadcrumb -->
+
+    <!-- Start of Page Content -->
+    <div class="page-content">
+        <div class="container">
+            <div class="row gutter-lg product-detail-row">
+                <div class="main-content">
+                    <div class="product product-single row">
+                        <div class="col-md-6 mb-6">
+                            <div class="product-gallery product-gallery-sticky">
+                                <div class="swiper-container product-single-swiper swiper-theme nav-inner" data-swiper-options="{
+                                    'navigation': {
+                                        'nextEl': '.swiper-button-next',
+                                        'prevEl': '.swiper-button-prev'
+                                    }
+                                }">
+                                <div class="swiper-wrapper row cols-1 gutter-no">
+                                    <div class="swiper-slide">
+                                        <figure class="product-image">
+                                            <img src="{{product.image.url}}"
+                                                data-zoom-image="assets/images/products/default/1-800x900.jpg"
+                                                alt="Electronics Black Wrist Watch" width="800" height="900">
+                                        </figure>
+                                    </div>
+                                    {% if product.image2 %}
+                                    <div class="swiper-slide">
+                                        <figure class="product-image">
+                                            <img src="{{product.image2.url}}"
+                                                data-zoom-image="assets/images/products/default/2-800x900.jpg"
+                                                alt="Electronics Black Wrist Watch" width="488" height="549">
+                                        </figure>
+                                    </div>
+                                    {% endif %}
+                                    {% if product.image3 %}
+                                    <div class="swiper-slide">
+                                        <figure class="product-image">
+                                            <img src="{{product.image3.url}}"
+                                                data-zoom-image="assets/images/products/default/3-800x900.jpg"
+                                                alt="Electronics Black Wrist Watch" width="800" height="900">
+                                        </figure>
+                                    </div>
+                                    {% endif %}
+                                    {% if product.image4 %}
+                                    <div class="swiper-slide">
+                                        <figure class="product-image">
+                                            <img src="{{product.image4.url}}"
+                                                data-zoom-image="assets/images/products/default/4-800x900.jpg"
+                                                alt="Electronics Black Wrist Watch" width="800" height="900">
+                                        </figure>
+                                    </div>
+                                    {% endif %}
+                                    {% if product.image5 %}
+                                    <div class="swiper-slide">
+                                        <figure class="product-image">
+                                            <img src="{{product.image5.url}}"
+                                                data-zoom-image="assets/images/products/default/5-800x900.jpg"
+                                                alt="Electronics Black Wrist Watch" width="800" height="900">
+                                        </figure>
+                                    </div>
+                                    {% endif %}
+                                    {% if product.image6 %}
+                                    <div class="swiper-slide">
+                                        <figure class="product-image">
+                                            <img src="{{product.image6.url}}"
+                                                data-zoom-image="assets/images/products/default/6-800x900.jpg"
+                                                alt="Electronics Black Wrist Watch" width="800" height="900">
+                                        </figure>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                    <button class="swiper-button-next"></button>
+                                    <button class="swiper-button-prev"></button>
+                                    <a href="#" class="product-gallery-btn product-image-full"><i class="w-icon-zoom"></i></a>
+                                </div>
+                                <div class="product-thumbs-wrap swiper-container" data-swiper-options="{
+                                    'navigation': {
+                                        'nextEl': '.swiper-button-next',
+                                        'prevEl': '.swiper-button-prev'
+                                    }
+                                }">
+                                <div class="product-thumbs swiper-wrapper row cols-4 gutter-sm">
+                                        
+                                    <div class="product-thumb swiper-slide">
+                                        <img src="{{product.image.url}}"
+                                            alt="Product Thumb" width="800" height="900">
+                                    </div>
+
+                                    {% if product.image2 %}
+                                    <div class="product-thumb swiper-slide">
+                                        <img src="{{product.image2.url}}"
+                                            alt="Product Thumb" width="800" height="900">
+                                    </div>
+                                    {% endif %}
+                                    {% if product.image3 %}
+                                    <div class="product-thumb swiper-slide">
+                                        <img src="{{product.image3.url}}"
+                                            alt="Product Thumb" width="800" height="900">
+                                    </div>
+                                    {% endif %}
+                                    {% if product.image4 %}
+                                    <div class="product-thumb swiper-slide">
+                                        <img src="{{product.image4.url}}"
+                                            alt="Product Thumb" width="800" height="900">
+                                    </div>
+                                    {% endif %}
+                                    {% if product.image5 %}
+                                    <div class="product-thumb swiper-slide">
+                                        <img src="{{product.image5.url}}"
+                                            alt="Product Thumb" width="800" height="900">
+                                    </div>
+                                    {% endif %}
+                                    {% if product.image6 %}
+                                    <div class="product-thumb swiper-slide">
+                                        <img src="{{product.image6.url}}"
+                                            alt="Product Thumb" width="800" height="900">
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                    <button class="swiper-button-next"></button>
+                                    <button class="swiper-button-prev"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4 mb-md-6">
+                            <div class="product-details" data-sticky-options="{'minWidth': 767}">
+                                <h1 class="product-title">{{product}}</h1>
+                                <div class="product-bm-wrapper">
+                                    <!--figure class="brand">
+                                        <img src="assets/images/products/brand/brand-1.jpg" alt="Brand"
+                                            width="102" height="48" />
+                                    </figure-->
+                                    <div class="product-meta">
+                                        <div class="product-categories">
+                                            Category:
+                                            <span class="product-category"><a href="{% url 'products:category_detail' id=product.category.id slug=product.category.slug %}">{{product.category}}</a></span>
+
+                                        </div>
+                                        {% if product.brand %}
+                                            <div class="product-categories mt-n2">
+                                                Brand:
+                                                <span class="product-category"><a href="{% url 'products:all_category_detail' %}?brands={{product.brand}}">{{product.brand}}</a></span>
+                                            </div>
+                                        {% endif %}
+                                        <div class="product-sku btn-outline-green">
+                                        {% if product.available %}
+                                        Available
+                                        {% else %}
+                                        Coming Soon!
+                                        {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="product-meta">
+                                    <div class="product-categories">
+                                        Sold by:
+                                        <span class="product-category guarantee"><a href="{% url 'suppliers:supplier_detail' slug=product.supplier.slug %}">{{product.supplier}}</a></span>
+                                    </div>
+               
+                                </div>
+
+                                <hr class="product-divider">
+
+                                {% if product.price != 0 %}
+
+                                <div class="product-price fs-17">Price: Rs. {{product.price}}{% if product.max_price and product.max_price != 0 %} - Rs. {{ product.max_price }}{% endif %}
+
+                                {% endif %}
+
+                                <hr class="product-divider">
+                                
+                                <div class="product-price fs-17">Minimum Order Quantity: {{product.minimum_order_quantity}}
+
+                                </div>
+
+                                <hr class="product-divider">
+
+                                <div class="ratings-container">
+                                 
+                                    <a href="#product-tab-reviews" class="rating-reviews scroll-to text-dark">About This Item</a>
+                                </div>
+
+                                <div class="product-short-desc">
+                                  {{ short_desc | safe}}
+                                </div>
+
+                                <a href="#threetabs" class="vmore fs-17">View More</a>
+
+                                <hr class="product-divider">
+
+                                <div class="product_btns">
+                                    {% if request.user.is_authenticated %}
+                                    <a href="#" class="btn btn-outline-green"  data-toggle="modal" data-target="#getBasePriceModal">Get Best Price</a>
+                                    <a href="#" class="btn btn-outline-green btn-border-green" data-toggle="modal" data-target="#demoModalthree">Contact Seller</a>
+                                    {% else %}
+                                    <a href="{% url 'login' %}" class="btn btn-outline-green btn-border-green">LOGIN TO GET BEST PRICES</a>
+                                    {% endif %}
+                                </div>
+
+                                <div class="modal fade   "  id="getBasePriceModal"  tabindex="-1" role="dialog"
+                                aria-labelledby="getBasePriceModal" aria-hidden="true">
+                               <div class="modal-dialog modal-dialog-centered  modal-lg  " role="document">
+                                   <div class="modal-content">
+                           
+                                       <div class="container-fluid">
+                                           <button type="button" class="close" data-dismiss="modal"
+                                                   aria-label="Close">
+                                               <span aria-hidden="true">&times;</span>
+                                           </button>
+                                           <div class="row">
+                                            
+                                               <div class="col-md-6 bg-img rounded-left m-h-60 d-none d-sm-block bestprice" >
+                                                <div class="margin-auto">
+                                                <div class="text-center py-3 rounded-top">
+                                                    <img src="https://d33wubrfki0l68.cloudfront.net/5bcb06b23f3ed5bfa5bf8585982174a82afb50a9/fe95d/assets/img/mockup.png" class="mw-100" alt="">
+                                                </div>
+                                                <div class="modal-body pb-sm-5 p-0">
+                                                    <div class=" text-center text-white">
+                                                        <h3 class="pt-3 text-white">Get Best Price</h3>
+                                                        <p class="text-white-50">
+                                                            We're the first b2b e-commerce platform in Nepal who've made the entire country available for you to list and sell your products in bulk.
+
+
+                                                        </p>
+                                
+                                                    </div>
+                                                </div>
+                                                </div>
+                                               </div>
+                                               <div class="col-md-6 py-5 px-sm-5 my-auto ">
+                           
+                                            
+                                                   <form action="{% url 'products:get_best_price' product.id %}" method="POST">
+                                                        {% csrf_token %}
+                                                        <div class="row">
+                                                            <div class="form-group col-lg-12">
+                                                                <div class="form-group">
+                                                                    <label for="exampleInputEmail1">Product</label>
+                                                                    <input type="text" value="{{product}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" readonly>
+                                                                </div>
+                                    
+                                                            </div>
+                                                            <div class="form-group col-lg-12">
+                                                                <div class="form-group">
+                                                                    <label for="exampleInputEmail1">Category</label>
+                                                                    <input type="text" value="{{product.category}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" readonly>
+                                                                </div>
+                                    
+                                                            </div>
+                                                            <div class="form-group col-lg-12">
+                                                                <div class="form-group">
+                                                                    <label for="exampleInputEmail1">Quantity</label>
+                                                                    <input type="text" name='quantity' class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                                                </div>
+                                    
+                                                            </div>
+                                                            <div class="form-group col-lg-12">
+                                                                <div class="form-group">
+                                                                    <label for="exampleInputEmail1">Description</label>
+                                                                    <textarea placeholder="Message to Seller" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name='description'></textarea>
+                                                                </div>
+                                    
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <button type="submit" class="btn btn-outline-green" aria-label="Close">Send</button>
+                                                   </form>
+                                          
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>   
+                           
+                           <div class="modal fade "   id="demoModalthree"  tabindex="-1" role="dialog"
+                           aria-labelledby="demoModalthree" aria-hidden="true">
+                          <div class="modal-dialog  modal-dialog-centered " role="document">
+                              <div class="modal-content">
+                                  <button type="button" class="close light" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                  </button>
+                                 <div class="">
+                                
+                                     <div>
+                                         <div class="container-fluid">
+                                             <div class="row">
+                                                 <div class="col-md-10 mx-auto pb-5">
+                                                     <div class="bg-light rounded shadow-sm px-3 py-3">
+                                                        <img src="https://d33wubrfki0l68.cloudfront.net/77fca6596a8bb5572a39b3927169940215c3857c/f3868/assets/img/megaphone.png" style="
+                                                        width: 60px;
+                                                        height: 60px;
+                                                        margin-bottom: 10px !important;
+                                                        margin: auto;
+                                                        margin-top: 10px;
+                                                    " alt=""/>
+                                                         <h2 class="pt-sm-3  text-center">Get Supplier Details</h2>
+                                                         <p class="text-muted text-center">
+                                                             Get the details of the supplier directly!
+                                                         </p>
+                                                         <table class="table">
+                                                            <tbody>
+                                                              <tr>
+                                                                <th>Name</th>
+                                                                <td>{{ product.supplier.contact_name }}</td>
+                                                                
+                                                              </tr>
+                                                              <tr>
+                                                                <th>	Email</th>
+                                                                <td>{{ product.supplier.contact_email }}</td>
+                                                           
+                                                              </tr>
+                                                              <tr>
+                                                                <th>	Contact Number</th>
+                                                              
+                                                                <td>{{ product.supplier.contact_phone }}</td>
+                                                               
+                                                              </tr>
+                                                             
+                                                            </tbody>
+                                                          </table>
+                                                          <button type="submit" class="btn btn-outline-green w-100 mt-3" data-dismiss="modal" aria-label="Close">Contact Now</button>
+                                                          
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                              </div>
+                          </div>
+                      </div>
+
+                       
+
+                                <div class="social-links-wrapper">
+                                    <div class="social-links">
+                                        <div class="social-icons social-no-color border-thin">
+                                            <a href="{{ product.supplier.facebook }}" class="social-icon social-facebook fab fa-facebook"></a>
+                                            <a href="{{ product.supplier.instagram }}" class="social-icon social-instagram fab fa-instagram"></a>
+                                        </div>
+                                    </div>
+                                    <span class="divider d-xs-show"></span>
+                            
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="tab tab-nav-boxed tab-nav-underline product-tabs mt-5" id="threetabs">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a href="#product-tab-description" class="nav-link active">Description</a>
+                            </li>
+                   
+                            <!--li class="nav-item">
+                                <a href="#product-tab-vendor" class="nav-link">Seller Info</a>
+                            </li-->
+
+                            <!--li class="nav-item">
+                                <a href="#product-tab-reviews" class="nav-link">Review Supplier</a>
+                            </li-->
+                           
+                        </ul>
+                        <div class="tab-content mt-4">
+                            <div class="tab-pane active" id="product-tab-description">
+                                <div class="row mb-4">
+                                    <div class="col-12 mb-5">
+                                        <h4 class="title tab-pane-title font-weight-bold mb-2">Detail</h4>
+                                        {{product.description | safe}}
+                                    </div>
+                                 
+                                </div>
+                        
+                            </div>
+                     
+                            <div class="tab-pane" id="product-tab-vendor">
+                                <div class="row mb-4">
+                                    <div class="col-md-10 mb-5">
+                                      
+                                        <div class="icon-box icon-box-side justify-content-between" style="align-items: initial">
+                                            <div class="d-flex align-items-center">
+                                                <span class="icon-box-icon text-dark">
+                                                    <img src="https://s3.eu-west-1.amazonaws.com/backend-prod-media-storage-origin/module-catalog-pim/fba0c6142480f001bed85d4/supplier-company-setting/0090b4923a7334b5977b854ca4aec5fa.jpg" class="avatar" alt="">
+                                                    </span>
+                                                    <div class="icon-box-content">
+                                                        <h4 class="icon-box-title fw-500 text-gray">Seller information</h4>
+                                                        <a href="{% url 'suppliers:supplier_detail' slug=product.supplier.slug %}"><p class="text-dark fw-600 fs-15">{{product.supplier}}</p></a>
+                                                    </div>
+                                            </div>
+                                            <div>
+                                                <a href="#" class="btn btn-outline-green">Visit Store</a>
+                                            </div>
+                            
+                                        </div>
+                                        <table class="table">
+                                          
+                                            <tbody>
+                                              <tr>
+                                                <th scope="row">Company Name</th>
+                                                <td>{{product.supplier}}</td>
+                                                <td>Year Of Establishment</td>
+                                                <td>{{product.establishment_year}}</td>
+                                              </tr>
+                                              <tr>
+                                                <th scope="row">Company Email</th>
+                                                <td>{{product.supplier.email}}</td>
+                                                <td>Company Website</td>
+                                                <td><a href="http://vistaartrade.com/">www.vistaartrade.com</a></td>
+                                              </tr>
+                                              <tr>
+                                                <th scope="row">CEO Name</th>
+                                                <td>{{product.ceo_name}}</td>
+                                                <td>Phone</td>
+                                                <td>9779846579211</td>
+                                              </tr>
+                                              <tr>
+                                                <th scope="row">Company Address</th>
+                                                <td>Please <a href="#">Login</a> to see company address</td>
+                                                <td>Contact Person Name</td>
+                                                <td>Lauren Jones</td>
+                                              </tr>
+                                              <tr>
+                                                <th scope="row">Company State</th>
+                                                <td>1234</td>
+                                                <td>Company Type</td>
+                                                <td>Trading Company</td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                    </div>
+                                 
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="product-tab-reviews">
+                                <div class="row mb-4">
+                                    <div class="col-xl-4 col-lg-5 mb-4">
+                                        <div class="ratings-wrapper">
+                                            <div class="avg-rating-container">
+                                                <h4 class="avg-mark font-weight-bolder ls-50">{{avr.avg_rating}}</h4>
+                                                <div class="avg-rating">
+                                                    <p class="text-dark mb-1">Average Rating</p>
+                                                    {% if avr.avg_rating %}
+                                                        {% for star in avr.avg_rating|floatformat:0|ljust:avr.avg_rating %}
+															<i class="fa fa-star fsize green-color"></i>                    
+														{% endfor %}
+														
+                                                        {% comment %} for half star {% endcomment %}
+														{% if avr.avg_rating > 1 and avr.avg_rating < 2 %}<span class="fa fa-star-half-o fsize green-color" aria-hidden="true"></span>{% endif %}
+														{% if avr.avg_rating > 2 and avr.avg_rating < 3 %}<span class="fa fa-star-half-o fsize green-color" aria-hidden="true"></span>{% endif %}
+														{% if avr.avg_rating > 3 and avr.avg_rating < 4 %}<span class="fa fa-star-half-o fsize green-color" aria-hidden="true"></span>{% endif %}
+														{% if avr.avg_rating > 4 and avr.avg_rating < 5 %}<span class="fa fa-star-half-o fsize green-color" aria-hidden="true"></span>{% endif %}
+													{% endif %}
+                                                        <a href="#" class="rating-reviews">({{revcount}} Reviews)</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                            <div
+                                                class="ratings-value d-flex align-items-center text-dark ls-25">
+                                                <span
+                                                    class="text-dark font-weight-bold">66.7%</span>Recommended<span
+                                                    class="count">(2 of 3)</span> 
+                                            </div>
+                                            <div class="ratings-list">
+                                                {% for r in ratings %}
+                                                <div class="ratings-container">
+                                                    {% for a in r.rating|floatformat:0|ljust:r.rating %}
+                                                        <i class="fa fa-star fsize green-color"></i>                    
+                                                    {% endfor %}
+                                                    {% comment %} <div class="ratings-full">
+                                                        <span class="ratings" style="width: 100%;"></span>
+                                                        <span class="tooltiptext tooltip-top"></span>
+                                                    </div> {% endcomment %}
+                                                    <div class="progress-bar progress-bar-sm ">
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="progress-value">
+                                                        <mark>{{r.count}}</mark>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                                {% comment %} <div class="ratings-container">
+                                                    <div class="ratings-full">
+                                                        <span class="ratings" style="width: 80%;"></span>
+                                                        <span class="tooltiptext tooltip-top"></span>
+                                                    </div>
+                                                    <div class="progress-bar progress-bar-sm ">
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="progress-value">
+                                                        <mark>30%</mark>
+                                                    </div>
+                                                </div>
+                                                <div class="ratings-container">
+                                                    <div class="ratings-full">
+                                                        <span class="ratings" style="width: 60%;"></span>
+                                                        <span class="tooltiptext tooltip-top"></span>
+                                                    </div>
+                                                    <div class="progress-bar progress-bar-sm ">
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="progress-value">
+                                                        <mark>40%</mark>
+                                                    </div>
+                                                </div>
+                                                <div class="ratings-container">
+                                                    <div class="ratings-full">
+                                                        <span class="ratings" style="width: 40%;"></span>
+                                                        <span class="tooltiptext tooltip-top"></span>
+                                                    </div>
+                                                    <div class="progress-bar progress-bar-sm ">
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="progress-value">
+                                                        <mark>0%</mark>
+                                                    </div>
+                                                </div>
+                                                <div class="ratings-container">
+                                                    <div class="ratings-full">
+                                                        <span class="ratings" style="width: 20%;"></span>
+                                                        <span class="tooltiptext tooltip-top"></span>
+                                                    </div>
+                                                    <div class="progress-bar progress-bar-sm ">
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="progress-value">
+                                                        <mark>0%</mark>
+                                                    </div>
+                                                </div> {% endcomment %}
+                                            </div>
+                                    </div>
+                                    <div class="col-xl-8 col-lg-7 mb-4">
+                                        <div class="review-form-wrapper">
+                                            <h3 class="title tab-pane-title font-weight-bold mb-1">Submit Your
+                                                Review</h3>
+                                            <p class="mb-3">Your email address will not be published. Required
+                                                fields are marked *</p>
+                                            <form action="{% url 'submit_review' product.id %}" method="POST" class="review-form">
+                                                    {% csrf_token %}
+                                                    <div class="rate">
+                                                        <input type="radio" name="rating" id="rating5" value="5" required /><label for="rating5" title="5"></label>
+                                                        <input type="radio" name="rating" id="rating4" value="4" required /><label for="rating4" title="4"></label>
+                                                        <input type="radio" name="rating" id="rating3" value="3" required /><label for="rating3" title="3"></label>
+                                                        <input type="radio" name="rating" id="rating2" value="2" required /><label for="rating2" title="2"></label>
+                                                        <input type="radio" name="rating" id="rating1" value="1" required /><label for="rating1" title="1"></label>
+                                                    </div>        
+                                                <textarea cols="30" rows="6"
+                                                    placeholder="Write Your Review Here..." class="form-control"
+                                                    id="review" name="review" required></textarea>
+                                                <div class="row gutter-md">
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Your Name" name="uname" id="author" required>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Your Email" name="email" id="email_1" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="checkbox" class="custom-checkbox"
+                                                        id="save-checkbox">
+                                                    <label for="save-checkbox">Save my name, email, and website
+                                                        in this browser for the next time I comment.</label>
+                                                </div>
+                                                <button type="submit" class="btn btn-dark">Submit
+                                                    Review</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+             
+              
+                </div>
+                <!-- End of Main Content -->
+                <aside class="sidebar product-sidebar sidebar-fixed right-sidebar sticky-sidebar-wrapper">
+                    <div class="sidebar-overlay"></div>
+                    <a class="sidebar-close" href="#"><i class="close-icon"></i></a>
+                    <a href="#" class="sidebar-toggle d-flex d-lg-none"><i class="fas fa-chevron-left"></i></a>
+                    <div class="sidebar-content scrollable">
+                        <div class="sticky-sidebar">
+                            <div class="widget widget-icon-box mb-6 position-relative">
+                                <div class="icon-box icon-box-side">
+                                    <span id="result-placeholder"></span>
+
+                                    
+                          
+                                    <div class="icon-box-content">
+                                        <h4 class="icon-box-title fw-500 text-gray">Seller information</h4>
+                                        <a href="{% url 'suppliers:supplier_detail' slug=product.supplier.slug %}"><p class="text-dark fw-600 fs-15">{{product.supplier}}</p></a>
+                                    </div>
+                                </div>
+                                {% if user.is_authenticated %} 
+                                <a class="btn btn-outline-green w-100 mt-4 btn-green d-flex align-items-center" href="https://api.whatsapp.com/send?phone={{product.supplier.mobile_number}}&text={{url_encoded_string}}">
+                                    <img src="{% static "assets/images/whatsapp2.png" %}" class="w-20 mr-2" alt="">
+                                    Chat on Whatsapp</a>
+                                    {% else %}
+                                    <a class="btn btn-outline-green w-100 mt-4 btn-green d-flex align-items-center" href="{% url 'login' %}?next=/products/{{product.id}}/{{product.slug}}">
+                                        <img src="{% static "assets/images/whatsapp2.png" %}" class="w-20 mr-2" alt="">
+                                        Chat on Whatsapp</a>
+                                    {% endif %}
+                                    {% if user.is_authenticated %}
+                                    <a class="btn btn-outline-green btn-border-green w-100 ml-0 mt-4 d-flex align-items-center" href="mailto:{{product.supplier.email}}">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/3059/3059989.png" class="w-20 mr-2" alt="">
+                                         Send email to Seller</a>
+                                         {% else %}
+                                         <a class="btn btn-outline-green btn-border-green w-100 ml-0 mt-4 d-flex align-items-center" href="{% url 'login' %}?next=/products/{{product.id}}/{{product.slug}}">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/3059/3059989.png" class="w-20 mr-2" alt="">
+                                             Send email to Seller</a>
+                                             {% endif %}
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#00917c66" fill-opacity="0.4" d="M0,64L48,64C96,64,192,64,288,101.3C384,139,480,213,576,234.7C672,256,768,224,864,186.7C960,149,1056,107,1152,101.3C1248,96,1344,128,1392,144L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>
+                                <div class="verification">
+                                    <div class="dropdown">
+                                        <img src="{% static "assets/images/check-mark.png" %}" class="w-20" alt="">
+    
+                                        <div class="dropdown-box">
+                                            <p>Gold</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="dropdown">
+                                        <img src="{% static "assets/images/check-mark (1).png" %}" class="w-20" alt="">
+    
+                                        <div class="dropdown-box">
+                                            <p>Silver</p>
+                                        </div>
+                                    </div>
+    
+                                    <div class="dropdown">
+                                        <img src="{% static "assets/images/check-mark (2).png" %}" class="w-20" alt="">
+    
+                                        <div class="dropdown-box">
+                                            <p>Diamond</p>
+                                        </div>
+                                    </div>
+    
+                                    <div class="dropdown">
+                                        <img src="{% static "assets/images/check-mark (3).png" %}" class="w-20" alt="">
+    
+                                        <div class="dropdown-box">
+                                            <p>Bronze</p>
+                                        </div>
+                                    </div>
+    
+                                </div>
+                         
+
+                            </div>
+                            <!-- End of Widget Icon Box -->
+
+                    
+                            <!-- End of Widget Banner -->
+
+                      
+                        </div>
+                    </div>
+                </aside>
+                <!-- End of Sidebar -->
+            </div>
+        </div>
+    </div>
+    <!-- End of Page Content -->
+</main>
+</div>
+
+    <style>
+        .rate > input{
+            display: none;
+        }
+        .rate{
+            display: inline-block;
+            border: 0;
+        }
+        
+        .rate > label{
+            float: right;
+            margin: 0;
+        }
+        
+        .rate > label:before{
+            display: inline-block;
+            font-size: 1.5rem;
+            font-family: FontAwesome;
+            content: "\f005";/*full star*/
+            margin: 0;
+            padding: 0.3rem .2rem;
+            cursor: pointer;
+        }
+        .fsize{
+            font-size: 1.5rem;
+        }
+        
+        .row input:checked ~ label, label:hover ~ label{
+            color: #00917c;
+        }
+        .row input:checked + label:hover, input:checked ~ label:hover,input:checked ~ label:hover ~ label,
+        label:hover ~ input:checked ~ label{
+          color: green;
+        }
+        .green-color{
+            color: green;
+        }
+        
+    </style>
+
+{% endblock %}
+
+{% block script %}
+
+    <!-- Plugin JS File -->
+    <script src="{% static "assets/vendor/jquery/jquery.min.js" %}"></script>
+    <script src="{% static "assets/vendor/jquery.plugin/jquery.plugin.min.js" %}"></script>
+    <script src="{% static "assets/js/bootstrap.js" %}"></script>
+    <script src="{% static "assets/vendor/imagesloaded/imagesloaded.pkgd.min.js" %}"></script>
+    <script src="{% static "assets/vendor/swiper/swiper-bundle.min.js" %}"></script>
+    <script src="{% static "assets/vendor/jquery.countdown/jquery.countdown.min.js" %}"></script>
+    <script src="{% static "assets/vendor/magnific-popup/jquery.magnific-popup.min.js" %}"></script>
+    <script src="{% static "assets/vendor/floating-parallax/parallax.min.js" %}"></script>
+    <script src="{% static "assets/vendor/zoom/jquery.zoom.js" %}"></script>
+    <script src="{% static "assets/vendor/niceselect.js" %}"></script>
+
+    <script src="{% static "assets/js/datatable.js" %}"></script>
+    <script src="{% static "assets/js/apexchart.js" %}"></script>
+    <script src="{% static "assets/js/chartoption.js" %}"></script>
+    <script src="{% static "assets/js/popper.min.js" %}"></script>
+    <script src="{% static "assets/js/lunar.js" %}"></script>
+    <script src="{% static "assets/js/main.js" %}"></script>
+
+
+    <!-- Main Js -->
+    <script src="{% static "assets/js/main.min.js" %}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+        <script>
+        $(document).ready(function() {
+  $('select').niceSelect();
+});
+    </script>
+<script> 
+    $(function(){
+      $("#header").load("header.html"); 
+      $("#footer").load("footer.html"); 
+    });
+    </script> 
+
+<script>
+    const supplier = "{{product.supplier}}";
+    const firstLetters = supplier.split(' ').map(word => word.charAt(0)).join('');
+    const result = firstLetters.substring(0,2);
+    document.getElementById("result-placeholder").innerHTML = result;
+  </script>
+
+<script>
+    var options = {
+strings: ['Orders.', 'New Orders.', 'More New Orders.'],
+typeSpeed: 150,
+backSpeed: 150,
+loop: true,
+};
+
+var typed = new Typed('.autotype', options);
+</script>
+
+{% endblock %}
+
+</body>
+
+
+</html>

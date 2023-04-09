@@ -1,0 +1,1332 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block meta %}
+    {% endblock %}
+
+    {% block title %}
+    {% endblock %}
+
+    <meta property="og:url" content="https://vistaartrade.com/" />
+    <meta property="og:type" content="website" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
+    <meta name="" content="IE=edge,chrome=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T9G39MSGV1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-T9G39MSGV1');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static "logo_favicon.png" %}">
+
+    <!-- WebFont.js -->
+    <script>
+        WebFontConfig = {
+            google: { families: ['Poppins:400,500,600,700'] }
+        };
+        (function (d) {
+            var wf = d.createElement('script'), s = d.scripts[0];
+            wf.src = 'assets/js/webfont.js';
+            wf.async = true;
+            s.parentNode.insertBefore(wf, s);
+        })(document);
+    </script>
+
+    <link rel="preload" href="{% static "assets/vendor/fontawesome-free/webfonts/fa-regular-400.woff2" %}" as="font" type="font/woff2"
+        crossorigin="anonymous">
+    <link rel="preload" href="{% static "assets/vendor/fontawesome-free/webfonts/fa-solid-900.woff2" %}" as="font" type="font/woff2"
+        crossorigin="anonymous">
+    <link rel="preload" href="{% static "assets/vendor/fontawesome-free/webfonts/fa-brands-400.woff2" %}" as="font" type="font/woff2"
+        crossorigin="anonymous">
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="{% static "assets/vendor/swiper/swiper-bundle.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "assets/vendor/animate/animate.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "assets/vendor/magnific-popup/magnific-popup.min.css" %}">
+
+    <!-- Default CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static "assets/css/demo2.min.css" %}"> 
+    <link rel="stylesheet" href="{% static "assets/css/nice-select.css" %}">
+    <link rel="stylesheet" href="{% static "assets/vendor/fontawesome-free/css/all.min.css" %}">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static "assets/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "assets/css/custom.css" %}">
+    <link rel="stylesheet" href="{% static "assets/css/datatables.css" %}">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "assets/css/style.css" %}">
+    <link rel="stylesheet" href="{% static "assets/css/themify-icons.css" %}">
+    <link rel="stylesheet" href="{% static "assets/css/lunar.css" %}">   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <!--link rel="stylesheet" href="{% static "assets/css/iuploader.css" %}"--> 
+    <link
+    rel="stylesheet"
+    href="https://unpkg.com/swiper/swiper-bundle.min.css"
+  />
+</head>
+
+<body class="home">
+    <div class="page-wrapper">
+        <h1 class="d-none">Vistaar Trade | Home</h1>
+
+        <!-- Start of Header -->
+        <header class="header">
+            <div class="header-top">
+                <div class="container">
+                    <div class="header-right pr-0">
+                        <div class="d-flex align-items-center dropdown">
+                        <a href="#" class="d-lg-show">
+                            <img src="{% static "assets/images/shop.png" %}" class="w-20 mr-2">
+                            {% if request.user.profile.account_type == 'Retailer' %}
+								<li><i class="ti-user"></i> <a href="{% url 'register_supplier' %}">Become a Seller</a></li>
+								{% endif %}
+								{% if request.user.is_authenticated %}
+								<li>Hi, {{ request.user.first_name }}</li>
+                                <div class="dropdown-box">
+                                    <a href="{% url 'dashboard' %}">My Account</a>
+                                  
+                                    <a href="{% url 'logout' %}">Logout</a> 
+                        </div>
+								{% else %}
+								<li></i><a href="{% url "register" %}">Sign-up</a></li>
+								{% endif %}    
+                        </a>
+                  
+                        </div>
+                        <div class="dropdown">
+                            <a href="#currency">Need Help?</a>
+                            <div class="dropdown-box">
+                                <a href="">Call Us +9779846579211</a>
+                                
+                                <a href="">Contact Us</a>
+                            
+		            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+            <!-- End of Header Top -->
+
+            <div class="header-middle">
+                <div class="container">
+                    <div class="header-left mr-md-4">
+                        <a href="#" class="mobile-menu-toggle  w-icon-hamburger" aria-label="menu-toggle">
+                            <img src="{% static "assets/images/menu (1).png" %}" alt="">
+	                        </a>
+                        <a href="{% url 'home' %}" class="logo ml-lg-0">
+                            <img src="{% static "images/logo.png" %}" alt="logo" width="144" height="45" />
+                        </a>
+                        <form id="search-formmobile" onSubmit="return handleSearchFormSubmitMobile();"
+                        class="header-search hs-expanded hs-round position-relative d-none d-md-flex input-wrapper mr-4 ml-4">
+                        <div class="select-box">
+                            <select id="category">
+                                <option value="all">All Categories</option>
+                                {% for cat in all_cat %}
+                                <option value="{{cat.id}}/{{cat.slug}}" {% if slug == cat.slug %}selected{% endif %}>{{cat}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <input type="text" class="form-control" name="keyword" id="searches" autocomplete="off"
+                            placeholder="What are you looking for..." required />
+                        <button class="btn btn-search" type="submit"><i class="fa fa-search"></i>
+                        </button> 
+
+                        <div id="results-box-div" class="results-card-div not-visible">
+                            <div id="results-box" class="results-card"></div>
+                            <div id="sub-results-box" class="results-card"></div>
+                        </div>
+                    </div>
+                    </form>
+                    
+
+                    <div class="header-right ml-4">
+                        {% if request.user.is_authenticated %}
+                        {% else %}
+                        <a class="wishlist label-down link d-xs-show" href="{% url 'login' %}">
+                            <img src="{% static "assets/images/profile.png" %}">
+                            <span class="wishlist-label d-lg-show">Sign In</span>
+                        </a>
+                        {% endif %}
+                        <div class="dropdown cart-dropdown mr-0 mr-lg-2">
+                            <div class="cart-overlay"></div>
+                            <!--div class="dropdown-box">
+                                <div class="products">
+                                    <div class="product product-cart">
+                                        <div class="product-detail">
+                                            <a href="categorypage.html" class="product-name">Beige knitted
+                                                elas<br>tic
+                                                runner shoes</a>
+                                            <div class="price-box">
+                                                <span class="product-quantity">1</span>
+                                                <span class="product-price">$25.68</span>
+                                            </div>
+                                        </div>
+                                        <figure class="product-media">
+                                            <a href="categorypage.html">
+                                                <img src="assets/images/cart/product-1.jpg" alt="product" height="84"
+                                                    width="94" />
+                                            </a>
+                                        </figure>
+                                        <button class="btn btn-link btn-close" aria-label="button">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="product product-cart">
+                                        <div class="product-detail">
+                                            <a href="categorypage.html" class="product-name">Blue utility
+                                                pina<br>fore
+                                                denim dress</a>
+                                            <div class="price-box">
+                                                <span class="product-quantity">1</span>
+                                                <span class="product-price">$32.99</span>
+                                            </div>
+                                        </div>
+                                        <figure class="product-media">
+                                            <a href="categorypage.html">
+                                                <img src="assets/images/cart/product-2.jpg" alt="product" width="84"
+                                                    height="94" />
+                                            </a>
+                                        </figure>
+                                        <button class="btn btn-link btn-close" aria-label="button">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="cart-total">
+                                    <label>Subtotal:</label>
+                                    <span class="price">$58.67</span>
+                                </div>
+
+                                <div class="cart-action">
+                                    <a href="cart.html" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
+                                    <a href="checkout.html" class="btn btn-primary  btn-rounded">Checkout</a>
+                                </div>
+                            </div-->
+                            <!-- End of Dropdown Box -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- End of Header Middle -->
+
+            <div class="header-bottom sticky-content fix-top sticky-header">
+                <div class="container">
+                    <div class="inner-wrap">
+                        <div class="header-left flex-1">
+                            <div class="dropdown category-dropdown has-border" data-visible="true">
+                                <a href="#" class="category-toggle" role="button" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="true" data-display="static"
+                                    title="Browse Categories">
+                                    <img src="{% static "assets/images/menu-white.png" %}" class="w-20">
+                                    <span class="text-white ml-2">All Categories</span>
+                                </a>
+
+                                <div class="dropdown-box">
+
+                                    <ul class="menu vertical-menu category-menu firstmenu ">
+
+                                        {% for cat in all_cat %}
+
+                                        <li>
+                                            <a href="{% url 'products:category_detail' id=cat.id slug=cat.slug %}">
+                                               {{cat}}
+                                            </a>
+                                            <ul class="megamenu">
+
+                                                <li>
+                                                    <h4 class="menu-title">Sub-Categories</h4>
+                                                    <hr class="divider">
+                                                    <ul>
+                                                        {% for sub in cat.get_subcat %}
+                                                        <li><a href="{% url 'products:category_detail' id=cat.id slug=cat.slug %}?sub_categ={{sub.slug}}">{{sub}}</a>
+                                                        </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </li>
+
+                                                <li>
+                                                    <div class="banner-fixed menu-banner menu-banner2">
+                                                        <figure>
+                                                            <img src="{% static "assets/images/np1.png" %}" alt="Menu Banner"
+                                                                width="235" height="347" />
+                                                        </figure>
+                                                        <div class="banner-content">
+                                                            <div class="banner-price-info mb-1 ls-normal">Get up to
+                                                                <strong
+                                                                    class="text-primary text-uppercase">20%Off</strong>
+                                                            </div>
+                                                            <h3 class="banner-title ls-normal">Hot Sales</h3>
+                                                            <a href="shop-banner-sidebar.html"
+                                                                class="btn btn-dark btn-sm btn-link btn-slide-right btn-icon-right">
+                                                                Shop Now<i class="w-icon-long-arrow-right"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+
+                                        {% endfor %}
+                                        <li>
+                                            <a href="#"
+                                                class="font-weight-bold viewallcats text-primary text-uppercase ls-25">
+                                                View All Categories
+                                            </a>
+
+                                            <ul class="megamenu" style="min-width: 100%;     height: 100%;">
+
+                                                <li> 
+                                                    
+                                                    <ul class="viewmoremenu">  
+                                                        {% for cat in all_cat|slice:"14:" %}
+                                                            <li class="vertical-menu"><a href="{% url 'products:category_detail' id=cat.id slug=cat.slug %}?subcat={{sub.slug}}">{{cat}}</a>
+                                                                {% if cat.get_subcat %}
+                                                                    <ul>
+                                                                        {% for sub in cat.get_subcat %}
+                                                                            <li><a href="{% url 'products:category_detail' id=cat.id slug=cat.slug %}?subcat={{sub.slug}}">{{sub}}</a></li>
+                                                                        {% endfor %}
+                                                                    </ul>
+                                                                {% endif %}
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                    
+                                                </li> 
+
+                                           
+                                            </ul>
+
+                                            <ul class="megamenu d-none">
+
+                                                <li>
+                                                    <h4 class="menu-title">Sub-Categoriess</h4>
+                                                    <hr class="divider">
+                                                    <ul>
+                                                        {% for cat in nav_categories %}
+                                                        <li><a href="{% url 'products:category_detail' id=cat.id slug=cat.slug %}?subcat={{sub.slug}}">{{cat}}</a>
+                                                            <ul>
+                                                                {% for sub in cat.get_subcat %}
+                                                                <li><a href="{% url 'products:category_detail' id=cat.id slug=cat.slug %}?subcat={{sub.slug}}">{{sub}}</a>
+                                                                </li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </li>
+
+                                         
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <a href="#" data-toggle="modal" data-target="#demoModaltwo" class=" mr-6 text-white postreq">Post Your Requirements</a>
+ 
+                            {% if request.user.is_authenticated %}
+                            {% if request.user.profile.account_type != 'Retailer' %}
+                            <a href="{% url 'dashboard' %}" class="text-white">My Seller Dashboard</a>
+
+                            {% else %}
+
+                            <a href="{% url 'seller_become' %}" class="d-xl-show mr-6 text-white postreq">Become A Seller</a>
+                            {% endif %}
+                            {% endif %}
+                            <!--a href="{% url 'check_email' %}" class="text-white">Check Email</a-->
+                        </div>
+                 
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- End of Header -->
+    <div class="modal fade"  id="demoModaltwo"  tabindex="-1" role="dialog" aria-labelledby="demoModaltwo" aria-hidden="true">
+       <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
+           <div class="modal-content">
+   
+               <div class="container-fluid">
+                   <button type="button" class="close" data-dismiss="modal"
+                           aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+                   <div class="row">
+                    
+                       <div class="col-md-6 bg-img rounded-left m-h-60 d-none d-sm-block bestprice" >
+                        <div class="margin-auto">
+                        <div class="text-center py-3 rounded-top">
+                            <img src="https://d33wubrfki0l68.cloudfront.net/8a89788da40bbdf795b8520a8d2891f6f7dde38a/53c32/assets/img/onboard.svg" style="width: 200px; margin:auto" alt="">
+                        </div>
+                        <div class="modal-body pb-sm-5 p-0">
+                            <div class=" text-center text-white">
+                                <h4 class="pt-3 text-white" style="font-size:17px;">Couldn't find what you are looking for?</h4>
+                                <h4 class="pt-3 text-white" >We got your back!</h4>
+                                <p class="text-white-50">
+                                    We're the first b2b e-commerce platform in Nepal who've made the entire country available for you to list and sell your products in bulk.
+
+
+                                </p>
+        
+                            </div>
+                        </div>
+                        </div>
+                       </div>
+                       <div class="col-md-6 py-5 px-sm-5 my-auto ">
+   
+                    
+                           <form action="{% url 'create_rfq_leads' %}" method="POST">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="form-group col-lg-12">
+                                        <div class="form-group">
+                                            <label for="required_product_searches">Product</label>
+                                            <input type="text" class="form-control" id="required_product_searches" aria-describedby="emailHelp" placeholder="Product name" name="product" required>
+                                        </div>
+            
+                                    </div>
+                           
+                                    <div class="form-group col-lg-12">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Quantity</label>
+                                            <input type="text" name='quantity' class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                                        </div>
+            
+                                    </div>
+                                    <div class="form-group col-lg-12">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Description</label>
+                                            <textarea placeholder="Description" rows="4" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name='description' required></textarea>
+                                        </div>
+            
+                                    </div>
+                                    <input type="text" name="keyword" id="required_product_keyword" hidden>
+                                <input type="number" name="subcategory" id="required_product_subcat" hidden>
+                                <div id="requirements-results-box" class="results-card not-visible">
+                                    </div>
+                                </div>
+                                
+                                {% if request.user.is_authenticated %}
+                                <button type="submit" class="btn btn-outline-green" aria-label="Close">Send</button>
+                                {% else %}
+                                <a href="{% url 'login' %}"><button class="btn btn-outline-green">LOGIN TO SEND QUOTE</button></a>
+                                {% endif %}
+                           </form>
+                  
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+    <!-- End .mobile-menu-container -->
+
+    {% block content %}
+    {% endblock %}
+
+     <!-- Start of Footer -->
+     <footer class="footer">
+        <div class="footer-newsletter bg-primary pt-6 pb-6 d-none">
+            <div class="container">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-xl-5 col-lg-6">
+                        <div class="icon-box icon-box-side text-white">
+                            <div class="icon-box-icon d-inline-flex">
+                                <i class="fa fa-paper-plane"></i>
+                            </div>
+                            <div class="icon-box-content">
+                                <h4 class="icon-box-title text-white text-uppercase mb-0">Subscribe To  Our Newsletter</h4>
+                                <p class="text-white p-0">Get all the latest information on Events, Sales and Offers.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-7 col-lg-6 col-md-9 mt-4 mt-lg-0 ">
+                        <form action="#" method="get" class="input-wrapper input-wrapper-inline input-wrapper-rounded">
+                            <input type="email" class="form-control mr-2 bg-white" name="email" id="email"
+                                placeholder="Your E-mail Address" />
+                        <button class="btn btn-dark btn-rounded" type="submit">Subscribe<i
+                                class="fa fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-black">
+        <div class="container">
+            <div class="footer-top">
+                <div class="row">
+                    <div class="col-lg-4 col-sm-12 order-1 order-lg-0 mt-0 mt-lg-n5">
+                        <div class="widget widget-about row">
+                            <a href="demo1.html" class="logo-footer col-12 col-sm-6 col-lg-12">
+                                <img src="http://vistaartrade.com/static/images/logo.png" alt="logo-footer" width="144"
+                                    height="45" />
+                            </a>
+                            <div class="widget-body col-12 col-sm-auto col-lg-12">
+                                <p class="widget-about-title text-center text-sm-left">Got Question? Call us 24/7</p>
+                               
+                                <p class="widget-about-desc mx-auto mx-sm-0 text-center text-sm-left">Nepals First Online B2B Marketplace
+                                </p>
+                            </div>
+                            <div class="social-icons social-icons-colored d-flex justify-content-center justify-content-lg-start">
+                                <a href="https://www.facebook.com/vistaartrade" class="social-icon social-facebook w-icon-facebook">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                                <a href="https://instagram.com/vistaar_trade" class="social-icon social-instagram w-icon-instagram">
+                                    <i class="fa fa-instagram"></i>
+                                </a>
+                                <a href="https://np.linkedin.com/company/vistaar-trade" class="social-icon social-linkedin w-icon-linkedin">
+                                    <i class="fa fa-linkedin"></i>
+                                </a>
+                                
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-4 col-6">
+                        <div class="widget">
+                            <h3 class="widget-title mb-4">Company</h3>
+                            <ul class="widget-body">
+                                <li><a href="{% url 'about_us' %}">About Us</a></li>
+                                <li><a href="{% url 'terms_conditions' %}">Terms and Condition</a></li>
+                                <li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
+                                <li><a href="{% url 'about_us' %}">Contact Us</a></li>
+                                
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-4 col-6">
+                        <div class="widget">
+                     
+
+                 
+                            <h4 class="widget-title mb-4">My Account</h4>
+                        
+                      
+
+                            <ul class="widget-body">
+                                {% if request.user.is_authenticated %}
+                                <li><a href="{% url 'dashboard' %}">My Account</a></li>
+                                {% else %}
+                                <li><a href="{% url 'login' %}">My Account</a></li>
+                                {% endif %}  
+
+                                {% if request.user.profile.account_type == 'Retailier' %}
+                                <li><a href="{% url 'register_supplier' %}">Become a Seller</a></li>
+                                {% else %}
+                                {% endif %}  
+
+                                <li>
+                                    <a href="#" data-toggle="modal" data-target="#demoModaltwo" class=" mr-6 text-white postreq">Post Your Requirements</a>
+                                </li> 
+                            
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-4">
+                        <div class="widget">
+                            <h4 class="widget-title mb-4">Top  Categories</h4>
+                            <ul class="widget-body">
+                                {% for cat in all_cat|slice:":5" %}
+                                <li class="vertical-menu"><a href="{% url 'products:category_detail' id=cat.id slug=cat.slug %}?subcat={{sub.slug}}">{{cat}}</a></li>
+                            {% endfor %}
+                            
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="footer-middle">
+                <div class="widget widget-category">
+                    <div class="category-box">
+                        <h6 class="category-name">Consumer Electric:</h6>
+                        <a href="#">TV Television</a>
+                        <a href="#">Air Condition</a>
+                        <a href="#">Refrigerator</a>
+                        <a href="#">Washing Machine</a>
+                        <a href="#">Audio Speaker</a>
+                        <a href="#">Security Camera</a>
+                        <a href="#">View All</a>
+                    </div>
+                    <div class="category-box">
+                        <h6 class="category-name">Clothing & Apparel:</h6>
+                        <a href="#">Men's T-shirt</a>
+                        <a href="#">Dresses</a>
+                        <a href="#">Men's Sneacker</a>
+                        <a href="#">Leather Backpack</a>
+                        <a href="#">Watches</a>
+                        <a href="#">Jeans</a>
+                        <a href="#">Sunglasses</a>
+                        <a href="#">Boots</a>
+                        <a href="#">Rayban</a>
+                        <a href="#">Acccessories</a>
+                    </div>
+                    <div class="category-box">
+                        <h6 class="category-name">Home, Garden & Kitchen:</h6>
+                        <a href="#">Sofa</a>
+                        <a href="#">Chair</a>
+                        <a href="#">Bed Room</a>
+                        <a href="#">Living Room</a>
+                        <a href="#">Cookware</a>
+                        <a href="#">Utensil</a>
+                        <a href="#">Blender</a>
+                        <a href="#">Garden Equipments</a>
+                        <a href="#">Decor</a>
+                        <a href="#">Library</a>
+                    </div>
+                    <div class="category-box">
+                        <h6 class="category-name">Health & Beauty:</h6>
+                        <a href="#">Skin Care</a>
+                        <a href="#">Body Shower</a>
+                        <a href="#">Makeup</a>
+                        <a href="#">Hair Care</a>
+                        <a href="#">Lipstick</a>
+                        <a href="#">Perfume</a>
+                        <a href="#">View all</a>
+                    </div>
+                    <div class="category-box">
+                        <h6 class="category-name">Jewelry & Watches:</h6>
+                        <a href="#">Necklace</a>
+                        <a href="#">Pendant</a>
+                        <a href="#">Diamond Ring</a>
+                        <a href="#">Silver Earing</a>
+                        <a href="#">Leather Watcher</a>
+                        <a href="#">Rolex</a>
+                        <a href="#">Gucci</a>
+                        <a href="#">Australian Opal</a>
+                        <a href="#">Ammolite</a>
+                        <a href="#">Sun Pyrite</a>
+                    </div>
+                    <div class="category-box">
+                        <h6 class="category-name">Computer & Technologies:</h6>
+                        <a href="#">Laptop</a>
+                        <a href="#">iMac</a>
+                        <a href="#">Smartphone</a>
+                        <a href="#">Tablet</a>
+                        <a href="#">Apple</a>
+                        <a href="#">Asus</a>
+                        <a href="#">Drone</a>
+                        <a href="#">Wireless Speaker</a>
+                        <a href="#">Game Controller</a>
+                        <a href="#">View all</a>
+                    </div>
+                </div>
+            </div> -->
+            <div class="footer-bottom d-flex align-items-center justify-content-center">
+                <div class="footer-left">
+                    <p class="copyright">Copyright © 2023 Vistaar Trade. All Rights Reserved.</p>
+                </div>
+             
+            </div>
+        </div>
+    </div>
+    </footer>
+	<!-- End of Footer -->
+
+    <!-- Start of Sticky Footer -->
+    <div class="stick_footer">
+        <div class="mb-toolbar">
+          <div>
+              <ul class="toolbar-grid m-0">
+              <li>
+                  <a href="{% url 'home' %}">
+                    <img src="{% static "assets/images/home.png" %}" class="w-20 mx-auto" alt="Home">
+                      <p class="m-0">Home</p>
+                  </a>
+              </li>
+              <li data-toggle="modal" data-target="#myModal">
+                <a href="javascript:void(0)" class="triggercategory"> 
+                    <img src="{% static "assets/images/categories (1).png" %}" class="w-20 mx-auto" alt="Categories">
+                    <p class="m-0">Categories</p> 
+                </a>
+            </li>
+              <li data-toggle="modal" data-target="#myModal">
+                  <a href="javascript:void(0)" class="searchview"> 
+                    <img src="{% static "assets/images/search.png" %}" class="w-20 mx-auto" alt="Search">
+
+                      <p class="m-0">Search</p> 
+                  </a>
+              </li>
+        
+
+              {% if request.user.is_authenticated %}
+              <li>
+                <a href="{% url 'dashboard' %}">
+                   <img src="{% static "assets/images/user (1).png" %}" class="w-20 mx-auto" alt="Profile">
+             <p class="m-0">Profile</p> 
+         </a>
+         
+     </li>
+              {% else %}
+              <li>
+                <a href="{% url 'login' %}">
+                   <img src="{% static "assets/images/user (1).png" %}" class="w-20 mx-auto" alt="Profile">
+             <p class="m-0">Login</p> 
+         </a>
+         
+     </li>
+              {% endif %}
+              
+        
+              
+          </ul>
+          </div>
+      </div>
+      </div>
+    <!-- End of Sticky Footer -->
+
+    <!-- Start of Scroll Top -->
+    <a id="scroll-top" class="scroll-top d-none" href="#top" title="Top" role="button"> <i class="w-icon-angle-up"></i> <svg
+            version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 70">
+            <circle id="progress-indicator" fill="transparent" stroke="#000000" stroke-miterlimit="10" cx="35" cy="35"
+                r="34" style="stroke-dasharray: 16.4198, 400;"></circle>
+        </svg> </a>
+    <!-- End of Scroll Top -->
+
+    <!-- Start of Mobile Menu -->
+    <div class="mobile-menu-wrapper">
+        <div class="mobile-menu-overlay"></div>
+        <!-- End of .mobile-menu-overlay -->
+
+        <a href="#" class="mobile-menu-close"><i class="close-icon"></i></a>
+        <!-- End of .mobile-menu-close -->
+
+        <div class="mobile-menu-container scrollable">
+   
+            <!-- End of Search Form -->
+            <div class="tab">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item tabone">
+                        <a href="#main-menu" class="nav-link active">Main Menu</a>
+                    </li>
+                    <li class="nav-item tabtwo">
+                        <a href="#categories" class="nav-link">Categories</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane active" id="main-menu">
+                    <ul class="mobile-menu">
+                        
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#demoModaltwo" class=" mr-6 text-white postreq">Post Your Requirements</a>
+                     
+                        </li> 
+
+        
+                        {% if request.user.is_authenticated %}
+                        {% if request.user.profile.account_type != 'Retailer' %}
+                       <li> <a href="{% url 'dashboard' %}" class="text-white">My Seller Dashboard</a> </li>
+                       <li> <a href="{% url 'company_profile' %}" class="text-white">Company Profile</a> </li>
+                       <li> <a href="{% url 'manage_products' %}" class="text-white">Manage Products</a> </li>
+                       <li> <a href="{% url 'buy_leads' %}" class="text-white">Buy Leads</a> </li>
+
+                        {% else %}
+
+                        <li><a href="{% url 'seller_become' %}" class="d-xl-show mr-6 text-white postreq">Become A Seller</a></li>
+                        {% endif %}
+                        {% endif %}
+
+                        {% if request.user.is_authenticated %}
+                        <li><a href="{% url 'logout' %}">
+                            Logout
+                            </a></li> 
+                        {% else %}
+                       <li><a href="{% url 'login' %}">
+                        Sign In
+                        </a></li> 
+                        {% endif %}
+
+                  
+                   
+
+                  
+                 
+                    </ul>
+                </div>
+                <div class="tab-pane" id="categories">
+                    <ul class="mobile-menu">
+                         {% for cat in all_cat %}
+                        <li>
+                            <a href="{% url 'products:category_detail' id=cat.id slug=cat.slug %}">
+                                {{cat}}
+                             </a>
+                            <ul>
+                                {% for sub in cat.get_subcat %}
+                                <li><a href="{% url 'products:category_detail' id=cat.id slug=cat.slug %}?subcat={{sub.slug}}">{{sub}}</a>
+                                </li>
+                                {% endfor %}
+                           
+                            </ul>
+                        </li>
+                        {% endfor %}
+
+                     
+                  
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Mobile Menu -->
+
+        <!-- Start of Newsletter popup -->
+        <div class="newsletter-popup mfp-hide d-none">
+            <div class="newsletter-content">
+                <h4 class="text-uppercase font-weight-normal ls-25">Get Up to<span class="text-primary">25% Off</span></h4>
+                <h2 class="ls-25">Sign up</h2>
+                <p class="text-light ls-10">Subscribe to the Vistaar market newsletter to
+                    receive updates on special offers.</p>
+                <form action="#" method="get" class="input-wrapper input-wrapper-inline input-wrapper-round">
+                    <input type="email" class="form-control email font-size-md" name="email" id="email2"
+                        placeholder="Your email address" required="">
+                    <button class="btn btn-dark" type="submit">SUBMIT</button>
+                </form>
+                <div class="form-checkbox d-flex align-items-center">
+                    <input type="checkbox" class="custom-checkbox" id="hide-newsletter-popup" name="hide-newsletter-popup"
+                        required="">
+                    <label for="hide-newsletter-popup" class="font-size-sm text-light">Don't show this popup again.</label>
+                </div>
+            </div>
+        </div>
+        <!-- End of Newsletter popup -->
+
+
+
+    <!-- Start of Quick View -->
+    <div class="product product-single product-popup">
+        <div class="row gutter-lg">
+            <div class="col-md-6 mb-4 mb-md-0">
+                <div class="product-gallery product-gallery-sticky">
+                    <div class="swiper-container product-single-swiper swiper-theme nav-inner">
+                        <div class="swiper-wrapper row cols-1 gutter-no">
+                            <div class="swiper-slide">
+                                <figure class="product-image">
+                                    <img src="static/assets/images/products/popup/1-440x494.jpg"
+                                        data-zoom-image="assets/images/products/popup/1-800x900.jpg"
+                                        alt="Water Boil Black Utensil" width="800" height="900">
+                                </figure>
+                            </div>
+                            <div class="swiper-slide">
+                                <figure class="product-image">
+                          <img src="static/assets/images/products/popup/2-440x494.jpg"
+                                        data-zoom-image="static/assets/images/products/popup/2-800x900.jpg"
+                                        alt="Water Boil Black Utensil" width="800" height="900">
+                                </figure>
+                            </div>
+                            <div class="swiper-slide">
+                                <figure class="product-image">
+                                    <img src="assets/images/products/popup/3-440x494.jpg"
+                                        data-zoom-image="assets/images/products/popup/3-800x900.jpg"
+                                        alt="Water Boil Black Utensil" width="800" height="900">
+                                </figure>
+                            </div>
+                            <div class="swiper-slide">
+                                <figure class="product-image">
+                                    <img src="assets/images/products/popup/4-440x494.jpg"
+                                        data-zoom-image="assets/images/products/popup/4-800x900.jpg"
+                                        alt="Water Boil Black Utensil" width="800" height="900">
+                                </figure>
+                            </div>
+                        </div>
+                        <button class="swiper-button-next"></button>
+                        <button class="swiper-button-prev"></button>
+                    </div>
+                    <div class="product-thumbs-wrap swiper-container" data-swiper-options="{
+                        'navigation': {
+                            'nextEl': '.swiper-button-next',
+                            'prevEl': '.swiper-button-prev'
+                        }
+                    }">
+                        <div class="product-thumbs swiper-wrapper row cols-4 gutter-sm">
+                            <div class="product-thumb swiper-slide">
+                                <img src="assets/images/products/popup/1-103x116.jpg" alt="Product Thumb" width="103"
+                                    height="116">
+                            </div>
+                            <div class="product-thumb swiper-slide">
+                                <img src="assets/images/products/popup/2-103x116.jpg" alt="Product Thumb" width="103"
+                                    height="116">
+                            </div>
+                            <div class="product-thumb swiper-slide">
+                                <img src="assets/images/products/popup/3-103x116.jpg" alt="Product Thumb" width="103"
+                                    height="116">
+                            </div>
+                            <div class="product-thumb swiper-slide">
+                                <img src="assets/images/products/popup/4-103x116.jpg" alt="Product Thumb" width="103"
+                                    height="116">
+                            </div>
+                        </div>
+                        <button class="swiper-button-next"></button>
+                        <button class="swiper-button-prev"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 overflow-hidden p-relative">
+                <div class="product-details scrollable pl-0">
+                    <h2 class="product-title">Electronics Black Wrist Watch</h2>
+                    <div class="product-bm-wrapper">
+                        <figure class="brand">
+                            <img src="assets/images/products/brand/brand-1.jpg" alt="Brand" width="102" height="48" />
+                        </figure>
+                        <div class="product-meta">
+                            <div class="product-categories">
+                                Category:
+                                <span class="product-category"><a href="#">Electronics</a></span>
+                            </div>
+                            <div class="product-sku">
+                                SKU: <span>MS46891340</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="product-divider">
+
+                    <div class="product-price">$40.00</div>
+
+                    <div class="ratings-container">
+                        <div class="ratings-full">
+                            <span class="ratings" style="width: 80%;"></span>
+                            <span class="tooltiptext tooltip-top"></span>
+                        </div>
+                        <a href="#" class="rating-reviews">(3 Reviews)</a>
+                    </div>
+
+                    <div class="product-short-desc">
+                        <ul class="list-type-check list-style-none">
+                            <li>Ultrices eros in cursus turpis massa cursus mattis.</li>
+                            <li>Volutpat ac tincidunt vitae semper quis lectus.</li>
+                            <li>Aliquam id diam maecenas ultricies mi eget mauris.</li>
+                        </ul>
+                    </div>
+
+                    <hr class="product-divider">
+
+                    <div class="product-form product-variation-form product-color-swatch">
+                        <label>Color:</label>
+                        <div class="d-flex align-items-center product-variations">
+                            <a href="#" class="color" style="background-color: #ffcc01"></a>
+                            <a href="#" class="color" style="background-color: #ca6d00;"></a>
+                            <a href="#" class="color" style="background-color: #1c93cb;"></a>
+                            <a href="#" class="color" style="background-color: #ccc;"></a>
+                            <a href="#" class="color" style="background-color: #333;"></a>
+                        </div>
+                    </div>
+                    <div class="product-form product-variation-form product-size-swatch">
+                        <label class="mb-1">Size:</label>
+                        <div class="flex-wrap d-flex align-items-center product-variations">
+                            <a href="#" class="size">Small</a>
+                            <a href="#" class="size">Medium</a>
+                            <a href="#" class="size">Large</a>
+                            <a href="#" class="size">Extra Large</a>
+                        </div>
+                        <a href="#" class="product-variation-clean">Clean All</a>
+                    </div>
+
+                    <div class="product-variation-price">
+                        <span></span>
+                    </div>
+
+                    <div class="product-form">
+                        <div class="product-qty-form">
+                            <div class="input-group">
+                                <input class="quantity form-control" type="number" min="1" max="10000000">
+                                <button class="quantity-plus w-icon-plus"></button>
+                                <button class="quantity-minus w-icon-minus"></button>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-cart">
+                            <i class="w-icon-cart"></i>
+                            <span>Add to Cart</span>
+                        </button>
+                    </div>
+
+                    <div class="social-links-wrapper">
+                        <div class="social-links">
+                            <div class="social-icons social-no-color border-thin">
+                                <a href="#" class="social-icon social-facebook w-icon-facebook"></a>
+                                <a href="#" class="social-icon social-twitter w-icon-twitter"></a>
+                                <a href="#" class="social-icon social-pinterest fab fa-pinterest-p"></a>
+                                <a href="#" class="social-icon social-whatsapp fab fa-whatsapp"></a>
+                                <a href="#" class="social-icon social-youtube fab fa-linkedin-in"></a>
+                            </div>
+                        </div>
+                        <span class="divider d-xs-show"></span>
+                        <div class="product-link-wrapper d-flex">
+                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"><span></span></a>
+                            <a href="#"
+                                class="btn-product-icon btn-compare btn-icon-left w-icon-compare"><span></span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Quick view -->
+
+      <!-- Modal -->
+      <div class="modal fade   "  id="popupModal"  tabindex="-1" role="dialog"
+     aria-labelledby="demoModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-lg  " role="document">
+        <div class="modal-content">
+
+            <div class="container-fluid">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="row">
+       
+                    <div class="col-md-6 bg-img rounded-left p-40 d-none d-sm-block" style="padding: 0px">
+                      <div class="swiper mySwiper">
+                        <div class="swiper-wrapper">
+                          <div class="swiper-slide">
+                            <img src="http://vistaartrade.com/media/products/2021/12/30/Clever_Cat_Snail_Bb_Cream.jpg">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="http://vistaartrade.com/media/products/2021/12/29/Keratin_Moisturizing__Smooth_Creamy_Hair_Mask_500ml.jpg">
+                          </div>
+                  
+                          </div>
+                          <div class="swiper-button-next"></div>
+                          <div class="swiper-button-prev"></div>
+                          </div>
+                    </div>
+               
+                   
+                    <div class="col-md-6 px-sm-5 ">
+
+                        <h2 class="pt-sm-3">Product Name</h2>
+                        <p class="text-muted">
+                            <span>Category</span>: Electronics | <span>Sub-Category</span>: Hardware device
+                        </p>
+                        <p class="text-muted">
+                          <span>Minimum Price</span>: NPR 5,000.
+                      </p>
+                      <p class="text-muted">
+                        <span>Maximum Price</span>: NPR 8,000.
+                    </p>
+
+                    <p class="text-muted">
+                      <span>Minimum Order Quantity</span>: 500.
+                  </p>
+
+                  <p class="text-muted">
+                    <span>Description</span>
+                    <p>Websites often use modal windows as call-to-action tools and for pointing out important information. For example, the call-to-action in a modal window might ask the site visitor to subscribe to the site’s newsletter. A study by user experience research firm Nielsen Norman Group revealed that 90% of the study’s participants chose to receive updates from companies via an email newsletter, versus only 10% via Facebook.
+
+                    </p>
+                </p>
+                  
+           
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="aiz-sidebar-wrap">
+    <div class="aiz-sidebar left c-scrollbar">
+        <div class="aiz-side-nav-logo-wrap">
+            <form id="search-form" onSubmit="return handleSearchFormSubmit();"
+            class="header-search hs-expanded hs-round d-md-flex input-wrapper mr-4 ml-4">
+        
+            <input type="text" class="form-control" name="keyword" id="searches"
+                placeholder="What are you looking for..." required />
+            <button class="btn btn-search" type="submit"><i class="fa fa-search"></i>
+            </button> 
+
+            <div id="results-box-div" class="results-card-div not-visible">
+                <div id="results-box" class="results-card"></div>
+                <div id="sub-results-box" class="results-card"></div>
+            </div>
+        </form>
+        </div>
+        </div>
+
+        <div class="aiz-sidebar-overlay"></div>
+        </div>
+
+    <style>
+        .header-middle .container{
+            position: relative;
+        }
+        .not-visible{
+            display: none;
+        }
+        .results-card-div {
+            position: absolute;
+            top: 100%;
+            background: #fff;
+            Color: black;
+            width: 100%;
+            width: 63%;
+            transition: 0.5s;
+            border-radius: 7px;
+            padding: 15px 15px;
+            z-index: 999;
+        }
+  
+    </style>
+
+    <!-- Common script files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/ScrollTrigger.min.js"></script>
+
+    <script>
+
+        $('.searchview').click(function(){
+          $('body').addClass('side-menu-open');
+        })
+
+        $('.aiz-sidebar-overlay').click(function(){
+          $('body').removeClass('side-menu-open');
+        })
+
+        $('.triggercategory').click(function(){
+          $('body').addClass('mmenu-active');
+
+          $('.tabtwo .nav-link').addClass('active');
+          $('.tabone .nav-link').removeClass('active');
+
+          $('#categories').addClass('active');
+          $('#categories').addClass('in');
+
+          $('#main-menu').removeClass('active');
+          $('#main-menu').removeClass('in');
+        })
+    </script>
+
+<script>
+    $('.mobile-menu-toggle').click(function(){
+        $('body').addClass('mmenu-active');
+    })
+    $('.mobile-menu-overlay').click(function(){
+        $('body').removeClass('mmenu-active');
+    })
+    $('.mobile-menu-close').click(function(){
+        $('body').removeClass('mmenu-active');
+    })
+</script>
+
+    <script>
+        const searchinput = document.getElementById('searching')
+        const resultsbox = document.getElementById('reqresults-box')
+
+        function showselitem(item) {
+            console.log(item)
+            searchinput.value = item
+            resultsbox.classList.add('not-visible')
+        }
+
+        $("#searching").on('input',function(){
+            if (resultsbox.classList.contains('not-visible')){
+                resultsbox.classList.remove('not-visible')
+            }
+            $.ajax({
+                type:'GET',
+                url:'/products/livesearch/',
+                data:{
+                    'prod':this.value,
+                },
+                dataType:'json',
+                success:function(res){
+                    const datas = res.data
+                    if (Array.isArray(datas)){
+                        resultsbox.innerHTML = ""
+                        datas.forEach(abc=>{
+                            resultsbox.innerHTML += `
+                            <div onclick="showselitem('${abc.name}')" class="showitems">
+                                <div class="row mt-2 mb-2">
+                                    <div class="col-10">
+                                        <h5>${abc.name}</h5>
+                                    </div>
+                                </div>
+                            </div>`
+                        })
+                    }
+                    else{//if there is no products the following code will execute(if views.py doesnt send array)
+                        if (searchinput.value.length > 0){
+                            resultsbox.innerHTML = `<b>${datas}</b>`
+                        }
+                        else{
+                            resultsbox.classList.add('not-visible')
+                        }
+                    }
+                }
+            });
+        })
+    </script>
+
+
+<script>
+    var options = {
+strings: ['Orders.', 'New Orders.', 'More New Orders.'],
+typeSpeed: 150,
+backSpeed: 150,
+loop: true,
+};
+
+var typed = new Typed('.autotype', options);
+</script>
+
+    <script>
+        function toast_message() {
+            toastr["success"]("You successfully selected product keyword and it's subcategory");
+        }
+    </script>
+    <script>
+        function add_keyword_subcatid(search_term, subcatid){
+            const searchsInput = document.getElementById('required_product_searches');
+            const keywordInput = document.getElementById('required_product_keyword');
+            const subcatInput = document.getElementById('required_product_subcat');
+            keywordInput.value = searchsInput.value;
+            searchsInput.value = search_term;
+            subcatInput.value = subcatid;
+            toast_message();
+        }
+    </script>
+    <script>
+        
+        const searchesInput = document.getElementById('required_product_searches')
+        const resultBox = document.getElementById('requirements-results-box')
+        
+        $("#required_product_searches").on('input',function(){
+            console.log(this.value);
+            if (resultBox.classList.contains('not-visible')){
+                resultBox.classList.remove('not-visible')
+            }
+
+            if (this.value == "") {
+                resultBox.classList.add('not-visible');
+                return;
+            }
+
+            $.ajax({
+                type:'GET',
+                url:'/products/requirements_livesearch/',
+                data:{
+                    'prod':this.value,
+                },
+                dataType:'json',
+                success:function(res){
+                    console.log(res)
+                    const datas = res.subcats
+                    if (Array.isArray(datas)){//if views.py sends array
+                        resultBox.innerHTML = ""
+                        datas.forEach(abc=>{
+                            resultBox.innerHTML += `<p onclick="add_keyword_subcatid('${abc.name}', ${abc.pk})">${abc.name}</p>`
+                        })
+                    }                    
+                    else{//if there is no products the following code will execute(if views.py doesnt send array)
+                        if (searchesInput.value.length > 0){
+                            resultBox.innerHTML = `<b>${datas}</b>`//for showing no products found
+                        }
+                        else{
+                            resultBox.classList.add('not-visible')
+                        }
+                    }
+                }
+            });
+        })
+    </script>
+    <script>
+        $(document).mouseup(function(e) 
+        {
+            var container = $("#results-box-div");
+
+            if (!container.is(e.target) && container.has(e.target).length === 0) 
+            {
+                container.addClass("not-visible");
+            }
+        });
+        
+        const searchForm = document.getElementById('search-form')
+        const searchInput = document.getElementById('searches')
+        const resultsBox = document.getElementById('results-box')
+        const sub_resultsBox = document.getElementById('sub-results-box')
+        const resultDiv = document.getElementById('results-box-div')
+        
+        $("#searches").on('input',function(){
+            if (this.value == "") {
+                resultDiv.classList.add('not-visible');
+                return;
+            }
+            console.log(this.value);
+            if (resultDiv.classList.contains('not-visible')){
+                resultDiv.classList.remove('not-visible')
+            }
+            $.ajax({
+                type:'GET',
+                url:'/products/livesearch/',
+                data:{
+                    'prod':this.value,
+                },
+                dataType:'json',
+                success:function(res){
+                    console.log("success products")
+                    console.log(res)
+                    const datas = res.data
+                    const sub_datas = res.subcats
+                    if (Array.isArray(datas) && Array.isArray(sub_datas)){//if views.py sends array
+                        sub_resultsBox.innerHTML = "<div><h4 style='color: gray; font-size: 2rem; margin-top: 2rem; margin-bottom: 1rem;'>Subcategory</h4></div>"
+                        sub_datas.forEach(abc=>{
+                            sub_resultsBox.innerHTML += `
+                            <a href="${abc.url}" class="item">
+                                <div class="row mt-2 mb-2">
+                                    <div class="col-10">
+                                        <h5>${abc.name}</h5>
+                                    </div>
+                                </div>
+                            <a>`
+                        })
+                    }                    
+                    else{//if there is no products the following code will execute(if views.py doesnt send array)
+                        if (searchInput.value.length > 0){
+                            sub_resultsBox.innerHTML = `<b>${datas}</b>`//for showing no products found
+                        }
+                        else{
+                            resultDiv.classList.add('not-visible')
+                        }
+                    }
+                }
+            });
+        })
+    </script>
+    <script>
+        function handleSearchFormSubmit() {
+            const formElement = document.getElementById("search-form");
+            const categoryElement = document.getElementById("category");
+            const selectedCategory = categoryElement.options[categoryElement.selectedIndex].value;
+
+            formElement.action = "/products/test/";// + selectedCategory;
+        }
+
+        function handleSearchFormSubmitMobile() {
+            const formElement = document.getElementById("search-formmobile");
+            const categoryElement = document.getElementById("category");
+            const selectedCategory = categoryElement.options[categoryElement.selectedIndex].value;
+
+            formElement.action = "/products/test/";// + selectedCategory;
+        }
+    </script>
+</body>
+
+{% block script %}
+{% endblock %}
+
+</html>

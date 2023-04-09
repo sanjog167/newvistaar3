@@ -1,0 +1,865 @@
+{% extends "sanjog/header.html" %}
+{% block title %}
+<title>Nepal's First Online B2B Marketplace</title>
+{% endblock %}
+{% block meta %}
+<meta property="og:title" content="Vistaar Trade is the first online B2B marketplace in Nepal" />
+<meta property="og:description" content="Looking to connect with importers and exporters for wholesale trade in Nepal? Check out our B2B marketplace in Nepal, the perfect platform to expand your business network!" />
+<meta name="keywords" content="Importer exporter directory, buy wholesale clothes, buy hardware in wholesale, b2b ecommerce, b2b marketplace in Nepal, website like indiamart, website like alibaba" /> 
+{% endblock %}
+{% block content %}
+
+{% load static %}
+
+<style>
+    body{
+        background-color: #f4f4f4;
+    }
+</style>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+        <main class="main">
+          <div class="searchcontent" id="searchcontent">
+
+            <div class="swiper-container swiper-theme appear-animate viewed-products mb-7" data-swiper-options="{
+                'spaceBetween': 20,
+                'slidesPerView': 1,
+                'breakpoints': {
+                    '576': {
+                        'slidesPerView': 1
+                    },
+                    '768': {
+                        'slidesPerView': 1
+                    },
+                    '992': {
+                        'slidesPerView': 1
+                    },
+                    '1200': {
+                        'slidesPerView': 1
+                    }
+                }
+            }">
+                <div class="swiper-wrapper row cols-xl-8 cols-lg-6 cols-md-4 cols-2">
+               
+                    <div class="swiper-slide product-wrap">
+                        <img src="{% static "assets/images/banner1center.png" %}" alt="bannerimageone">
+
+                    </div>
+
+                    <div class="swiper-slide product-wrap">
+                        <img src="{% static "assets/images/banner2center.png" %}" alt="bannerimagetwo">
+
+                    </div>
+                
+
+
+
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>            <!-- End of .intro-section -->
+
+            <div class="container popularcategories">
+
+                <h2 class="title text-left text-capitalize mb-5 mt-5 appear-animate d-sm-none">Popular Categories</h2>
+                <div class="swiper-container swiper-theme appear-animate viewed-products mb-7 mt-sm-2" data-swiper-options="{
+                    'spaceBetween': 20,
+                    'slidesPerView': 2,
+                    'breakpoints': {
+                        '576': {
+                            'slidesPerView': 2
+                        },
+                        '768': {
+                            'slidesPerView': 3
+                        },
+                        '992': {
+                            'slidesPerView': 6
+                        },
+                        '1200': {
+                            'slidesPerView': 8
+                        }
+                    }
+                }">
+                    <div class="swiper-wrapper row cols-xl-8 cols-lg-6 cols-md-4 cols-2">
+                        {% for cat in fcategories %}
+                        <div class="swiper-slide product-wrap">
+                            <div class="product text-center product-absolute">
+                                <figure class="product-media">
+                                    <a href="">
+                                        <img src="{{cat.image.url}}" alt="Category image"
+                                            width="300" height="338" style="background-color: #fff" />
+                                    </a>
+                                </figure>
+                                <h4 class="product-name">
+                                    <a href="{% url 'products:category_detail' id=cat.id slug=cat.slug %}">{{cat}}</a>
+                                </h4>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+
+
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+
+                </div>
+
+
+                <div class="container">
+                <div class="swiper-container swiper-theme icon-box-wrapper appear-animate br-sm mt-6 mb-10"
+                    data-swiper-options="{
+                  
+                    'slidesPerView': 2,
+          
+                    'breakpoints': {
+                        '576': {
+                            'slidesPerView': 2
+                        },
+                        '768': {
+                            'slidesPerView': 3
+                        },
+                        '1200': {
+                            'slidesPerView': 4
+                        }
+                    }
+                }">
+                    <div class="swiper-wrapper row cols-md-4 cols-sm-3 cols-1">
+                        <div class="swiper-slide text-center icon-box icon-box-side text-dark flex-column">
+                            <span class="icon-box-icon icon-shipping">
+                                <img src="https://cfn-cms-prod.tradeling.com/Delivery_Shipment_Packages_699255acb8.svg" class="w-40">
+                            </span>
+                            <div class="icon-box-content text-center">
+                                <h4 class="icon-box-title mt-3">5000+ products</h4>
+                                <p class="text-default">Browser products from 20+ Categories.</p>
+                            </div>
+                        </div>
+                        <div class="swiper-slide text-center icon-box icon-box-side text-dark flex-column">
+                            <span class="icon-box-icon icon-payment">
+                                <img src="https://cfn-cms-prod.tradeling.com/money_banknote_handshake_8323907764.svg" class="w-40">
+
+                            </span>
+                            <div class="icon-box-content text-center">
+                                <h4 class="icon-box-title mt-3">Get wholesale orders</h4>
+                                <p class="text-default">Get access to suppliers from across Nepal.
+
+                                </p>
+                            </div>
+                        </div>
+                        <div class="swiper-slide text-center icon-box icon-box-side text-dark flex-column icon-box-money">
+                            <span class="icon-box-icon icon-money">
+                                <img src="https://cdn-icons-png.flaticon.com/512/5991/5991406.png" class="w-40">
+                            </span>
+                            <div class="icon-box-content text-center">
+                                <h4 class="icon-box-title mt-3">Increase your margins</h4>
+                                <p class="text-default">Source directly from suppliers, at low wholesale prices.
+
+                                </p>
+                            </div>
+                        </div>
+                        <div class="swiper-slide text-center icon-box icon-box-side text-dark flex-column icon-box-chat">
+                            <span class="icon-box-icon icon-chat">
+                                <img src="https://cdn-icons-png.flaticon.com/128/8635/8635037.png" class="w-40">
+
+                            </span>
+                            <div class="icon-box-content text-center">
+                                <h4 class="icon-box-title mt-3">Become a Seller Today</h4>
+                                <p class="text-default">Get your online store and generate unlimited leads</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <!-- End of Iocn Box Wrapper -->
+
+                <div class="container">
+                <div class="title-link-wrapper mb-3 appear-animate">
+                    <h2 class="title title-deals mb-1">TRENDING PRODUCTS</h2>
+               
+                    <a href="{% url "trending_products" %}" class="font-weight-bold ls-25 btn btn-primary btn-outline-green">View All<i
+                            class="fa fa-chevron-right" style="font-weight: 500; margin-left: 10px;"></i></a>
+                </div>
+                </div>
+                <!-- End of .title-link-wrapper -->
+
+                <div class="container">
+                <div class="swiper-container swiper-theme product-deals-wrapper appear-animate mb-7 mproducts"
+                    data-swiper-options="{
+                    'spaceBetween': 20,
+                    'slidesPerView': 2,
+                    'loop': true,
+                    'breakpoints': {
+                        '576': {
+                            'slidesPerView': 3
+                        },
+                        '768': {
+                            'slidesPerView': 4
+                        }, 
+                        '992': {
+                            'slidesPerView': 5
+                        },
+                        '1400': {
+                            'slidesPerView': 6
+                        }
+                    }
+                }">
+                    <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-2">
+                        {% for p in trending %}
+                        <div class="swiper-slide product-wrap">
+                            <div class="product text-center">
+                                <figure class="product-media">
+                                    <a href="{{p.get_absolute_url}}">
+                                        {% if p.image %}
+                                            <img src="{{p.image.url}}" alt="Product" width="300" height="338">
+                                            <img src="{{p.image.url}}" alt="Product" width="300" height="338">
+
+                                        {% else %}
+                                            <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=>
+                                                width="300" height="338">
+                                            <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=>
+                                                width="300" height="338">
+                                        {% endif %}
+                                    </a>
+                                    <div class="product-action-vertical">
+                                        <a href="#" class="btn-product-icon btn-cart w-icon-cart"
+                                            title="Add to cart"></a>
+                                        <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
+                                            title="Add to wishlist"></a>
+                                        <a href="#" class="btn-product-icon btn-quickview w-icon-search"
+                                            title="Quickview"></a>
+                                        <a href="#" class="btn-product-icon btn-compare w-icon-compare"
+                                            title="Add to Compare"></a>
+                                    </div>
+                              
+                                </figure>
+                                <div class="product-details">
+                                    <h4 class="product-name"><a href="{{p.get_absolute_url}}">{{p.product_name}}</a></h4>
+                                    <div class="ratings-container">
+                                        <div class="ratings-full">
+                                            <span class="ratings" style="width: 100%;"></span>
+                                            <span class="tooltiptext tooltip-top"></span>
+                                        </div>
+                                        <a href="categorypage.html" class="rating-reviews">(3 Reviews)</a>
+                                    </div>
+                                    {% if p.price != 0 %}
+                                    <div class="product-price pl-3">
+                                        <ins class="new-price">Rs. {{p.price}}{% if p.max_price and p.max_price != 0 %} - Rs. {{ p.max_price }}{% endif %}</ins>
+                                    </div>
+                                    {% else %}
+                                    <div class="product-price ask-forprice">
+                                        <ins class="new-price">Ask for Price</ins>
+                                    </div>
+                                    {% endif %}
+                                    <div style="padding-left: 10px;">
+                                        <p>MOQ: {{p.minimum_order_quantity}}</p>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                  
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+                </div>
+                <!-- End of Product Deals Warpper -->
+
+                <div class="container">
+                <div class="row category-wrapper electronics-cosmetics appear-animate mb-7 smallbanners">
+                    <div class="col-md-6 mb-4">
+                        <div class="banner banner-fixed br-sm">
+                            <figure>
+                                <img src="{% static "assets/images/CATEGORY AD 1 HARDWWARE SELLER.png" %}" alt="Category Banner"
+                                    width="640" height="200" style="background-color: #25282D;" />
+                            </figure>
+                            <!--div class="banner-content y-50">
+                                <h3 class="banner-title text-white ls-25 mb-0">Electronics</h3>
+                                <div class="banner-price-info text-white font-weight-bold text-uppercase mb-1">Starting
+                                    At
+                                    <strong class="text-secondary">$125.00</strong>
+                                </div>
+                                <hr class="banner-divider bg-white" />
+                                <a href="shop-banner-sidebar.html"
+                                    class="btn btn-white btn-link btn-underline btn-icon-right">
+                                    Shop Now<i class="w-icon-long-arrow-right"></i></a>
+                            </div-->
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="banner banner-fixed br-sm">
+                            <figure>
+                                <img src="{% static "assets/images/CATEGORY AD 2 INDUSTRIAL.png" %}" alt="Category Banner"
+                                    width="640" height="200" style="background-color: #eeedec;" />
+                            </figure>
+                            <!--div class="banner-content y-50">
+                                <h3 class="banner-title ls-25 text-capitalize mb-0">Cosmetics Sets</h3>
+                                <div class="banner-price-info font-weight-bold text-uppercase mb-1">Sale Up To
+                                    <strong class="text-secondary">30% Off</strong>
+                                </div>
+                                <hr class="banner-divider bg-dark" />
+                                <a href="shop-banner-sidebar.html"
+                                    class="btn btn-dark btn-link btn-underline btn-icon-right">
+                                    Shop Now<i class="w-icon-long-arrow-right"></i></a>
+                            </div-->
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <!-- End of Category Wrapper -->
+
+        
+                <!-- End of .title-link-wrapper -->
+                <div class="container">
+                <div class="products_with_image">
+                    <div class="row">
+                        <div class="col-lg-3 p-0" style="padding:0">
+                            <img src="{% static "assets/images/BUILDING & CONSTRUCTION cg1.png" %}" class="mr-3" style="height: 88%">
+                        </div>
+                        <div class="col-lg-9 p-0" style="padding:0">
+                            <div class="swiper-container swiper-theme product-deals-wrapper appear-animate mb-7"
+                            data-swiper-options="{
+                            'spaceBetween': 20,
+                            'slidesPerView': 2,
+                            'loop': true,
+                            'breakpoints': {
+                                '576': {
+                                    'slidesPerView': 3
+                                },
+                                '768': {
+                                    'slidesPerView': 4
+                                },
+                                '992': {
+                                    'slidesPerView': 4
+                                },
+                                '1400': {
+                                    'slidesPerView': 4
+                                }
+                            }
+                        }">
+                            <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-2">
+                                {% for p in cat1 %}
+                                <div class="swiper-slide product-wrap">
+                                    <div class="product text-center">
+                                        <figure class="product-media">
+                                            <a href="{{p.get_absolute_url}}">
+                                                {% if p.image %}
+                                            <img src="{{p.image.url}}" alt="Product" width="300" height="338">
+                                            <img src="{{p.image.url}}" alt="Product" width="300" height="338">
+
+                                        {% else %}
+                                            <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=>
+                                                width="300" height="338">
+                                            <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=>
+                                                width="300" height="338">
+                                        {% endif %}
+                                            </a>
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-cart w-icon-cart"
+                                                    title="Add to cart"></a>
+                                                <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
+                                                    title="Add to wishlist"></a>
+                                                <a href="#" class="btn-product-icon btn-quickview w-icon-search"
+                                                    title="Quickview"></a>
+                                                <a href="#" class="btn-product-icon btn-compare w-icon-compare"
+                                                    title="Add to Compare"></a>
+                                            </div>
+                                      
+                                        </figure>
+                                        <div class="product-details">
+                                            <h4 class="product-name"><a href="{{p.get_absolute_url}}">{{p}}</a></h4>
+                                            <div class="ratings-container">
+                                                <div class="ratings-full">
+                                                    <span class="ratings" style="width: 100%;"></span>
+                                                    <span class="tooltiptext tooltip-top"></span>
+                                                </div>
+                                                <a href="{{p.get_absolute_url}}" class="rating-reviews">(3 Reviews)</a>
+                                            </div>
+                                            {% if p.price != 0 %}
+                                            <div class="product-price pl-3">
+                                                <ins class="new-price">Rs. {{p.price}}{% if p.max_price and p.max_price != 0 %} - Rs. {{ p.max_price }}{% endif %}</ins>
+                                            </div>
+                                            {% else %}
+                                            <div class="product-price ask-forprice">
+                                                <ins class="new-price">Ask for Price</ins>
+                                            </div>
+                                            {% endif %}
+                                            <div style="padding-left: 10px;">
+                                                <p>MOQ: {{p.minimum_order_quantity}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                             
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                        </div>
+                    </div>
+                 
+               
+
+                </div>
+                </div>
+
+                <div class="container">
+                <div class="products_with_image">
+                    <div class="row">
+                        <div class="col-lg-3 p-0" style="padding:0">
+                            <img src="{% static "assets/images/industrial supplies cg3.png" %}" class="mr-3" style="    height: 88%;
+                            width: 100%;
+                            object-position: top;
+                        ">
+                        </div>
+                        <div class="col-lg-9 p-0" style="padding:0">
+                            <div class="swiper-container swiper-theme product-deals-wrapper appear-animate mb-7"
+                            data-swiper-options="{
+                            'spaceBetween': 20,
+                            'slidesPerView': 2,
+                            'loop': true,
+                            'breakpoints': {
+                                '576': {
+                                    'slidesPerView': 3
+                                },
+                                '768': {
+                                    'slidesPerView': 4
+                                },
+                                '992': {
+                                    'slidesPerView': 4
+                                },
+                                '1400': {
+                                    'slidesPerView': 4
+                                }
+                            }
+                        }">
+                            <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-2">
+                                {% for p in cat2 %}
+                                <div class="swiper-slide product-wrap">
+                                    <div class="product text-center">
+                                        <figure class="product-media">
+                                            <a href="{{p.get_absolute_url}}">
+                                                {% if p.image %}
+                                            <img src="{{p.image.url}}" alt="Product" width="300" height="338">
+                                            <img src="{{p.image.url}}" alt="Product" width="300" height="338">
+
+                                        {% else %}
+                                            <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=>
+                                                width="300" height="338">
+                                            <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=>
+                                                width="300" height="338">
+                                        {% endif %}
+                                            </a>
+                                            <div class="product-action-vertical">
+                                                <a href="#" class="btn-product-icon btn-cart w-icon-cart"
+                                                    title="Add to cart"></a>
+                                                <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
+                                                    title="Add to wishlist"></a>
+                                                <a href="#" class="btn-product-icon btn-quickview w-icon-search"
+                                                    title="Quickview"></a>
+                                                <a href="#" class="btn-product-icon btn-compare w-icon-compare"
+                                                    title="Add to Compare"></a>
+                                            </div>
+                                      
+                                        </figure>
+                                        <div class="product-details">
+                                            <h4 class="product-name"><a href="{{p.get_absolute_url}}">{{p}}</a></h4>
+                                            <div class="ratings-container">
+                                                <div class="ratings-full">
+                                                    <span class="ratings" style="width: 100%;"></span>
+                                                    <span class="tooltiptext tooltip-top"></span>
+                                                </div>
+                                                <a href="{{p.get_absolute_url}}" class="rating-reviews">(3 Reviews)</a>
+                                            </div>
+                                            {% if p.price != 0 %}
+                                            <div class="product-price pl-3">
+                                                <ins class="new-price">Rs. {{p.price}}{% if p.max_price and p.max_price != 0 %} - Rs. {{ p.max_price }}{% endif %}</ins>
+                                            </div>
+                                            {% else %}
+                                            <div class="product-price ask-forprice">
+                                                <ins class="new-price">Ask for Price</ins>
+                                            </div>
+                                            {% endif %}
+                                            <div style="padding-left: 10px;">
+                                                <p>MOQ: {{p.minimum_order_quantity}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                             
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                        </div>
+                    </div>
+                 
+               
+
+                </div>
+                </div>
+
+                <div class="container">
+                    <div class="products_with_image">
+                        <div class="row">
+                            <div class="col-lg-3 p-0" style="padding:0">
+                                <img src="{% static "assets/images/CONSUMER & ELECTRONICS cg2.png" %}" class="mr-3" style="    height: 88%;
+                                width: 100%;
+                                object-position: top;
+                            ">
+                            </div>
+                            <div class="col-lg-9 p-0" style="padding:0">
+                                <div class="swiper-container swiper-theme product-deals-wrapper appear-animate mb-7"
+                                data-swiper-options="{
+                                'spaceBetween': 20,
+                                'slidesPerView': 2,
+                                'loop': true,
+                                'breakpoints': {
+                                    '576': {
+                                        'slidesPerView': 3
+                                    },
+                                    '768': {
+                                        'slidesPerView': 4
+                                    },
+                                    '992': {
+                                        'slidesPerView': 4
+                                    },
+                                    '1400': {
+                                        'slidesPerView': 4
+                                    }
+                                }
+                            }">
+                                <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-2">
+                                    {% for p in cat3 %}
+                                    <div class="swiper-slide product-wrap">
+                                        <div class="product text-center">
+                                            <figure class="product-media">
+                                                <a href="{{p.get_absolute_url}}">
+                                                    {% if p.image %}
+                                            <img src="{{p.image.url}}" alt="Product" width="300" height="338">
+                                            <img src="{{p.image.url}}" alt="Product" width="300" height="338">
+
+                                        {% else %}
+                                            <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=>
+                                                width="300" height="338">
+                                            <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=>
+                                                width="300" height="338">
+                                        {% endif %}
+                                                </a>
+                                                <div class="product-action-vertical">
+                                                    <a href="#" class="btn-product-icon btn-cart w-icon-cart"
+                                                        title="Add to cart"></a>
+                                                    <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
+                                                        title="Add to wishlist"></a>
+                                                    <a href="#" class="btn-product-icon btn-quickview w-icon-search"
+                                                        title="Quickview"></a>
+                                                    <a href="#" class="btn-product-icon btn-compare w-icon-compare"
+                                                        title="Add to Compare"></a>
+                                                </div>
+                                          
+                                            </figure>
+                                            <div class="product-details">
+                                                <h4 class="product-name"><a href="{{p.get_absolute_url}}">{{p}}</a></h4>
+                                                <div class="ratings-container">
+                                                    <div class="ratings-full">
+                                                        <span class="ratings" style="width: 100%;"></span>
+                                                        <span class="tooltiptext tooltip-top"></span>
+                                                    </div>
+                                                    <a href="{{p.get_absolute_url}}" class="rating-reviews">(3 Reviews)</a>
+                                                </div>
+                                                {% if p.price != 0 %}
+                                                <div class="product-price pl-3">
+                                                    <ins class="new-price">Rs. {{p.price}}{% if p.max_price and p.max_price != 0 %} - Rs. {{ p.max_price }}{% endif %}</ins>
+                                                </div>
+                                                {% else %}
+                                                <div class="product-price ask-forprice">
+                                                    <ins class="new-price">Ask for Price</ins>
+                                                </div>
+                                                {% endif %}
+                                                <div style="padding-left: 10px;">
+                                                    <p>MOQ: {{p.minimum_order_quantity}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                 
+                                </div>
+                                <div class="swiper-pagination"></div>
+                            </div>
+                            </div>
+                        </div>
+                     
+                   
+    
+                    </div>
+                    </div>
+
+                    <section class="videosection text-center">
+                        <div class="container">
+                            <div class="col-12 col-lg-12 px-5 mt-5 mt-lg-0 payment__Section d-flex align-items-center flex-column">
+                                <a href="#" class="mb-2 d-flex">Want to get started but don't know how?
+                              </a>
+                                <h3 class="fw-800 w-510 mw-100 mb-6">
+                                  Watch our video below and start selling products in no time.
+  
+                                </h3>
+
+                                <iframe width="560" height="315" src="https://www.youtube.com/embed/7HeNURa3UY0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                       
+                       
+                                {% if request.user.is_authenticated %}
+                                {% if request.user.profile.account_type != 'Retailer' %}
+                                
+        <a href="{% url 'products:submit_product' %}" class="font-weight-bold ls-25 btn btn-primary btn-outline-green">Start Selling</a>
+                                {% else %}
+        
+                                <li><a href="{% url 'seller_become' %}" class="font-weight-bold ls-25 btn btn-primary btn-outline-green">Become A Seller</a></li>
+                                {% endif %}
+                                {% endif %}
+
+                                {% if request.user.is_authenticated %}
+    
+                                {% else %}
+                               <li><a class="font-weight-bold ls-25 btn btn-primary btn-outline-green" href="{% url 'seller_become' %}">
+                                Become a Seller
+                                </a></li> 
+                                {% endif %}
+
+                              </div>
+                        </div>
+                    </section>
+
+                    <section class="pt-10"> 
+                        <div class="container payment">
+                          <div class="row">
+                            <div class="col-12 col-lg-6">
+                              <div class="payment__left position-relative">
+                                <div class="payment__card d-flex mb-4">
+                                    <img src="{% static "assets/images/av1.png" %}" alt="avatar" class="w-40 h-40" />
+                                  <div class="payment__cardDescription ms-3">
+                                    <p class="mb-0">+ 21,42,278+
+                                    </p>
+                                    <p class="mb-0">"Using this marketplace has saved me so much time and hassle."
+
+                                    </p>
+                                  </div>
+                                </div>
+                                <div class="payment__card d-flex mb-4">
+                                    <img src="{% static "assets/images/av2.png" %}" alt="avatar" class="w-40 h-40" />
+                                    <div class="payment__cardDescription ms-3">
+                                    <p class="mb-0">+ 21,42,278+
+                                    </p>
+                                    <p class="mb-0">"Exceeded my expectations, will definitely use again."
+
+
+
+
+
+                                    </p>
+                                  </div>
+                                </div>
+                                <div class="payment__card d-flex mb-4">
+                                    <img src="{% static "assets/images/av3.png" %}" alt="avatar" class="w-40 h-40" />
+                                    <div class="payment__cardDescription ms-3">
+                                    <p class="mb-0">+ 21,42,278+
+                                    </p>
+                                    <p class="mb-0"> 
+                                        "Game-changer for business, competitive quotes."
+
+
+
+
+                                    </p>
+                                  </div>
+                                </div>
+                                <div class="payment__card d-flex">
+                                    <img src="{% static "assets/images/av4.png" %}" alt="avatar" class="w-40 h-40" />
+                                    <div class="payment__cardDescription ms-3">
+                                    <p class="mb-0">+ 21,42,278+
+                                    </p>
+                                    <p class="mb-0">"Pleasantly surprised, found what needed quickly."
+
+
+
+
+
+                                    </p> 
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12 col-lg-6 px-5 mt-5 mt-lg-0 payment__Section">
+                              <a href="#" class="mb-2 d-flex">Post your product request and get quotations from multiple competing sellers!
+                            </a>
+                              <h3 class="fw-800 w-510 mw-100">
+                                Nepal’s Best Sourcing Marketplace
+
+                              </h3>
+                              <p class="mt-3 w-450">
+                                Request for Quotation" service is a convenient and cost-free option for buyers who are looking for high-quality quotes. By submitting a straightforward request, you can obtain several quotes from verified suppliers.                          </p>
+                              <hr></hr>
+                              <div class="payment__List">
+                              <p class="mb-2 d-flex align-items-center">
+                                      <img src="https://cdn-icons-png.flaticon.com/128/5290/5290081.png" alt="paytick" />
+                                      <span class="ms-2 text-lgray">Submit a request.</span>
+                                    </p>
+                                    <p class="mb-2 d-flex align-items-center">
+                                      <img src="https://cdn-icons-png.flaticon.com/128/5290/5290081.png" alt="paytick" />
+                                      <span class="ms-2 text-lgray">Get quotes from verified suppliers.</span>
+                                    </p>
+                                    <p class=" d-flex align-items-center">
+                                      <img src="https://cdn-icons-png.flaticon.com/128/5290/5290081.png" alt="paytick" />
+                                      <span class="ms-2 text-lgray">Easy to get started.</span>
+                                    </p>
+                              </div>
+                                
+                              {% if request.user.is_authenticated %}
+                              <button data-toggle="modal" style="width:fit-content" data-target="#demoModaltwo" class="btn btn-primary btn-outline-green mt-7 w-100 b-999">Request Quotation</button>
+                              {% else %}
+                              <a href="{% url 'login' %}"><button style="width:fit-content" class="btn btn-primary btn-outline-green mt-7 w-100 b-999">LOGIN TO SEND QUOTE</button></a>
+                              {% endif %}
+                            </div>
+                          </div>
+                        </div> 
+                      </section>
+
+
+  
+
+                <div class="aboutusbottom">
+                    <h3>About Us</h3>
+                    <p>
+                        About Us	"Welcome to our online B2B marketplace, the premier importer and exporter directory for Nepal. Our platform serves as an online business portal in Nepal, connecting buyers and suppliers in wholesale trade across different categories.
+                    </p>
+                    <p>
+                        Our platform is designed to help businesses generate leads and boost sales from across the country. With your own personal dashboard, you can easily upload, track, and manage products, ensuring that you never miss out on a sales opportunity. Additionally, our exclusive online store and direct access through QR code feature make it easy for potential customers to find and purchase your products.
+                    </p>
+                    <p>
+                        We are committed to providing a user-friendly platform that helps businesses of all sizes connect with potential clients in Nepal. Thank you for choosing our online B2B marketplace as your go-to destination for your business needs."                    </p>
+                </div>
+
+              
+
+              
+            </div>    
+            <!-- End of Container -->
+        </main>
+        <!-- End of Main -->
+
+        <!-- Start of Footer -->
+   
+        <!-- End of Footer -->
+    </div>
+    <!-- End of .page-wrapper -->
+
+    <style>
+        .reqresults-card{
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            background: #fff;
+            Color: black;
+            width: 100%;
+            box-shadow: 0 8px 8px 0 rgba(0,0,0,0.25);
+            transition: 0.5s;
+            border-radius: 7px;
+            padding: 15px 15px;
+            z-index: 999;
+        }
+        .showitems{
+            cursor: pointer;
+        }
+    </style>
+    {% endblock %}
+
+     
+    {% block script %}
+
+    <!-- Plugin JS File -->
+    <script src="{% static "assets/vendor/jquery/jquery.min.js" %}"></script>
+    <script src="{% static "assets/js/bootstrap.js" %}"></script>
+    <script src="{% static "assets/vendor/jquery.plugin/jquery.plugin.min.js" %}"></script>
+    <script src="{% static "assets/vendor/imagesloaded/imagesloaded.pkgd.min.js" %}"></script>
+    <script src="{% static "assets/vendor/swiper/swiper-bundle.min.js" %}"></script>
+    <script src="{% static "assets/vendor/jquery.countdown/jquery.countdown.min.js" %}"></script>
+    <script src="{% static "assets/vendor/magnific-popup/jquery.magnific-popup.min.js" %}"></script>
+    <script src="{% static "assets/vendor/floating-parallax/parallax.min.js" %}"></script>
+    <script src="{% static "assets/vendor/zoom/jquery.zoom.js" %}"></script>
+    <script src="{% static "assets/vendor/niceselect.js" %}"></script>
+    
+    <script src="{% static "assets/js/datatable.js" %}"></script>
+    <script src="{% static "assets/js/apexchart.js" %}"></script>
+    <script src="{% static "assets/js/chartoption.js" %}"></script>
+    <script src="{% static "assets/js/popper.min.js" %}"></script>
+    <script src="{% static "assets/js/lunar.js" %}"></script>
+    <script src="{% static "assets/js/main.js" %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+ 
+    <!-- Main Js -->
+    <script src="{% static "assets/js/main.min.js" %}"></script>
+
+        <script>
+        $(document).ready(function() {
+  $('select').niceSelect();
+});
+    </script>
+<script> 
+    $(function(){
+      $("#header").load("header.html"); 
+      $("#footer").load("footer.html"); 
+    });
+    </script> 
+
+
+<script type="text/javascript">
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: ".payment",
+              start: "top bottom",
+              end: "bottom",
+                 scrub: true,
+    
+      }
+    })
+    .to(".payment__card:nth-child(2)", 1, {
+                  translateX:20, opacity:1,
+    
+            })
+    </script> 
+
+
+<script type="text/javascript">
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: ".payment",
+              start: "top bottom",
+              end: "bottom",
+                 scrub: true,
+    
+      }
+    })
+    .to(".payment__card:nth-child(3)", 1, {
+                  translateX:20, opacity:1,
+    
+            })
+    </script> 
+{% if messages %}
+    {% for message in messages %}
+    <script>
+        toastr["success"]("{{message}}")
+    </script>
+    {% endfor %}
+{% endif %}
+
+{% endblock %}
+
+</body>
+
+
+</html>

@@ -1,0 +1,14 @@
+{% autoescape off %}
+Dear {{ user.username }},
+
+We hope this email finds you well. We at Vistaar Trade are committed to providing a safe and secure platform for all our users. As a part of our security measures, we require all users to verify their email address.
+
+To complete the verification process, please click on the following link:  {{domain}}{% url 'activate' uidb64=uid token=token %}
+
+Thank you for your cooperation in this matter. If you have any questions or concerns, please do not hesitate to contact our customer support team at +977980-7209802
+
+Best regards,
+
+The Vistaar Trade Team
+
+{% endautoescape %}

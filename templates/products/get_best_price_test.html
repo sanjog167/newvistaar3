@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Get Best Price</title>
+</head>
+
+<body>
+    <form action="{% url 'products:get_best_price' product.id %}" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="form-group col-lg-12">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Product</label>
+                    <input type="text" value="{{product}}" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" placeholder="Enter email" readonly>
+                </div>
+
+            </div>
+            <div class="form-group col-lg-12">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Category</label>
+                    <input type="text" value="{{product.category}}" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" placeholder="Enter email" readonly>
+                </div>
+
+            </div>
+            <div class="form-group col-lg-12">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Quantity</label>
+                    <input type="text" name='quantity' class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp">
+                </div>
+
+            </div>
+            <div class="form-group col-lg-12">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Description</label>
+                    <textarea placeholder="Message to Seller" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" name='description'></textarea>
+                </div>
+
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-outline-green" aria-label="Close">Send</button>
+    </form>
+</body>
+
+</html>

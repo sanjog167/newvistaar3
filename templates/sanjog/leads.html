@@ -1,0 +1,544 @@
+{% extends "sanjog/header.html" %}
+
+{% block content %}
+
+{% load static %}
+
+<div id="header"></div>
+
+<main class="main-container container mt-4 leadspage">
+
+       
+    <nav class="sidebar sidebar-main p-0">
+
+      <div class="profile_view">
+        <figure class="avatar mb-3">
+          <img src="http://www.clker.com/cliparts/t/e/E/n/D/I/a-system-user-hi.png" style="object-fit: cover;" alt=""/>
+        </figure>
+        <h4 class="text-white fs-13">{{request.user.get_full_name}}</h4>
+        <p class="fs-13">{{request.user.email}}</p>
+      </div>
+
+      <ul class="side_bar">
+        <li class="nav-item">
+          <a href="{% url 'dashboard' %}">
+            <i class="fa fa-home"></i>
+            <span>Dashboard</span>
+          </a>
+
+        </li>
+   
+        <li class="nav-item">
+          <a href="{% url 'company_profile' %}">
+            <i class="fa fa-users"></i>
+            <span>Company Profile</span>
+          </a>
+         
+        </li>
+
+        <li class="nav-item">
+          <a href="{% url 'manage_products' %}">
+            <i class="fa fa-shopping-cart"></i>
+            <span>Manage Products</span>
+          </a>
+         
+        </li>
+
+        <li class="nav-item">
+          <a href="#">
+            <i class="fa fa-line-chart"></i>
+            <span>Manage Leads</span>
+          </a>
+         
+        </li>
+
+      </ul>
+    </nav>
+
+      <div class="page-container">
+        <!-- <div class="container"> -->
+
+            <div class="row">
+                <div class="col-md-12">
+                  <div class="card products">
+                    <div class="d-md-flex align-items-center mb-4 filter">
+                        <ul class="nav nav-pills mb-3 flex-grow-1" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                              <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">All Leads</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" id="pills-direct-tab" data-toggle="pill" href="#pills-profile2" role="tab" aria-controls="pills-direct" aria-selected="false">Direct Leads</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile3" role="tab" aria-controls="pills-profile" aria-selected="false">Open Quotation Requests</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" id="pills-premium-tab" data-toggle="pill" href="#pills-profile4" role="tab" aria-controls="pills-premium" aria-selected="false">Premium Leads</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" id="pills-consume-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-consume" aria-selected="false">Consumed Leads</a>
+                              </li>
+                           
+                          </ul>
+            
+                    
+                    </div>
+                    <div class="card-body table-responsive" style="overflow: initial">
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                              
+                                {% if all_leads %}
+                                {% for lead in all_leads %}
+                                <div class="lead_body mb-5">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="lead_name mb-4">
+                                                <h4>{{lead}}</h4>
+                                            </div>
+                                            <h5>Kathmandu, Nepal</h5>
+                                            <p class="text-italic">I am interested in buying this product</p>
+                                            <div class="lead_infos">
+                                                <div class="info1 d-flex">
+                                                    <p>Quantity</p>
+                                                    <p class="fw-600">: {{lead.quantity_required}}</p>
+                                                </div>
+                                                <div class="info1 d-flex">
+                                                    <p>Requirement Message </p>
+                                                    <p class="fw-600">: {{lead.request_description}}</p>
+                                                </div>
+                                                <div class="info1 d-flex">
+                                                    <p>Probable Order Value </p>
+                                                    <p class="fw-600">: Ask for price</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="lead_name mb-4">
+                                                <h4>Buyer Details</h4>
+                                            </div>
+                                          
+                                            <div class="lead_infos">
+                                                <div class="info1 d-flex">
+                                                    <p>Name: </p>
+                                                    <p>{{lead.buyer.first_name}} {{ lead.buyer.last_name}}</p>
+                                                </div>
+                                                <div class="info1 d-flex">
+                                                    <p>Mobile Number: </p>
+                                                    <p> {{lead.buyer.profile.mobile_number}}</p>
+                                                </div>
+                                                <div class="info1 d-flex">
+                                                    <p>Email Address: </p>
+                                                    <p> {{lead.buyer.email}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                    <a class="btn btn-outline-green w-100 mr-3 mt-4 btn-green d-flex align-items-center" href="https://api.whatsapp.com/send?phone={{lead.buyer.profile.mobile_number}}&text=Hello! I am {{current_profile}} from Vistaartrade.com. I received your enquiry regarding {{lead.product}}">
+                                        <img src="{% static "assets/images/whatsapp2.png" %}" class="w-20 mr-2" alt="">
+                                        Chat on Whatsapp</a>
+                                        <a class="btn btn-outline-green btn-border-green w-100 ml-0 mt-4 d-flex align-items-center" href="mailto:{{lead.buyer.email}}">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/3059/3059989.png" class="w-20 mr-2" alt="">
+                                             Send email</a>
+                                            </div>
+                                    <form method="post">
+                                    {% csrf_token %}
+                                        <input type="hidden" name="lead" value="{{lead}}">
+                                        <input type="hidden" name="lead_type" value="{{ lead.temp_field }}">
+                                        <input type="hidden" name="lead_id" value="{{lead.id}}">
+                                        <button type="submit" class="btn btn-filled mt-4 d-flex ml-auto">Mark As Consumed</button>
+                                    </form>
+                                </div>
+                                </div>
+                                {% endfor %}
+                                {% else %}
+                                <div class="custom-breadcrumb text-center d-flex align-items-center justify-content-center">
+                                  <h3>Upload More Products and Get Unlimited Leads</h3>
+
+                                  <a class="nav-link"  href="{% url 'products:submit_product' %}">Upload Now</a>
+                               
+                                </div>
+                                <img src="{% static "assets/images/rocket.svg" %}" class="w-400 mx-auto">
+                                {% endif %}
+
+                            </div>
+
+                            {% comment %} for consumed_leads {% endcomment %}
+                            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-consume-tab">
+                              {% comment %} <div class="custom-breadcrumb"> {% endcomment %}
+                                {% comment %} <h3>Upload More Products and Get Unlimited Leads</h3> {% endcomment %}
+                                {% if consumed_leads %}
+                                {% for consume in consumed_leads %}
+                                <div class="lead_body mb-5">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="lead_name mb-4">
+                                                <h4>{{consume}}</h4>
+                                            </div>
+                                            <h5>Kathmandu, Nepal</h5>
+                                            <p class="text-italic">I am interested in buying this product</p>
+                                            <div class="lead_infos">
+                                                <div class="info1 d-flex">
+                                                    <p>Quantity</p>
+                                                    <p class="fw-600">: {{consume.quantity_required}}</p>
+                                                </div>
+                                                <div class="info1 d-flex">
+                                                    <p>Requirement Message </p>
+                                                    <p class="fw-600">: {{consume.request_description}}</p>
+                                                </div>
+                                                <div class="info1 d-flex">
+                                                    <p>Probable Order Value </p>
+                                                    <p class="fw-600">: Ask for price</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="lead_name mb-4">
+                                                <h4>Buyer Details</h4>
+                                            </div>
+                                          
+                                            <div class="lead_infos">
+                                                <div class="info1 d-flex">
+                                                    <p>Name: </p>
+                                                    <p>{{consume.buyer.first_name}} {{ consume.buyer.last_name}}</p>
+                                                </div>
+                                                <div class="info1 d-flex">
+                                                    <p>Mobile Number: </p>
+                                                    <p> {{consume.buyer.profile.mobile_number}}</p>
+                                                </div>
+                                                <div class="info1 d-flex">
+                                                    <p>Email Address: </p>
+                                                    <p> {{consume.buyer.email}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                    <a class="btn btn-outline-green w-100 mr-3 mt-4 btn-green d-flex align-items-center" href="https://api.whatsapp.com/send?phone={{consume.buyer.profile.mobile_number}}&text=Hello! I am {{current_profile}} from Vistaartrade.com. I received your enquiry regarding {{consume.product}}">
+                                        <img src="{% static "assets/images/whatsapp2.png" %}" class="w-20 mr-2" alt="">
+                                        Chat on Whatsapp</a>
+                                        <a class="btn btn-outline-green btn-border-green w-100 ml-0 mt-4 d-flex align-items-center" href="mailto:{{consume.buyer.email}}">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/3059/3059989.png" class="w-20 mr-2" alt="">
+                                             Send email</a>
+                                            </div>
+                                </div>
+                                </div>
+                                {% endfor %}
+                                {% else %}
+                                <div class="custom-breadcrumb text-center d-flex align-items-center justify-content-center">
+                                  <h3>Upload More Products and Get Unlimited Leads</h3>
+                                  <a class="nav-link"  href="{% url 'products:submit_product' %}">Upload Now</a>
+                               
+                                </div>
+                                <img src="{% static "assets/images/rocket.svg" %}" class="w-400 mx-auto">
+                                {% endif %}
+                              {% comment %} </div> {% endcomment %}
+
+                              {% comment %} <img src="{% static "assets/images/rocket.svg" %}" class="w-400 mx-auto"> {% endcomment %}
+                            </div>
+                            <div class="tab-pane fade" id="pills-profile2" role="tabpanel" aria-labelledby="pills-direct-tab">
+                                {% comment %} <div class="custom-breadcrumb"> {% endcomment %}
+                                  {% comment %} <h3>Upload More Products and Get Unlimited Leads</h3> {% endcomment %}
+                                  {% if prim_leads %}
+                                  {% for dir in prim_leads %}
+                                  <div class="lead_body mb-5">
+                                      <div class="row">
+                                          <div class="col-lg-6">
+                                              <div class="lead_name mb-4">
+                                                  <h4>{{dir}}</h4>
+                                              </div>
+                                              <h5>Kathmandu, Nepal</h5>
+                                              <p class="text-italic">I am interested in buying this product</p>
+                                              <div class="lead_infos">
+                                                  <div class="info1 d-flex">
+                                                      <p>Quantity</p>
+                                                      <p class="fw-600">: {{dir.quantity_required}}</p>
+                                                  </div>
+                                                  <div class="info1 d-flex">
+                                                      <p>Requirement Message </p>
+                                                      <p class="fw-600">: {{dir.request_description}}</p>
+                                                  </div>
+                                                  <div class="info1 d-flex">
+                                                      <p>Probable Order Value </p>
+                                                      <p class="fw-600">: Ask for price</p>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="col-lg-6">
+                                            <div class="lead_name mb-4">
+                                                <h4>Buyer Details</h4>
+                                            </div>
+                                          
+                                            <div class="lead_infos">
+                                                <div class="info1 d-flex">
+                                                    <p>Name: </p>
+                                                    <p>{{dir.buyer.first_name}} {{ dir.buyer.last_name}}</p>
+                                                </div>
+                                                <div class="info1 d-flex">
+                                                    <p>Mobile Number: </p>
+                                                    <p> {{dir.buyer.profile.mobile_number}}</p>
+                                                </div>
+                                                <div class="info1 d-flex">
+                                                    <p>Email Address: </p>
+                                                    <p> {{dir.buyer.email}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      </div>
+                                      <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                    <a class="btn btn-outline-green w-100 mr-3 mt-4 btn-green d-flex align-items-center" href="https://api.whatsapp.com/send?phone={{dir.buyer.profile.mobile_number}}&text=Hello! I am {{current_profile}} from Vistaartrade.com. I received your enquiry regarding {{dir.product}}">
+                                        <img src="{% static "assets/images/whatsapp2.png" %}" class="w-20 mr-2" alt="">
+                                        Chat on Whatsapp</a>
+                                        <a class="btn btn-outline-green btn-border-green w-100 ml-0 mt-4 d-flex align-items-center" href="mailto:{{dir.buyer.email}}">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/3059/3059989.png" class="w-20 mr-2" alt="">
+                                             Send email</a>
+                                            </div>
+                                    <form method="post">
+                                    {% csrf_token %}
+                                        <input type="hidden" name="lead" value="{{dir}}">
+                                        <input type="hidden" name="lead_type" value="{{ dir.temp_field }}">
+                                        <input type="hidden" name="lead_id" value="{{dir.id}}">
+                                        <button type="submit" class="btn btn-filled mt-4 d-flex ml-auto">Mark As Consumed</button>
+                                    </form>
+                                </div>
+                                  </div>
+                                  {% endfor %}
+                                  {% else %}
+                                  <div class="custom-breadcrumb text-center d-flex align-items-center justify-content-center">
+                                    <h3>Upload More Products and Get Unlimited Leads</h3>
+                                    <a class="nav-link"  href="{% url 'products:submit_product' %}">Upload Now</a>
+                                 
+                                  </div>
+                                  <img src="{% static "assets/images/rocket.svg" %}" class="w-400 mx-auto">
+                                  {% endif %}
+                                  
+                                {% comment %} </div> {% endcomment %}
+  
+                                {% comment %} <img src="{% static "assets/images/rocket.svg" %}" class="w-400 mx-auto"> {% endcomment %}
+                        
+  
+                            </div>
+                          
+
+                          <div class="tab-pane fade" id="pills-profile3" role="tabpanel" aria-labelledby="pills-profile-tab">
+                            {% comment %} <div class="custom-breadcrumb"> {% endcomment %}
+                              {% comment %} <h3>Upload More Products and Get Unlimited Leads</h3> {% endcomment %}
+                              {% if rfq_leads %}
+                              {% for rfq in rfq_leads %}
+                              <div class="lead_body mb-5">
+                                  <div class="row">
+                                      <div class="col-lg-6">
+                                          <div class="lead_name mb-4">
+                                              <h4>{{rfq}}</h4>
+                                          </div>
+                                          <h5>Kathmandu, Nepal</h5>
+                                          <p class="text-italic">I am interested in buying this product</p>
+                                          <div class="lead_infos">
+                                              <div class="info1 d-flex">
+                                                  <p>Quantity</p>
+                                                  <p class="fw-600">: {{rfq.quantity_required}}</p>
+                                              </div>
+                                              <div class="info1 d-flex">
+                                                  <p>Requirement Message </p>
+                                                  <p class="fw-600">: {{rfq.request_description}}</p>
+                                              </div>
+                                              <div class="info1 d-flex">
+                                                  <p>Probable Order Value </p>
+                                                  <p class="fw-600">: Ask for price</p>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-6">
+                                            <div class="lead_name mb-4">
+                                                <h4>Buyer Details</h4>
+                                            </div>
+                                          
+                                            <div class="lead_infos">
+                                                <div class="info1 d-flex">
+                                                    <p>Name: </p>
+                                                    <p>{{rfq.buyer.first_name}} {{ rfq.buyer.last_name}}</p>
+                                                </div>
+                                                <div class="info1 d-flex">
+                                                    <p>Mobile Number: </p>
+                                                    <p> {{rfq.buyer.profile.mobile_number}}</p>
+                                                </div>
+                                                <div class="info1 d-flex">
+                                                    <p>Email Address: </p>
+                                                    <p> {{rfq.buyer.email}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                  </div>
+                                  <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                    <a class="btn btn-outline-green w-100 mr-3 mt-4 btn-green d-flex align-items-center" href="https://api.whatsapp.com/send?phone={{rfq.buyer.profile.mobile_number}}&text=Hello! I am {{current_profile}} from Vistaartrade.com. I received your enquiry regarding {{rfq.product}}">
+                                        <img src="{% static "assets/images/whatsapp2.png" %}" class="w-20 mr-2" alt="">
+                                        Chat on Whatsapp</a>
+                                        <a class="btn btn-outline-green btn-border-green w-100 ml-0 mt-4 d-flex align-items-center" href="mailto:{{rfq.buyer.email}}">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/3059/3059989.png" class="w-20 mr-2" alt="">
+                                             Send email</a>
+                                            </div>
+                                    <form method="post">
+                                    {% csrf_token %}
+                                        <input type="hidden" name="lead" value="{{rfq}}">
+                                        <input type="hidden" name="lead_type" value="{{ rfq.temp_field }}">
+                                        <input type="hidden" name="lead_id" value="{{rfq.id}}">
+                                        <button type="submit" class="btn btn-filled mt-4 d-flex ml-auto">Mark As Consumed</button>
+                                    </form>
+                                </div>
+                              </div>
+                              {% endfor %}
+                              {% else %}
+                              <div class="custom-breadcrumb text-center d-flex align-items-center justify-content-center">
+                                <h3>Upload More Products and Get Unlimited Leads</h3>
+                                <a class="nav-link"  href="{% url 'products:submit_product' %}">Upload Now</a>
+                             
+                              </div>
+                              <img src="{% static "assets/images/rocket.svg" %}" class="w-400 mx-auto">
+                              {% endif %}
+                            {% comment %} </div> {% endcomment %}
+
+                            {% comment %} <img src="{% static "assets/images/rocket.svg" %}" class="w-400 mx-auto"> {% endcomment %}
+                    
+
+                          </div>
+
+                          <div class="tab-pane fade" id="pills-profile4" role="tabpanel" aria-labelledby="pills-premium-tab">
+                            {% comment %} <div class="custom-breadcrumb"> {% endcomment %}
+                              {% comment %} <h3>Upload More Products and Get Unlimited Leads</h3> {% endcomment %}
+                              {% if prem_leads %}
+                              {% for prm in prem_leads %}
+                              <div class="lead_body mb-5">
+                                  <div class="row">
+                                      <div class="col-lg-6">
+                                          <div class="lead_name mb-4">
+                                              <h4>{{prm}}</h4>
+                                          </div>
+                                          <h5>Kathmandu, Nepal</h5>
+                                          <p class="text-italic">I am interested in buying this product</p>
+                                          <div class="lead_infos">
+                                              <div class="info1 d-flex">
+                                                  <p>Quantity</p>
+                                                  <p class="fw-600">: {{prm.quantity_required}}</p>
+                                              </div>
+                                              <div class="info1 d-flex">
+                                                  <p>Requirement Message </p>
+                                                  <p class="fw-600">: {{prm.request_description}}</p>
+                                              </div>
+                                              <div class="info1 d-flex">
+                                                  <p>Probable Order Value </p>
+                                                  <p class="fw-600">: Ask for price</p>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-6">
+                                            <div class="lead_name mb-4">
+                                                <h4>Buyer Details</h4>
+                                            </div>
+                                          
+                                            <div class="lead_infos">
+                                                <div class="info1 d-flex">
+                                                    <p>Name: </p>
+                                                    <p>{{prm.buyer.first_name}} {{ prm.buyer.last_name}}</p>
+                                                </div>
+                                                <div class="info1 d-flex">
+                                                    <p>Mobile Number: </p>
+                                                    <p> {{prm.buyer.profile.mobile_number}}</p>
+                                                </div>
+                                                <div class="info1 d-flex">
+                                                    <p>Email Address: </p>
+                                                    <p> {{prm.buyer.email}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                  </div>
+                                  <form method="post">
+                                    {% csrf_token %}
+                                        <input type="hidden" name="lead" value="{{prm}}">
+                                        <input type="hidden" name="lead_id" value="{{prm.id}}">
+                                        <button type="submit" class="btn btn-filled mt-4 d-flex ml-auto">Mark As Consumed</button>
+                                    </form>
+                              </div>
+                              {% endfor %}
+                              {% else %}
+                              <div class="custom-breadcrumb text-center d-flex align-items-center justify-content-center">
+                                <h3>Upload More Products and Get Unlimited Leads</h3>
+                                <a class="nav-link"  href="{% url 'products:submit_product' %}">Upload Now</a>
+                             
+                              </div>
+                              <img src="{% static "assets/images/rocket.svg" %}" class="w-400 mx-auto">
+                              {% endif %}
+                            {% comment %} </div> {% endcomment %}
+
+                            {% comment %} <img src="{% static "assets/images/rocket.svg" %}" class="w-400 mx-auto"> {% endcomment %}     
+                          </div>
+                        </div> 
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+        <!-- </div> -->
+      </div>
+      
+     
+  
+    
+
+
+  </main>
+
+ 
+    </div>
+
+{% endblock %}
+
+{% block script %}
+
+    <!-- Plugin JS File -->
+    <script src="{% static "assets/vendor/jquery/jquery.min.js" %}"></script>
+    <script src="{% static "assets/vendor/jquery.plugin/jquery.plugin.min.js" %}"></script>
+    <script src="{% static "assets/js/bootstrap.js" %}"></script>
+    <script src="{% static "assets/vendor/imagesloaded/imagesloaded.pkgd.min.js" %}"></script>
+    <script src="{% static "assets/vendor/swiper/swiper-bundle.min.js" %}"></script>
+    <script src="{% static "assets/vendor/jquery.countdown/jquery.countdown.min.js" %}"></script>
+    <script src="{% static "assets/vendor/magnific-popup/jquery.magnific-popup.min.js" %}"></script>
+    <script src="{% static "assets/vendor/floating-parallax/parallax.min.js" %}"></script>
+    <script src="{% static "assets/vendor/zoom/jquery.zoom.js" %}"></script>
+    <script src="{% static "assets/vendor/niceselect.js" %}"></script>
+
+    <script src="{% static "assets/js/datatable.js" %}"></script>
+    <script src="{% static "assets/js/apexchart.js" %}"></script>
+    <script src="{% static "assets/js/chartoption.js" %}"></script>
+    <script src="{% static "assets/js/popper.min.js" %}"></script>
+    <script src="{% static "assets/js/lunar.js" %}"></script>
+    <script src="{% static "assets/js/main.js" %}"></script>
+
+
+    <!-- Main Js -->
+    <script src="{% static "assets/js/main.min.js" %}"></script>
+
+        <script>
+        $(document).ready(function() {
+  $('select').niceSelect();
+});
+    </script>
+<script> 
+    $(function(){
+      $("#header").load("header.html"); 
+      $("#footer").load("footer.html"); 
+    });
+    </script> 
+{% endblock %}
+</body>
+
+
+</html>

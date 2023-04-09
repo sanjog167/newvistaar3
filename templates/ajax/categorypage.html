@@ -1,0 +1,196 @@
+{% load static %}
+            <!-- Start of Page Content -->
+            <div class="page-content">
+                <div class="container">
+<!-- Start of Shop Banner -->
+<div class=" banner d-flex align-items-center mb-5 br-xs">
+    </div>
+    <!-- End of Shop Banner -->
+                    <!-- Start of Shop Content -->
+                    <div class="shop-content row gutter-lg mb-10">
+                        <!-- Start of Sidebar, Shop Sidebar -->
+                        <aside class="sidebar shop-sidebar sticky-sidebar-wrapper sidebar-fixed">
+                            <!-- Start of Sidebar Overlay -->
+                            <div class="sidebar-overlay"></div>
+                            <a class="sidebar-close" href="#"><i class="close-icon"></i></a>
+
+                            <!-- Start of Sidebar Content -->
+                            <div class="sidebar-content scrollable">
+                                <!-- Start of Sticky Sidebar -->
+                                <div class="sticky-sidebar">
+                                    <div class="filter-actions">
+                                        <label>Filter :</label>
+                                        
+                                    </div>
+
+                                    <div class="price-input">
+                                        <div class="field">
+                                          <span>Min</span>
+                                          <input type="number" class="input-min" id="minprice" value="{{minmaxprice.price__min}}" onkeyup="rangeinputmin.value=this.value">
+                                        </div>
+                                        <div class="separator">-</div>
+                                        <div class="field">
+                                          <span>Max</span>
+                                          <input type="number" class="input-max" id="maxprice" value="{{minmaxprice.price__max}}" onkeyup="rangeinputmax.value=this.value">
+                                        </div>
+                                      </div>
+                                      <div class="slider">
+                                        <div class="progress"></div> 
+                                      </div>
+                                      <div class="range-inputs">
+                                        <input type="range" class="range-min" id="rangeinputmin" min={{minmaxprice.price__min}} max={{minmaxprice.price__max}} value="{{minmaxprice.price__min}}" oninput="minprice.value=this.value">
+                                        <input type="range" class="range-max" id="rangeinputmax" min={{minmaxprice.price__min}} max={{minmaxprice.price__max}} value="{{minmaxprice.price__max}}" oninput="maxprice.value=this.value">
+                                      </div>
+                                    
+                                    <!-- Start of Collapsible widget -->
+                                    <form method="GET" action="{% url 'products:search' %}">
+                                    <div class="widget widget-collapsible mt-4">
+                                        <h3 class="widget-title"><label>Search Categories</label></h3>
+                                        <ul class="widget-body filter-items item-check mt-1">
+                                            {% for c in category %}
+                                            <li>
+                                                <input type="hidden" name="keyword" value="{{keyword}}">
+                                                <input type="hidden" name="category" value="{{c}}">
+                                                <button class="btn btn-outline-green btn-border-green" type="submit">{{c}}</button>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    </form>
+                                    <!-- End of Collapsible Widget -->
+                                    <!-- Start of Collapsible Widget -->
+                                    <div class="widget widget-collapsible">
+                                        <h3 class="widget-title"><label>Suppliers</label></h3>
+                                        <ul class="filter-items search-ul">
+                                            {% for s in supplier %}
+                                            <li><a href="#">{{s}}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+
+                                    <!-- Start of Collapsible Widget -->
+                             
+                                    <!-- End of Collapsible Widget -->
+                                </div>
+                                <!-- End of Sidebar Content -->
+                            </div>
+                            <!-- End of Sidebar Content -->
+                        </aside>
+                        <!-- End of Shop Sidebar -->
+
+                        <!-- Start of Shop Main Content -->
+                        <div class="main-content">
+                            <nav class="toolbox sticky-toolbox sticky-content fix-top w-100 justify-content-between">
+                                <div class="toolbox-left">
+                                   
+
+                                 <h3 class="fs-17">Searching for: "{{keyword}}" <span class="fw-500">({{results|length}} Prodcuts)</span></h3>
+                                 
+                                </div>
+                                <div class="toolbox-right">
+
+                                    <form action="{% url 'products:search' %}" method="GET">
+                                    <input type="hidden" name="keyword" value="{{keyword}}">
+                                    <input type="hidden" name="category" value="None">
+                                    <button class="btn btn-outline-green btn-border-green" type="submit">RESET FILTERS</button>
+                                    </form>
+                                    <img src="{% static "assets/images/edit.png" %}" alt="" class="w-20 r90">
+
+                                    
+                                    <div class="toolbox-item toolbox-sort select-box text-dark">
+                                        <label>Sort By :</label>
+                                        <select name='sort' id='sort' class="form-control">
+                                            <option value="lst"> Latest</option>
+                                            <option value="LTH"> Price: low to high</option>
+                                            <option value="HLT"> Price: high to low</option>
+                                        </select>
+                                    </div>
+                                    <div class="toolbox-item toolbox-layout d-none">
+                                        <a href="shop-banner-sidebar.html" class="icon-mode-grid btn-layout active">
+                                            <i class="w-icon-grid"></i>
+                                        </a>
+                                        <a href="shop-list.html" class="icon-mode-list btn-layout">
+                                            <i class="w-icon-list"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </nav>
+                            <div class="product-wrapper row cols-md-4 cols-sm-2 cols-2" id="categorylists">
+                                {% for p in pag %}
+                                <div class="product-wrap">
+                                    <div class="product text-center">
+                                        <figure class="product-media">
+                                            <a href="{{p.get_absolute_url}}">
+						{% if p.image %}
+                                                <img src="{{p.image.url}}" alt="Product"
+                                                    width="300" height="338">
+                                                <img src="{{p.image.url}}" alt="Product"
+                                                    width="300" height="338">
+						{% else %}
+						<img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=20&m=1216251206&s=170667a&w=0&h=A72dFkHkDdSfmT6iWl6eMN9t_JZmqGeMoAycP-LMAw4=" alt="Product"
+                                                    width="300" height="338">
+                                                <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=20&m=1216251206&s=170667a&w=0&h=A72dFkHkDdSfmT6iWl6eMN9t_JZmqGeMoAycP-LMAw4=" alt="Product"
+                                                    width="300" height="338">
+						{% endif %}
+                                            </a>
+                                            <div class="product-action-vertical">
+                                                <a href="{{p.get_absolute_url}}" class="btn-product-icon btn-wishlist w-icon-heart"
+                                                    title="Add to wishlist"></a>
+                                                <a href="{{p.get_absolute_url}}" class="btn-product-icon btn-quickview w-icon-search"
+                                                    title="Quickview"></a>
+                                                <a href="{{p.get_absolute_url}}" class="btn-product-icon btn-compare w-icon-compare"
+                                                    title="Add to Compare"></a>
+                                            </div>
+                                      
+                                        </figure>
+                                        <div class="product-details">
+                                            <h4 class="product-name"><a href="{{p.get_absolute_url}}">{{p}}</a></h4>
+                                            <div class="ratings-container">
+                                                <div class="ratings-full">
+                                                    <span class="ratings" style="width: 100%;"></span>
+                                                    <span class="tooltiptext tooltip-top"></span>
+                                                </div>
+                                                <!--a href="product-default.html" class="rating-reviews">(3 Reviews)</a-->
+                                            </div>
+                                            <div class="product-price mt-4">
+                                            <a href="{{p.get_absolute_url}}" class="btn btn-primary btn-outline-green">Ask For Price</a>
+                                            </div>
+                                        </div>
+                                        <div class="product_verification">
+                                            <p>Verified Seller</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+                              
+                            </div>
+
+                            <div class="toolbox toolbox-pagination justify-content-between">
+                                <p class="showing-info mb-2 mb-sm-0">
+                                    Page {{ pag.number }} of {{ pag.paginator.num_pages }} </span>Pages
+                                </p>
+                                <ul class="pagination">
+                                    {% if  pag.has_previous %}
+                                    <li class="prev">
+                                        <a href="?page={{ pag.previous_page_number }}&keyword={{ keyword }}&category={{ scat }}" aria-label="Previous" tabindex="-1" aria-disabled="true">
+                                            <i class="w-icon-long-arrow-left"></i>Prev
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                    {% if pag.has_next %}
+                                    <li class="next">
+                                        <a href="?page={{ pag.next_page_number }}&keyword={{ keyword }}&category={{ scat }}" aria-label="Next">
+                                            Next<i class="w-icon-long-arrow-right"></i>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End of Shop Main Content -->
+                    </div>
+                    <!-- End of Shop Content -->
+                </div>
+            </div>
+            <!-- End of Page Content -->

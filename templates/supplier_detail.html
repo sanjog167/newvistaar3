@@ -1,0 +1,36 @@
+<html>
+
+<head>
+
+<title>Suppliers detail</title>
+
+</head>
+
+<style>
+table, th, td {
+  border:1px solid black;
+}
+</style>
+
+
+<body>
+    
+    <table>
+        <tr>
+          <th>Company</th>
+          <th>ID</th> 
+        </tr>
+
+
+        {% for s in sup %}
+        <tr>
+          <td>{{s}}</td>
+          <td>{{s.id}}</td> 
+        </tr>
+        {% endfor %}
+
+      </table>
+
+</body>
+
+</html>

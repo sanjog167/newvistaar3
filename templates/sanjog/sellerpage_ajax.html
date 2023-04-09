@@ -1,0 +1,594 @@
+{% extends "sanjog/header.html" %}
+{% block title %}
+<title>{{supplier.company_name}}</title>
+{% endblock %}
+{% block content %}
+
+{% load static %}
+
+<script>
+    function disableNullFields(form) {
+        Array.from(form.elements).forEach((input) => {
+            if (input.value == "" || input.value == "None") {
+                input.disabled = true;
+            }
+        });
+    }
+
+    function disableNullFieldsAndSubmit(form) {
+        disableNullFields(form);
+        form.submit();
+    }
+</script>
+
+<div id="header"></div>
+
+<main class="main mb-10 pb-1" style="    background-color: #eff7fa;">
+
+    <div class=" timeline">
+        <div class="">
+            <div class="container d-flex flex-column flex-sm-row align-items-center align-items-sm-start align-items-lg-center justify-content-center justify-content-sm-between justify-content-md-between"
+                style="gap: 2rem;">
+                <div class="d-flex flex-column flex-lg-row align-items-center" style="gap: 2rem;">
+                    <div class="profile-image d-flex">
+                        {% if supplier.profile_image %}
+                        <img src="{{supplier.profile_image.url}}" alt="" />
+                        {% else %}
+                        <img src="https://cdn-icons-png.flaticon.com/512/4140/4140037.png" alt="" />
+                        {% endif %}
+                        <div class="mobile-profile-detail profile-details-info d-none d-mb-block">
+                            <h1>{{supplier.company_name}}</h1>
+                            <div class="rates">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-details-info">
+                        <h1>{{supplier.company_name}}</h1>
+                        <p class="profile-memory">
+                            {{supplier.address1}}
+                        </p>
+                        <p class="profile-memory">
+                            {{supplier.establishment_year}}
+                        </p>
+                        <p class="profile-memory">
+                            {{supplier.secondary_business}}
+                        </p>
+                    </div>
+                </div>
+
+                <div style="    flex: 0.4;" class="supplierflex">
+                    <div class="qr_code" style="display:flex; align-items: center;">
+                        <img src="{{supplier.qr_code.url}}" class="qr_codeimage">
+                        <div style="    
+                  width: 45px;
+                  background: var(--main-color);
+                  padding: 10px;
+                  border-radius: 50%;
+                  margin-left: 15px;
+                  height: 40px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  margin-top: auto;
+              ">
+                 <div class="share-dropdown"> 
+                    <img src="{% static "assets/images/share.png" %}" class="w-20 mx-auto" alt="Home">
+                    <div class="share-dropdown-content">
+                        <button id="social-share.facebook"><i class="fa-brands fa-facebook-f"></i> Facebook</button>
+                        <button id="social-share.twitter"><i class="fa-brands fa-twitter"></i> Twitter</button>
+                        <button id="social-share.whatsapp-app"><i class="fa-brands fa-whatsapp"></i> Whatsapp (App)</button>
+                        <button id="social-share.whatsapp-web"><i class="fa-brands fa-whatsapp"></i> Whatsapp (Web)</button>
+                    </div>
+                </div>
+                            <img src="{% static " assets/images/share.png" %}" class="w-20 mx-auto" alt="Home">
+                        </div>
+                    </div>
+
+                    <div class="mt-3 d-flex flex-column">
+                        {% if user.is_authenticated %}
+                        <a class="btn btn-outline-green w-100 mt-4 btn-green d-flex align-items-center justify-content-center" href="https://api.whatsapp.com/send?phone={{supplier.mobile_number}}&text={{url_encoded_string}}">
+                            <img src="{% static "assets/images/whatsapp2.png" %}" class="w-20 mr-2" alt="">
+                            Chat on Whatsapp</a>
+                            {% else %}
+                            <a class="btn btn-outline-green w-100 mt-4 btn-green d-flex align-items-center justify-content-center" href="{% url 'login' %}?next=/supplier/{{supplier.slug}}">
+                                <img src="{% static "assets/images/whatsapp2.png" %}" class="w-20 mr-2" alt="">
+                                Chat on Whatsapp</a>
+                                {% endif %}
+                            {% if user.is_authenticated %}
+                            <a class="btn btn-outline-green btn-border-green w-100 ml-0 mt-4 d-flex align-items-center justify-content-center" href="mailto:{{supplier.email}}">
+                                <img src="https://cdn-icons-png.flaticon.com/512/3059/3059989.png" class="w-20 mr-2" alt="">
+                                 Send email to Seller</a>
+                                 {% else %}
+                                 <a class="btn btn-outline-green btn-border-green w-100 ml-0 mt-4 d-flex align-items-center justify-content-center" href="{% url 'login' %}?next=/supplier/{{supplier.slug}}">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/3059/3059989.png" class="w-20 mr-2" alt="">
+                                     Send email to Seller</a>
+                                     {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container pt-5 sellercontainer">
+
+        <div class="row">
+            <div class="col-lg-3">
+                <aside class="sidebar shop-sidebar sticky-sidebar-wrapper sidebar-fixed">
+                    <!-- Start of Sidebar Overlay -->
+                    <div class="sidebar-overlay"></div>
+                    <a class="sidebar-close" href="#"><i class="close-icon"></i></a>
+
+                    <!-- Start of Sidebar Content -->
+                    <div class="sidebar-content scrollable">
+                        <!-- Start of Sticky Sidebar -->
+                        <div class="sticky-sidebar">
+                            <div class="filter-actions mb-3">
+                                <label>Filter :</label>
+                            </div>
+
+                            <form method="GET">
+                                <input type="hidden" name="keyword" value="{{keyword}}">
+                                <input type="hidden" name="sort" value="{{sort}}">
+                                {% for subcat in selected_subcats %}
+                                <input type="hidden" name="sub_categ" value="{{subcat}}">
+                                {% endfor %}
+                                {% for brand in selected_brands %}
+                                <input type="hidden" name="brand" value="{{brand}}">
+                                {% endfor %}
+                                <div class="range">
+                                    <div class="range-slider">
+                                      <span class="range-selected"></span>
+                                    </div>
+                                    <div class="range-input">
+                                      <input type="range" class="min" min="0" max="1000" value="{{min_price_of_all_products}}" step="10">
+                                      <input type="range" class="max" min="0" max="1000" value="{{max_price_of_all_products}}" step="10">
+                                    </div>
+                                    <div class="range-price d-flex align-items-center ">  
+                                        <div class="mr-2 mt-3">
+                                      <label for="min">Min</label>
+                                      <input type="number" class="w-100 form-control mr-2" name="min_value" value="{{min_price_of_all_products}}">      
+                                    </div>    
+                                    <div class="mt-3">
+                                      <label for="max">Max</label>
+                                      <input type="number" class="w-100 form-control" name="max_value" value="{{max_price_of_all_products}}">      
+                                    </div>
+                                    </div>
+                                  </div>
+                                <button
+                                    class="btn btn-outline-green btn-filter-green btn-border-green mx-auto d-block mt-3 w-100"
+                                    type="submit">Filter</button>
+                            </form>
+
+                            <!-- Start of Collapsible widget -->
+                            <div class="widget widget-collapsible mt-4">
+                                <h3 class="widget-title text-dark"><label>Sub Categories</label>
+                                    <span class="toggle-btn"></span>
+                                </h3>
+                                <ul class="widget-body asdas filter-items item-check mt-1{% if category|length > 5 %} more-than-five-categories{% endif %}">
+
+                                    <form method="GET" class="mb-3" onSubmit="return disableNullFields(this);">
+                                        <input type="hidden" name="keyword" value="{{keyword}}">
+                                        <input type="hidden" name="min_value" value="{{min_value}}">
+                                        <input type="hidden" name="max_value" value="{{max_value}}">
+                                        <input type="hidden" name="sort" value="{{sort}}">
+                                        {% for brand in selected_brands %}
+                                        <input type="hidden" name="brand" value="{{brand}}">
+                                        {% endfor %}
+                                        {% for c in all_subcategories %}
+                                        <li><label class="checkbox">{{c}}
+                                            <input name="sub_categ" value="{{c.slug}}" type="checkbox" 
+                                            {% if c.slug in selected_subcats %} checked {% endif %}
+                                            />
+                                            <span class="checkmark" />
+                                        </label></li>
+                                        {% endfor %}
+                                <button class="btn btn-outline-green btn-filter-green btn-border-green mx-auto d-block mt-3 w-100" type="submit">Filter</button>
+                                    </form>
+                                </ul> 
+                            </div>
+                            <div class="widget widget-collapsible mt-4">
+                                <h3 class="widget-title text-dark"><label>Brands</label>
+                                    <span class="toggle-btn"></span>
+                                </h3>
+                                <ul class="widget-body asdas filter-items item-check mt-1{% if category|length > 5 %} more-than-five-categories{% endif %}">
+
+                                    <form method="GET" class="mb-3" onSubmit="return disableNullFields(this);">
+                                        <input type="hidden" name="keyword" value="{{keyword}}">
+                                        <input type="hidden" name="min_value" value="{{min_value}}">
+                                        <input type="hidden" name="max_value" value="{{max_value}}">
+                                        <input type="hidden" name="sort" value="{{sort}}">
+                                        {% for subcat in selected_subcats %}
+                                        <input type="hidden" name="sub_categ" value="{{subcat}}">
+                                        {% endfor %}
+
+                                        {% for b in all_brands %}
+                                        <li><label class="checkbox">{{b}}
+                                            <input name="brand" value="{{b}}" type="checkbox" 
+                                            {% if b in selected_brands %} checked {% endif %}
+                                            />
+                                            <span class="checkmark" />
+                                        </label></li>
+                                        {% endfor %}
+                                <button class="btn btn-outline-green btn-filter-green btn-border-green mx-auto d-block mt-3 w-100" type="submit">Filter</button>
+                                    </form>
+                                </ul> 
+                            </div>
+                            <!-- End of Collapsible Widget -->
+                            <!-- Start of Collapsible Widget -->
+
+                            <!-- Start of Collapsible Widget -->
+
+                            <!-- End of Collapsible Widget -->
+                        </div>
+                        <!-- End of Sidebar Content -->
+                    </div>
+                    <!-- End of Sidebar Content -->
+                </aside>
+            </div>
+
+            <div class="col-lg-9" style="padding: 0;">
+
+                <div class="d-flex align-items-center justify-content-between class mt-0 mb-4">
+
+                    <form  class="search-form">
+                                    <input type="hidden" name="min_value" value="{{min_value}}">
+                                    <input type="hidden" name="max_value" value="{{max_value}}">
+                                    <input type="hidden" name="sort" value="popular">
+                                    {% for subcat in selected_subcats %}
+                                    <input type="hidden" name="sub_categ" value="{{subcat}}">
+                                    {% endfor %}
+                                    {% for brand in selected_brands %}
+                                    <input type="hidden" name="brand" value="{{brand}}">
+                                    {% endfor %}
+                        <input id="dt-search-filter" style="border:1px solid lightgray; border-radius: 999px;"
+                            type="search" name="keyword" placeholder="Search">
+                        <button><i class="fa fa-search"></i></button>
+                        <div id="supplier-results-box" class="results-card"></div>
+                    </form>
+
+                    <div class="d-md-flex align-items-center mb-0 filter mt-0">
+                        <ul class="nav nav-pills mb-3 flex-grow-1" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home"
+                                    role="tab" aria-controls="pills-home" aria-selected="true">Seller Home</a>
+                            </li>
+                            <!--li class="nav-item">
+                              <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">All Selling</a>
+                            </li-->
+                            <li class="nav-item">
+                                <form method="GET" id="popularform" class="mb-3"
+                                    onSubmit="return disableNullFieldsAndSubmit(this);">
+                                    <input type="hidden" name="keyword" value="{{keyword}}">
+                                    <input type="hidden" name="min_value" value="{{min_value}}">
+                                    <input type="hidden" name="max_value" value="{{max_value}}">
+                                    <input type="hidden" name="sort" value="popular">
+                                    {% for subcat in selected_subcats %}
+                                    <input type="hidden" name="sub_categ" value="{{subcat}}">
+                                    {% endfor %}
+                                    {% for brand in selected_brands %}
+                                    <input type="hidden" name="brand" value="{{brand}}">
+                                    {% endfor %}
+
+                                    <button class="filterbtn" id="pills-last-tab" data-toggle="pill" href="#pills-last"
+                                        role="tab" aria-controls="pills-last" aria-selected="false">Top
+                                        Products</button>
+                                </form>
+                            </li>
+                        </ul>
+
+
+                    </div>
+                </div>
+                <div class="product-wrapper row cols-md-4 cols-sm-2 cols-1" id="categorylists">
+                    {% for p in pag %}
+                    <div class="product-wrap" style="max-width: 100%">
+    <div class="product text-center">
+        <figure class="product-media">
+            <a href="{{p.get_absolute_url}}">
+                {% if p.image %}
+                <img src="{{p.image.url}}" alt="Product" width="300" height="338">
+                <img src="{{p.image.url}}" alt="Product" width="300" height="338">
+
+                {% else %}
+                <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=>
+                                                width=" 300" height="338">
+                <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=>
+                                                width=" 300" height="338">
+                {% endif %}
+            </a>
+            <div class="product-action-vertical">
+                <a href="#" class="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
+                <a href="#" class="btn-product-icon btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                <a href="#" class="btn-product-icon btn-quickview w-icon-search" title="Quickview"></a>
+                <a href="#" class="btn-product-icon btn-compare w-icon-compare" title="Add to Compare"></a>
+            </div>
+
+        </figure>
+        <div class="product-details">
+            <h4 class="product-name"><a href="{{p.get_absolute_url}}">{{p.product_name}}</a>
+            </h4>
+            <div class="ratings-container">
+                <div class="ratings-full">
+                    <span class="ratings" style="width: 100%;"></span>
+                    <span class="tooltiptext tooltip-top"></span>
+                </div>
+                <a href="categorypage.html" class="rating-reviews">(3 Reviews)</a>
+            </div>
+            {% if p.price != 0 %}
+            <div class="product-price pl-3">
+                <ins class="new-price">Rs. {{p.price}}{% if p.max_price and p.max_price != 0 %}
+                    - Rs. {{ p.max_price }}{% endif %}</ins>
+            </div>
+            {% else %}
+            <div class="product-price ask-forprice">
+                <ins class="new-price">Ask for Price</ins>
+            </div>
+            {% endif %}
+            <div style="padding-left: 10px;">
+                <p>MOQ: {{p.minimum_order_quantity}}</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+                    {% endfor %}
+                </div>
+
+                <div id="lds-roller" style="display: none;">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    
+                  </div>
+                
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+</main>
+
+
+
+</div>
+
+{% endblock %}
+
+{% block script %}
+
+<!-- Plugin JS File -->
+<script src="assets/vendor/jquery/jquery.min.js"></script>
+<script src="assets/js/bootstrap.js"></script>
+<script src="assets/vendor/jquery.plugin/jquery.plugin.min.js"></script>
+<script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+<script src="assets/vendor/jquery.countdown/jquery.countdown.min.js"></script>
+<script src="assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+<script src="assets/vendor/floating-parallax/parallax.min.js"></script>
+<script src="assets/vendor/zoom/jquery.zoom.js"></script>
+<script src="assets/vendor/niceselect.js"></script>
+
+<script src="assets/js/datatable.js"></script>
+<script src="assets/js/apexchart.js"></script>
+<script src="assets/js/chartoption.js"></script>
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/lunar.js"></script>
+<script src="assets/js/main.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/ScrollTrigger.min.js"></script>
+
+
+<!-- Main Js -->
+<script src="assets/js/main.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('select').niceSelect();
+    });
+</script>
+<script>
+    $(function () {
+        $("#header").load("header.html");
+        $("#footer").load("footer.html");
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('select').niceSelect();
+    });
+</script>
+
+<script type="text/javascript">
+    gsap.timeline({
+        scrollTrigger: {
+            trigger: ".bbg",
+            start: "top bottom",
+            end: "bottom",
+            ease: "power2",
+            scrub: true,
+
+        }
+    })
+        .to(".bbg", { backgroundColor: "white", })
+
+
+</script>
+
+<script type="text/javascript">
+    gsap.timeline({
+        scrollTrigger: {
+            trigger: ".bbg",
+            start: "top bottom",
+            end: "bottom",
+
+            scrub: true,
+
+        }
+    })
+        .to(".bbgp", { color: "black" })
+
+
+</script>
+
+<script type="text/javascript">
+    gsap.timeline({
+        scrollTrigger: {
+            trigger: ".bbg",
+            start: "top bottom",
+            end: "bottom",
+
+            scrub: true,
+
+        }
+    })
+        .to(".bbgimage", 7, {
+            scale: 1.2,
+
+        })
+</script>
+<script>
+        const supplier_searchinput = document.getElementById('dt-search-filter')
+        const supplier_resultsbox = document.getElementById('supplier-results-box')
+
+        function showselitem(item) {
+            console.log(item)
+            searchinput.value = item
+            resultsbox.classList.add('not-visible')
+        }
+
+        $("#dt-search-filter").on('input',function(){
+            if (supplier_resultsbox.classList.contains('not-visible')){
+                supplier_resultsbox.classList.remove('not-visible')
+            }
+            $.ajax({
+                type:'GET',
+                url:'/products/sellerpage_livesearch/{{supplier.slug}}',
+                data:{
+                    'prod':this.value,
+                },
+                dataType:'json',
+                success:function(res){
+                    const datas = res.data
+                    if (Array.isArray(datas)){
+                        supplier_resultsbox.innerHTML = ""
+                        datas.forEach(abc=>{
+                            supplier_resultsbox.innerHTML += `
+                            <a href="/products/${abc.pk}/${abc.slug}" class="item">
+                                <div class="row mt-2 mb-2">
+                                    <div class="col-10">
+                                        <h5>${abc.name}</h5>
+                                    </div>
+                                </div>
+                            <a>`
+                        })
+                    }
+                    else{//if there is no products the following code will execute(if views.py doesnt send array)
+                        if (supplier_searchinput.value.length > 0){
+                            supplier_resultsbox.innerHTML = `<b>${datas}</b>`
+                        }
+                        else{
+                            supplier_resultsbox.classList.add('not-visible')
+                        }
+                    }
+                }
+            });
+        })
+    </script>
+ <script>
+
+    $(document).ready(function () {
+        var page = 1;
+        var block_request = false;
+        var end_pagination = false;
+
+        $(window).scroll(function () {
+            var margin = $(document).height() - $(window).height() - 200;
+
+            if ($(window).scrollTop() > margin && end_pagination === false && block_request === false) {
+                block_request = true;
+                page += 1;
+
+                $('#lds-roller').css('display', 'block'); // Show loader before making AJAX request
+
+                $.ajax({
+                    type: 'GET',
+                    url: window.location.href,
+                    data: {
+                        "page": page,
+                    },
+                    success: function (data) {
+                        if (data.end_pagination === true) {
+                            end_pagination = true;
+                        } else {
+                            block_request = false;
+                        }
+                        $('.product-wrapper').append(data.content);
+
+                        $('#lds-roller').css('display', 'block'); // Hide loader after AJAX request is done
+                    }
+                })
+            }
+        });
+    })
+</script>
+
+
+<script>
+    function socialWindow(url) {
+        var left = (screen.width - 570) / 2;
+        var top = (screen.height - 570) / 2;
+        var params = "menubar=no,toolbar=no,status=no,width=570,height=570,top=" + top + ",left=" + left;
+        window.open(url,"NewWindow",params);
+    }
+    
+    const pageUrl = "https://vistaartrade.com{{request.path}}";
+    const pageTitle = document.title;
+    
+    document.getElementById("social-share.facebook").addEventListener("click", function() {
+        url = "https://www.facebook.com/sharer.php?u=" + pageUrl;
+        socialWindow(url);
+    })
+    
+    document.getElementById("social-share.twitter").addEventListener("click", function() {
+        url = "https://twitter.com/intent/tweet?url=" + pageUrl + "&text=" + pageTitle;
+        socialWindow(url);
+    })
+    
+    document.getElementById("social-share.whatsapp-app").addEventListener("click", function() {
+        url = "https://api.whatsapp.com/send?phone=&text=" + pageUrl + "&text=" + pageTitle + " " + pageUrl;
+        socialWindow(url);
+    })
+    
+    
+    document.getElementById("social-share.whatsapp-web").addEventListener("click", function() {
+        url = "https://web.whatsapp.com/send?text=" + pageUrl + "&text=" + pageTitle + " " + pageUrl;
+        socialWindow(url);
+    })
+    </script>
+
+{% endblock %}
+</body>
+
+
+</html>

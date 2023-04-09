@@ -1,0 +1,72 @@
+<div class="product-wrapper row cols-md-4 cols-sm-2 cols-2">
+    {% for p in pag %}
+    <div class="product-wrap">
+        <div class="product text-center">
+            <figure class="product-media">
+                <a href="{{p.get_absolute_url}}">
+{% if p.image %}
+                    <img src="{{p.image.url}}" alt="Product"
+                        width="300" height="338">
+                    <img src="{{p.image.url}}" alt="Product"
+                        width="300" height="338">
+{% else %}
+<img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=20&m=1216251206&s=170667a&w=0&h=A72dFkHkDdSfmT6iWl6eMN9t_JZmqGeMoAycP-LMAw4=" alt="Product"
+                        width="300" height="338">
+                    <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=20&m=1216251206&s=170667a&w=0&h=A72dFkHkDdSfmT6iWl6eMN9t_JZmqGeMoAycP-LMAw4=" alt="Product"
+                        width="300" height="338">
+{% endif %}
+                </a>
+                <div class="product-action-vertical">
+                    <a href="{{p.get_absolute_url}}" class="btn-product-icon btn-wishlist w-icon-heart"
+                        title="Add to wishlist"></a>
+                    <a href="{{p.get_absolute_url}}" class="btn-product-icon btn-quickview w-icon-search"
+                        title="Quickview"></a>
+                    <a href="{{p.get_absolute_url}}" class="btn-product-icon btn-compare w-icon-compare"
+                        title="Add to Compare"></a>
+                </div>
+          
+            </figure>
+            <div class="product-details">
+                <h4 class="product-name"><a href="{{p.get_absolute_url}}">{{p}}</a></h4>
+                <div class="ratings-container">
+                    <div class="ratings-full">
+                        <span class="ratings" style="width: 100%;"></span>
+                        <span class="tooltiptext tooltip-top"></span>
+                    </div>
+                    <!--a href="product-default.html" class="rating-reviews">(3 Reviews)</a-->
+                </div>
+                <div class="product-price mt-4">
+                <a href="{{p.get_absolute_url}}" class="btn btn-primary btn-outline-green">Ask For Price</a>
+                </div>
+            </div>
+            <div class="product_verification">
+                <p>Verified Seller</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+  
+</div>
+
+<div class="toolbox toolbox-pagination justify-content-between">
+    <p class="showing-info mb-2 mb-sm-0">
+        Page {{ pag.number }} of {{ pag.paginator.num_pages }} </span>Pages
+    </p>
+    <ul class="pagination">
+        {% if  pag.has_previous %}
+        <li class="prev">
+            <a href="?page={{ pag.previous_page_number }}&keyword={{ keyword }}&category={{ scat }}" aria-label="Previous" tabindex="-1" aria-disabled="true">
+                <i class="w-icon-long-arrow-left"></i>Prev
+            </a>
+        </li>
+        {% endif %}
+        {% if pag.has_next %}
+        <li class="next">
+            <a href="?page={{ pag.next_page_number }}&keyword={{ keyword }}&category={{ scat }}" aria-label="Next">
+                Next<i class="w-icon-long-arrow-right"></i>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</div>

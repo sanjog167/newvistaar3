@@ -1,0 +1,14 @@
+{% if user.is_authenticated %}
+<form method="POST">
+    {% csrf_token %}
+    <label for="name">Keyword</label>
+    <input type="text" name="keyword">
+    <label for="description">Description</label>
+    <input type="text" name="description">
+    <label for="quantity">Quantity</label>
+    <input type="text" name="quantity">
+    <input type="submit" value="Submit">
+</form>
+{% else %}
+    <p>Please login to send a request</p>
+{% endif %}

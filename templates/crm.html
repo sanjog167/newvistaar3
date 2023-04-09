@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CRM</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- add noindex tag-->
+    <meta name="robots" content="noindex">
+</head>
+{% if user.is_authenticated %}
+
+<body>
+    <form method="POST">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        <input type="number" name="number" placeholder="phone number" maxlength="10"
+            oninput='javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);'
+            required>
+        <input type="submit" name="submit" value="message" onsubmit="">
+    </form>
+</body>
+{% else %}
+<a href="{% url 'login' %}">Login</a>
+{% endif %}
+
+</html>

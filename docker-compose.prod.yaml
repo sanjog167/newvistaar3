@@ -1,0 +1,21 @@
+services:
+  backend:
+    build:
+      context: ./.
+      dockerfile: Dockerfile.prod 
+    command: gunicorn --bind :8000 vistaar.wsgi
+    volumes:
+      - .:/app
+      - ./staticfiles:/home/app/staticfiles
+    ports:
+      - 8000:8000
+  nginx:
+    image: nginx:latest
+    ports:
+      - 8010:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./static:/app/static/
+      - ./media:/app/media/
+    depends_on:
+      - backend

@@ -1,0 +1,66 @@
+<form action="" method="get">
+    <input type="text" name="keyword" value="{{ keyword }}">
+    <input type="submit" value="Search">
+</form>
+<input type="range" min="0" max="Infinite" value="0" class="slider" id="myRange">
+<input type="range" min="0" max="Infinite" value="0" class="slider" id="myRange2">
+<select name='sort' id='sort' class="form-control">
+    <option name="latest" value="lst"> Latest</option>
+    <option name="lth" value="LTH"> Price: low to high</option>
+    <option name="htl" value="HLT"> Price: high to low</option>
+</select>
+
+<script type="text/javascript">
+  // Get a reference to the select element
+  const selectElement = document.querySelector('#sort');
+
+  // Add event listener to select the option and reload page
+  selectElement.addEventListener('change', (event) => {
+    const selectedOptionValue = event.target.value;
+    const currentUrl = window.location.href;
+
+    if (currentUrl.indexOf('?') === -1) {
+      window.location.href = currentUrl + `?sort=${selectedOptionValue}`;
+    } else {
+      window.location.href = currentUrl.replace(/(\?|&)sort=[^&]*/, '$1sort=' + selectedOptionValue);
+    }
+  });
+
+  // Pre-select the option based on the current URL parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const sortValue = urlParams.get('sort');
+  if (sortValue) {
+    selectElement.value = sortValue;
+  }
+</script>
+
+{% if first_load %}
+{% for p in pag %}
+    <div class="product">
+        <div class="product-image">
+            <a href="{{ p.get_absolute_url }}">
+                <img src="{{ p.image.url }}" alt="{{ p.name }}">
+            </a>
+        </div>
+        <div class="product-info">
+            <h3 class="product-name">
+                <a href="{{ p.get_absolute_url }}">{{ p.name }}</a>
+            </h3>
+            <div class="product-price">
+                <span class="price">{{ p.price }}</span>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+{% if pag.has_next %}
+    <a href="?page={{ pag.next_page_number }}&keyword={{ keyword }}&sort{{sort}}">Next</a>
+{% endif %}
+
+{% if pag.has_previous %}
+    <a href="?page={{ pag.previous_page_number }}&keyword={{ keyword }}&sort{{sort}}">Previous</a>
+{% endif %}
+
+{% else %}
+    <h3>No products found</h3>
+{% endif %}

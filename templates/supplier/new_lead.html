@@ -1,0 +1,24 @@
+{% autoescape off %}
+Dear {{supplier.user}},
+
+We hope this email finds you well. This is an automated message to inform you that a potential buyer has submitted an inquiry for your product {{product.product_name}} on Vistaar Trade.
+
+The details of the inquiry are as follows:
+
+Buyer Name: {{user}} 
+Product Name: {{product.product_name}} 
+Quantity: {{quantity}} 
+Buyer Number: {{user.profile.mobile_number}} 
+
+To respond to the inquiry, please log in to your Vistaar Trade account and navigate to the "Manage Leads" section in your dashboard. You can also access the inquiry directly through the following link: [insert link here]
+
+Please respond to the inquiry within the next 24-48 hours to ensure that you don't miss out on a potential sale. We encourage you to provide as much information as possible to the buyer, including pricing, delivery timelines, and any other relevant details.
+
+If you have any questions or concerns, please do not hesitate to contact our customer support team at +9779807209802. We are always here to help you and ensure a smooth buying and selling experience on Vistaar Trade.
+
+Thank you for choosing Vistaar Trade as your B2B marketplace. We look forward to facilitating successful business transactions between you and our valuable buyers.
+
+Best regards,
+
+The Vistaar Trade Team
+{% endautoescape %}
