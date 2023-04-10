@@ -7,5 +7,5 @@ urlpatterns = [
     
     path('<slug:slug>/', new_supplier_detail,name='supplier_detail'),
     path('all-suppliers', all_suppliers,name='all-suppliers'),
-    path("blank", blank),
+    # path("blank", blank),
 ]
