@@ -1,6 +1,7 @@
 from ftplib import all_errors
 from unicodedata import name
 from django.db import reset_queries
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.shortcuts import render, reverse
@@ -393,16 +394,27 @@ def company_profile(request):
 #    current_company = Company.objects.get_or_create(supplier=current_supplier)
 #
 #
+
+    fields = ["phone_number", "establishment_year", "ceo_name", "website", "state", "address1", "address2", "exim", "pan", "vat", "contact_name", "contact_phone", "contact_email"]
+    array_fields = ["secondary_business"]
+
     form = SupplierFormEdit(request.POST, instance = supplier)
     if ("submit" in request.POST):
         if form.is_valid():
             if "profile_picture" in request.FILES:
-                form_data.profile_picture = request.FILES['profile_picture']
-            form_data = form.save(commit=False)
-            form_data.save()
-            print("form was validated and updated")
+                supplier.profile_picture = request.FILES["profile_picture"]
+            else:
+                supplier.profile_picture = "default.jpg"
+
+            for field in fields:
+                setattr(supplier, field, request.POST.get(field))
+            for field in array_fields:
+                setattr(supplier, field, request.POST.getlist(field))
+
+            supplier.save()
+
+            messages.success(request, 'Your company profile has been updated.')
             return redirect('company_profile') 
-            #return render(request, 'account/verifying_you.html')
         else:
             error_json = form.errors.as_json()
             parsed_json = json.loads(error_json)
@@ -703,7 +715,7 @@ def generate_qr(new_supplier):
     hsize = int((float(logo.size[1])*float(wpercent)))
     logo = logo.resize((basewidth, hsize), Image.ANTIALIAS)
     QRcode = qrcode.QRCode(
-	error_correction=qrcode.constants.ERROR_CORRECT_H)
+    error_correction=qrcode.constants.ERROR_CORRECT_H)
 
 
 # taking url or text
@@ -720,11 +732,11 @@ def generate_qr(new_supplier):
 
 # adding color to QR code
     QRimg = QRcode.make_image(
-	fill_color=QRcolor, back_color="white").convert('RGB')
+    fill_color=QRcolor, back_color="white").convert('RGB')
 
 # set size of QR code
     pos = ((QRimg.size[0] - logo.size[0]) // 2,
-	        (QRimg.size[1] - logo.size[1]) // 2)
+            (QRimg.size[1] - logo.size[1]) // 2)
     QRimg.paste(logo, pos)
 
 

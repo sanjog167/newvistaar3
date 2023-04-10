@@ -26,14 +26,30 @@
 <div id="header"></div>
 
 <main class="main mb-10 pb-1" style="    background-color: #eff7fa;">
-
     <div class=" timeline">
         <div class="">
             <div class="container d-flex flex-column flex-sm-row align-items-center align-items-sm-start align-items-lg-center justify-content-center justify-content-sm-between justify-content-md-between"
                 style="gap: 2rem;">
                 <div class="d-flex flex-column flex-lg-row align-items-center" style="gap: 2rem;">
+                    <form method="post" id="profile-picture" enctype="multipart/form-data">
+                    {% csrf_token %}
                     <div class="profile-image d-flex">
-                        <img src="https://cdn-icons-png.flaticon.com/512/4140/4140037.png" alt="" />
+                        <div class="profile-pic">
+                            {% if supplier == request.user.supplier %}
+                                <label class="-label" for="file">
+                                    <span class="glyphicon glyphicon-camera"></span>
+                                    <span>Change Image</span>
+                                </label>
+                                <input id="file" name="profile_picture" type="file" onchange="loadFile(event)"/>
+                            {% endif %}
+
+                            {% if supplier.profile_picture.url != "/media/default.jpg" %}
+                                <img class="{% if supplier == request.user.supplier %}changable{% endif %}" src="{{supplier.profile_picture.url}}" alt="" />
+                            {% else %}
+                                <img class="{% if supplier == request.user.supplier %}changable{% endif %}" src="https://cdn-icons-png.flaticon.com/512/4140/4140037.png" alt="" />
+                            {% endif %}
+                        </div>
+
                         <div class="mobile-profile-detail profile-details-info d-none d-mb-block">
                             <h1>{{supplier.company_name}}</h1>
                             <div class="rates">
@@ -45,6 +61,7 @@
                             </div>
                         </div>
                     </div>
+                    </form>
                     <div class="profile-details-info">
                         <h1>{{supplier.company_name}}</h1>
                         <p class="profile-memory">
@@ -101,7 +118,7 @@
                         <img src="{% static "assets/images/whatsapp2.png" %}" class="w-20 mr-2" alt="">
                         Chat on Whatsapp</a>
                         {% endif %}
-                    {% if user.is_authenticated %}} 
+                    {% if user.is_authenticated %}
                     <a class="btn btn-outline-green btn-border-green w-100 ml-0 mt-4 d-flex align-items-center justify-content-center" href="mailto:{{supplier.email}}">
                         <img src="https://cdn-icons-png.flaticon.com/512/3059/3059989.png" class="w-20 mr-2" alt="">
                          Send email to Seller</a>
@@ -248,7 +265,7 @@
                     <div class="d-flex align-items-center justify-content-between class mt-0 mb-4 sellfilter">
 
 
-                    <form  class="search-form">
+                    <form  class="search-form mt-n3 flex-sm-grow-1 flex-md-grow-0">
                                     <input type="hidden" name="min_value" value="{{min_value}}">
                                     <input type="hidden" name="max_value" value="{{max_value}}">
                                     <input type="hidden" name="sort" value="popular">
@@ -264,8 +281,8 @@
                         <div id="supplier-results-box" class="results-card"></div>
                     </form>
 
-                    <div class="d-md-flex align-items-center mb-0 filter mt-0">
-                        <ul class="nav nav-pills mb-3 flex-grow-1" id="pills-tab" role="tablist">
+                    <div class="d-md-flex align-items-center mb-0 filter mt-1 ml-4">
+                        <ul class="nav nav-pills flex-grow-1 justify-content-center" id="pills-tab" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home"
                                     role="tab" aria-controls="pills-home" aria-selected="true">Seller Home</a>
@@ -287,7 +304,7 @@
                                     <input type="hidden" name="brand" value="{{brand}}">
                                     {% endfor %}
 
-                                    <button class="filterbtn" id="pills-last-tab" data-toggle="pill" href="#pills-last"
+                                    <button class="filterbtn" id="pills-last-tab" data-toggle="pill" href="#pills-last" style="padding: 1.5rem 2.5rem !important;"
                                         role="tab" aria-controls="pills-last" aria-selected="false">Top
                                         Products</button>
                                 </form>
@@ -569,6 +586,23 @@ document.getElementById("social-share.whatsapp-web").addEventListener("click", f
             });
         })
     </script>
+
+<script>
+    function loadFile(event) {
+        document.getElementById("profile-picture").submit()
+    };
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+{% if messages %}
+    {% for message in messages %}
+    <script>
+        toastr["{{ message.tags }}"]("{{message}}")
+    </script>
+    {% endfor %}
+{% endif %}
+
 {% endblock %}
 </body>
 

@@ -142,16 +142,15 @@
               {% csrf_token %}
               <div class="formgrid">
                 <div class="drop-zone small mt-1 position-relative mt-3">
-                                    <span class="drop-zone__prompt drop-zone__promptfour">
-                                        <p class="m-0">
-                                            <i class="far fa-image"></i>
-                                        </p>
-                                        Drop file here or click to upload
-                                    </span>
-                                    <input type="file" name="profile_picture" class="drop-zone__input" accept="image/*" onchange="loadFileFour(event)">
-                                    <div class="image-previewfour"></div>
-
-                                </div>
+                    <span class="drop-zone__prompt">
+                        <p class="m-0">
+                            <i class="far fa-image"></i>
+                        </p>
+                        Drop file here or click to upload
+                    </span>
+                    <input type="file" name="profile_picture" class="drop-zone__input" accept="image/*" onchange="loadFile(event)">
+                    <div class="image-preview"></div>
+                </div>
                 <div>
                   <label for="name">Name</label>
                   {{form.name}}
@@ -185,7 +184,7 @@
                 </div>
                 <div>
                   <label for="email">Email</label>
-                  <input type="text" name="contact_email" maxlength="50" id="id_contact_email" placeholder="{{email}}"
+                  <input type="text" name="email" maxlength="50" id="id_contact_email" placeholder="{{email}}"
                     readonly="readonly">
                 </div>
                 <div>
@@ -310,13 +309,16 @@
   integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
   crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 {% if messages %}
-{% for message in messages %}
-<script>
-  toastr["error"]("{{message}}", "{{message.extra_tags}}");
-</script>
-{% endfor %}
+    {% for message in messages %}
+    <script>
+        toastr["{{ message.tags }}"]("{{message}}")
+    </script>
+    {% endfor %}
 {% endif %}
+
 <script>
     var checkList = document.getElementById('list1');
 var checkboxes = checkList.querySelectorAll('input[type="checkbox"]');
@@ -354,14 +356,173 @@ for (var i = 0; i < checkboxes.length; i++) {
 </script>
 
 <script>
-    var loadFileFour = function(event) {
-      var output = document.getElementById('outputfour');
-      output.src = URL.createObjectURL(event.target.files[0]);
-      output.onload = function() {
-        URL.revokeObjectURL(output.src) // free memory
-      }
-    };
-  </script>
+    document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
+        const dropZoneElement = inputElement.closest(".drop-zone");
+
+        dropZoneElement.addEventListener("click", (e) => {
+            inputElement.click();
+        });
+
+        inputElement.addEventListener("change", (e) => {
+            if (inputElement.files.length) {
+                updateThumbnail(dropZoneElement, inputElement.files[0]);
+            }
+        });
+
+        dropZoneElement.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            dropZoneElement.classList.add("active");
+        });
+
+        ["dragleave", "dragend"].forEach((type) => {
+            dropZoneElement.addEventListener(type, (e) => {
+                dropZoneElement.classList.remove("active");
+            });
+        });
+
+        dropZoneElement.addEventListener("drop", (e) => {
+            e.preventDefault();
+
+            if (e.dataTransfer.files.length) {
+                inputElement.files = e.dataTransfer.files;
+                updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
+            }
+
+            dropZoneElement.classList.remove("active");
+        });
+    });
+
+    /**
+     * Updates the thumbnail on a drop zone element.
+     *
+     * @param {HTMLElement} dropZoneElement
+     * @param {File} file
+     */
+    function updateThumbnail(dropZoneElement, file) {
+        let thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb");
+
+        // First time - remove the prompt
+      
+
+        // First time - there is no thumbnail element, so lets create it
+        if (!thumbnailElement) {
+            thumbnailElement = document.createElement("div");
+            thumbnailElement.classList.add("drop-zone__thumb");
+            dropZoneElement.appendChild(thumbnailElement);
+        }
+
+        thumbnailElement.dataset.label = file.name;
+
+        // Show thumbnail for image files
+        if (file.type.startsWith("image/")) {
+            const reader = new FileReader();
+
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
+            };
+        } else {
+            thumbnailElement.style.backgroundImage = null;
+        }
+    }
+
+    // Add Size
+    function addMore() {
+        document.getElementById('error').innerHTML = "";
+        let size = document.getElementById('size').value;
+        if (size == '') {
+            // not value input
+            document.getElementById('error').innerHTML = "Please enter the value";
+        } else {
+
+            let list = document.getElementById('list');//select list
+            let li = document.createElement('li');//create list
+            li.textContent = size;
+            let a = document.createElement('a');//for deleting box
+            a.textContent = "x";
+            a.href = "javascript:void(0)";
+            a.className = "remove";
+
+            // Input Value From This input
+            const ip = document.createElement('input')
+            ip.name = 'sizes[]'
+            ip.value = size;
+            ip.hidden = true;
+            li.appendChild(a);
+            li.appendChild(ip);
+            list.appendChild(li);
+        }
+        document.getElementById('size').value = "";
+    }
+
+    let btn = document.getElementById('list');
+    btn.addEventListener('click', function (e) {
+        let list = document.getElementById('list');
+        let li = e.target.parentNode;
+        list.removeChild(li);
+    });
+</script>
+
+<script>
+function deleteImage() {
+    const fileInputElement = document.getElementsByClassName("drop-zone__input")[0];
+    fileInputElement.disabled = true;
+
+    var output = document.querySelector('.image-preview');
+    output.innerHTML = '';
+    var fileInput = document.querySelector('.drop-zone__input');
+    fileInput.value = '';
+
+    var prompt = document.querySelector('.drop-zone__prompt');
+    prompt.style.display = 'block';
+
+    fileInputElement.disabled = false;
+}
+
+</script>
+
+<script>
+function loadImageToDiv(src, output, prompt) {
+    output.innerHTML = '';
+
+    var img = document.createElement('img');
+    img.src = src;
+    img.onload = function() { URL.revokeObjectURL(img.src); }
+    output.appendChild(img);
+
+    var removeBtn = document.createElement('button');
+    removeBtn.classList.add('delete-image-btn');
+    removeBtn.innerHTML = '&times;';
+    removeBtn.onclick = function() { deleteImage(); };
+    output.appendChild(removeBtn);
+
+    prompt.style.display = 'none';
+}
+
+function loadFile(event) {
+    var file = event.target.files[0];
+    if (file === undefined || !file.type.startsWith('image/')) { return; }
+    var prompt = document.querySelector('.drop-zone__prompt');
+
+    var output = document.querySelector('.image-preview');
+    loadImageToDiv(URL.createObjectURL(file), output, prompt);
+}
+
+</script>
+
+
+<script>
+
+let prompt;
+let output;
+
+{% if profile_picture and profile_picture.url != "/media/default.jpg" %}
+prompt = document.querySelector('.drop-zone__prompt');
+output = document.querySelector('.image-preview');
+loadImageToDiv("{{profile_picture.url}}", output, prompt);
+{% endif %}
+
+</script>
 {% endblock %}
 </body>
 

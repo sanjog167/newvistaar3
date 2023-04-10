@@ -132,3 +132,6 @@ def new_supplier_detail(request,slug):
     context["category"] = search_category
     print(search_category)
     return render(request, 'sanjog/sellerpage.html',context)
+
+def blank(request):
+    return render(request, "sanjog/blank.html")
