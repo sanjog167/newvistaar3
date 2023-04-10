@@ -30,17 +30,17 @@
     <link rel="icon" type="image/png" href="{% static "logo_favicon.png" %}">
 
     <!-- WebFont.js -->
-    <script>
-        WebFontConfig = {
-            google: { families: ['Poppins:400,500,600,700'] }
-        };
-        (function (d) {
-            var wf = d.createElement('script'), s = d.scripts[0];
-            wf.src = 'assets/js/webfont.js';
-            wf.async = true;
-            s.parentNode.insertBefore(wf, s);
-        })(document);
-    </script>
+    <!-- <script> -->
+    <!--     WebFontConfig = { -->
+    <!--         google: { families: ['Poppins:400,500,600,700'] } -->
+    <!--     }; -->
+    <!--     (function (d) { -->
+    <!--         var wf = d.createElement('script'), s = d.scripts[0]; -->
+    <!--         wf.src = 'assets/js/webfont.js'; -->
+    <!--         wf.async = true; -->
+    <!--         s.parentNode.insertBefore(wf, s); -->
+    <!--     })(document); -->
+    <!-- </script> -->
 
     <link rel="preload" href="{% static "assets/vendor/fontawesome-free/webfonts/fa-regular-400.woff2" %}" as="font" type="font/woff2"
         crossorigin="anonymous">
@@ -1049,15 +1049,16 @@
             <button class="btn btn-search" type="submit"><i class="fa fa-search"></i>
             </button> 
 
-            <div id="results-box-div-mobile" class="results-card-div not-visible">
-                <div id="results-box-mobile" class="results-card"></div>
-                <div id="sub-results-box-mobile" class="results-card"></div>
-            </div>
         </form>
         </div>
         </div>
 
         <div class="aiz-sidebar-overlay"></div>
+        <div id="results-box-div-mobile" class="results-card-div results-card-div-mobile not-visible">
+            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+            <div id="results-box-mobile" class="results-card"></div>
+            <div id="sub-results-box-mobile" class="results-card sub-results-box-mobile"></div>
+        </div>
         </div>
 
     <style>
@@ -1333,6 +1334,7 @@ var typed = new Typed('.autotype', options);
                 },
                 dataType:'json',
                 success:function(res){
+                    resultDivMobile.getElementsByClassName("lds-ring")[0].classList.add("not-visible");
                     console.log("success products")
                     console.log(res)
                     const datas = res.data
