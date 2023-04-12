@@ -401,10 +401,12 @@ def company_profile(request):
     form = SupplierFormEdit(request.POST, instance = supplier)
     if ("submit" in request.POST):
         if form.is_valid():
-            if "profile_picture" in request.FILES:
-                supplier.profile_picture = request.FILES["profile_picture"]
-            else:
-                supplier.profile_picture = "default.jpg"
+            print("[IS_PROFILE_PICTURE_CHANGED]: " + str(request.POST.get("is-profile-picture-changed")));
+            if request.POST.get("is-profile-picture-changed") == "yes":
+                if "profile_picture" in request.FILES:
+                    supplier.profile_picture = request.FILES["profile_picture"]
+                else:
+                    supplier.profile_picture = "default.jpg"
 
             for field in fields:
                 setattr(supplier, field, request.POST.get(field))

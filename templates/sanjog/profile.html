@@ -148,6 +148,7 @@
                         </p>
                         Drop file here or click to upload
                     </span>
+                    <input type="hidden" name="is-profile-picture-changed" id="is-profile-picture-changed" value="no">
                     <input type="file" name="profile_picture" class="drop-zone__input" accept="image/*" onchange="loadFile(event)">
                     <div class="image-preview"></div>
                 </div>
@@ -493,7 +494,7 @@ function loadImageToDiv(src, output, prompt) {
     var removeBtn = document.createElement('button');
     removeBtn.classList.add('delete-image-btn');
     removeBtn.innerHTML = '&times;';
-    removeBtn.onclick = function() { deleteImage(); };
+    removeBtn.onclick = function() { $("#is-profile-picture-changed").attr("value", "yes"); deleteImage(); };
     output.appendChild(removeBtn);
 
     prompt.style.display = 'none';
@@ -506,6 +507,8 @@ function loadFile(event) {
 
     var output = document.querySelector('.image-preview');
     loadImageToDiv(URL.createObjectURL(file), output, prompt);
+
+    $("#is-profile-picture-changed").attr("value", "yes");
 }
 
 </script>
