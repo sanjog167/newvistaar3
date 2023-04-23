@@ -134,7 +134,7 @@
 							<div class="top-search"><a href="#0"><i class="ti-search"></i></a></div>
 							<!-- Search Form -->
 							<div class="search-top">
-								<form class="search-form" action="{% url 'products:search' %}" method="GET">
+								<form class="search-form" action="{% url 'products:all_category_detail' %}" method="GET">
 									<input type="text" name="keyword" placeholder="Search here...">
 									<button value="search" type="submit"><i class="ti-search"></i></button>
 								</form>
@@ -153,7 +153,7 @@
 									<option>{{ c }}</option>
 									{% endfor %}
 								</select>
-								<form action="{% url 'products:search' %}" method="GET">
+								<form action="{% url 'products:all_category_detail' %}" method="GET">
 									<input name="keyword" placeholder="Search Products Here....." type="search">
 									<button class="btnn"><i class="ti-search"></i></button>
 								</form>

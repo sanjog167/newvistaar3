@@ -13,7 +13,7 @@
 
       <div class="profile_view">
         <figure class="avatar mb-3">
-          <img src="http://www.clker.com/cliparts/t/e/E/n/D/I/a-system-user-hi.png" style="object-fit: cover;" alt=""/>
+          <img src="{{ request.user.supplier.profile_picture.url }}" style="object-fit: cover;" alt=""/>
         </figure>
         <h4 class="text-white fs-13">{{request.user.get_full_name}}</h4>
         <p class="fs-13">{{request.user.email}}</p>

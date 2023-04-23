@@ -27,6 +27,7 @@ from django.db.models import Value, CharField
 import os
 from vistaar.settings import MEDIA_ROOT
 
+from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 from django.contrib.admin.views.decorators import staff_member_required
 import qrcode
 from PIL import Image
@@ -524,12 +525,40 @@ def manage_products(request):
         current_supplier = Supplier.objects.get(user=request.user)
     except Supplier.DoesNotExist:
         current_supplier = None
-    products = Products.objects.filter(supplier=current_supplier)
+    if request.GET.get("search") is not None:
+        products = Products.objects.filter(supplier=current_supplier).filter(Q(product_name__icontains=request.GET.get("search"))|Q(keywords__icontains=request.GET.get("search"))|Q(description__icontains=request.GET.get("search")))
+        pag = Paginator(products,16)
+        page_number = request.GET.get("page")
 
+        try:
+            page_obj = pag.page(page_number)
+        except PageNotAnInteger:
+            page_obj = pag.page(1)
+        except EmptyPage:
+            page_obj = pag.page(pag.num_pages)
+        return render(request,
+                    'sanjog/products.html',
+                    {'section': 'dashboard','current_profile': current_profile,
+                     'current_supplier':current_supplier,
+                     'pag': page_obj,
+                     'search': request.GET.get("search"),
+                     'products': products})
+   
+    products = Products.objects.filter(supplier=current_supplier)
+    pag = Paginator(products,16)
+    page_number = request.GET.get("page")
+
+    try:
+        page_obj = pag.page(page_number)
+    except PageNotAnInteger:
+        page_obj = pag.page(1)
+    except EmptyPage:
+        page_obj = pag.page(pag.num_pages)
     return render(request,
                 'sanjog/products.html',
                 {'section': 'dashboard','current_profile': current_profile,
                  'current_supplier':current_supplier,
+                 'pag': page_obj,
                  'products': products})
 
 

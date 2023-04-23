@@ -13,7 +13,7 @@
 
         <div class="profile_view">
             <figure class="avatar mb-3">
-              <img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-512.png" style="object-fit: cover;" alt=""/>
+              <img src="{{ request.user.supplier.profile_picture.url }}" style="object-fit: cover;" alt=""/>
             </figure>
             <h4 class="text-white fs-13">{{current_supplier}}</h4>
             <p class="fs-13">{{request.user.email}}</p>
@@ -63,9 +63,9 @@
             <div class="search_add d-flex align-items-center justify-content-between">
               <div class="filter product-filter">
                 <div class="filter-ops d-flex flex-shrink-1 flex-grow-1">
-                  <form action="#" class="search-form">
+                  <form  class="search-form" method="get">
                     <input id="dt-search-filter" type="search" name="search" placeholder="Search" autocomplete="off">
-                    <button><i class="fa fa-search"></i></button>
+                    <button type="submit"><i class="fa fa-search"></i></button>
                   </form>
              
                 </div>
@@ -98,7 +98,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    {% for p in products %}
+                    {% for p in pag %}
                     <tr class="has-actions-hidden mix delivered">
                   
                       <td class="d-flex align-items-center">
@@ -137,6 +137,29 @@
                 </table>
               </div>
             </div>
+            <div class="toolbox toolbox-pagination justify-content-between">
+                        <p class="showing-info mb-2 mb-sm-0">
+                            Page {{ pag.number }} of {{ pag.paginator.num_pages }} </span>Pages
+                        </p>
+                        <ul class="pagination">
+                            {% if pag.has_previous %}
+                            <li class="prev">
+                                <a href="{% url 'manage_products' %}?page={{pag.previous_page_number}}&search={{search}}"
+                                    aria-label="Previous" tabindex="-1" aria-disabled="true">
+                                    <i class="w-icon-long-arrow-left"></i>Prev
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% if pag.has_next %}
+                            <li class="next">
+                                <a href="{% url 'manage_products' %}?page={{pag.next_page_number}}&search={{search}}"
+                                    aria-label="Next">
+                                    Next<i class="w-icon-long-arrow-right"></i>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
           </div>
         </div>
 

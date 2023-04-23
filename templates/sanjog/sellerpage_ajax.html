@@ -30,7 +30,7 @@
             <div class="container d-flex flex-column flex-sm-row align-items-center align-items-sm-start align-items-lg-center justify-content-center justify-content-sm-between justify-content-md-between"
                 style="gap: 2rem;">
                 <div class="d-flex flex-column flex-lg-row align-items-center" style="gap: 2rem;">
-                    <div class="d-flex flex-column">
+                    <div class="d-flex flex-column position-relative">
                         <form method="post" id="profile-picture" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="profile-image d-flex">
@@ -64,7 +64,7 @@
                         </form>
                         {% if supplier == request.user.supplier %}
                         <a href="{% url 'company_profile' %}" class="filterbtn mt-3 edit-profile" type="submit">
-                            <i class="fa-solid fa-pen-to-square"></i> Edit Profile
+                            <i class="fa fa-edit"></i>
                         </a>
                         {% endif %}
                     </div>
@@ -91,22 +91,21 @@
                   padding: 10px;
                   border-radius: 50%;
                   margin-left: 15px;
-                  height: 40px;
+                  height: 45px;
                   display: flex;
                   align-items: center;
                   justify-content: center;
                   margin-top: auto;
               ">
-                 <div class="share-dropdown"> 
+                 <div class="share-dropdown dropdown"> 
                     <img src="{% static "assets/images/share.png" %}" class="w-20 mx-auto" alt="Home">
-                    <div class="share-dropdown-content">
-                        <button id="social-share.facebook"><i class="fa-brands fa-facebook-f"></i> Facebook</button>
-                        <button id="social-share.twitter"><i class="fa-brands fa-twitter"></i> Twitter</button>
-                        <button id="social-share.whatsapp-app"><i class="fa-brands fa-whatsapp"></i> Whatsapp (App)</button>
-                        <button id="social-share.whatsapp-web"><i class="fa-brands fa-whatsapp"></i> Whatsapp (Web)</button>
+                    <div class="share-dropdown-content dropdown-box">
+                        <button id="social-share.facebook"><i class="fa fa-facebook"></i> Facebook</button>
+                        <button id="social-share.twitter"><i class="fa fa-twitter"></i> Twitter</button>
+                        <button id="social-share.whatsapp-app"><i class="fab fa-whatsapp"></i> Whatsapp (App)</button>
+                        <button id="social-share.whatsapp-web"><i class="fab fa-whatsapp"></i> Whatsapp (Web)</button>
                     </div>
                 </div>
-                            <img src="{% static " assets/images/share.png" %}" class="w-20 mx-auto" alt="Home">
                         </div>
                     </div>
 
@@ -195,7 +194,7 @@
                                 <h3 class="widget-title text-dark"><label>Sub Categories</label>
                                     <span class="toggle-btn"></span>
                                 </h3>
-                                <ul class="widget-body asdas filter-items item-check mt-1{% if category|length > 5 %} more-than-five-categories{% endif %}">
+                                <ul class="widget-body asdas filter-items item-check mt-1{% if all_subcategories|length > 5 %} more-than-five-categories{% endif %}">
 
                                     <form method="GET" class="mb-3" onSubmit="return disableNullFields(this);">
                                         <input type="hidden" name="keyword" value="{{keyword}}">
@@ -217,7 +216,7 @@
                                     </form>
                                 </ul> 
                             </div>
-                            <div class="widget widget-collapsible mt-4">
+                            <!--div class="widget widget-collapsible mt-4">
                                 <h3 class="widget-title text-dark"><label>Brands</label>
                                     <span class="toggle-btn"></span>
                                 </h3>
@@ -243,7 +242,7 @@
                                 <button class="btn btn-outline-green btn-filter-green btn-border-green mx-auto d-block mt-3 w-100" type="submit">Filter</button>
                                     </form>
                                 </ul> 
-                            </div>
+                            </div-->
                             <!-- End of Collapsible Widget -->
                             <!-- Start of Collapsible Widget -->
 
@@ -364,7 +363,6 @@
 </div>
                     {% endfor %}
                 </div>
-
                 <div id="lds-roller" style="display: none;">
                     <div></div>
                     <div></div>
