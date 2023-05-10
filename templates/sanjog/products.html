@@ -97,7 +97,44 @@
                      
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody class="d-none" id="search_results_tbody"> <!-- For search results -->
+                    {% for p in all_products %}
+                    <tr class="has-actions-hidden mix delivered">
+                  
+                      <td class="d-flex align-items-center">
+                        <!--div class="form-check mr-4">
+                          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                       
+                        </div-->
+                        <figure class="avatar">
+                          {% if p.image %}
+                          <img src="{{p.image.url}}" style="object-fit: cover;" alt="">
+                          {% endif %}
+                        </figure>
+                      </td>
+                      <td>
+                        <div class="heading">
+                        <a href="{{p.get_absolute_url}}" class="product-name manage-products-name">
+                          {{p|truncatechars:30}}
+                        </a>
+                          <span class="product-category">{{p.category}} | {{p.subcategory}}</span>
+                        </div>
+                        <div class="actions-row">
+                     
+                          <a class="edit" href="{% url 'products:edit_product' p.id %}">edit</a>
+                          <a class="delete open-AddBookDialog" href="#" data-id="{{p}}" data-toggle="modal" data-target="#exampleModal">delete</a>
+                      
+                        </div>
+                      </td>
+                      <td>Rs. {{p.price}}</td>
+                      <td>Rs. {{p.max_price}}</td>
+                   
+                        <td class="text-left"><a href="#" class="btn btn-outline-green" data-toggle="modal" data-target="#popupModal{{forloop.counter}}">Quick View</a></td>
+                  
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                  <tbody id="product_listing_tbody">
                     {% for p in pag %}
                     <tr class="has-actions-hidden mix delivered">
                   
@@ -137,7 +174,7 @@
                 </table>
               </div>
             </div>
-            <div class="toolbox toolbox-pagination justify-content-between">
+            <div class="toolbox toolbox-pagination justify-content-between" id="pagination">
                         <p class="showing-info mb-2 mb-sm-0">
                             Page {{ pag.number }} of {{ pag.paginator.num_pages }} </span>Pages
                         </p>
@@ -260,25 +297,33 @@
 
 <script>
 
-const table = document.getElementById("products_list_table");
-const tr = table.getElementsByTagName("tr");
+const searchResultsTbody = document.getElementById("search_results_tbody");
+const productListingTbody = document.getElementById("product_listing_tbody");
+const paginationBody = document.getElementById("pagination");
+const tr = searchResultsTbody.getElementsByTagName("tr");
+
+const allProductsList = [];
+{% for prod in all_products %}
+allProductsList.push("{{prod}} {{prod.category}}".toUpperCase());
+{% endfor %}
 
 const searchBox = document.getElementById("dt-search-filter");
 searchBox.addEventListener("input", function(e) {
     const input = e.target.value;
     const filter = input.toUpperCase();
 
-    for (let i = 0; i < tr.length; i++) {
-        const td = tr[i].getElementsByTagName("td")[1];
+    if (filter != "") {
+        searchResultsTbody.classList.remove("d-none");
+        productListingTbody.classList.add("d-none");
+        paginationBody.classList.add("d-none");
+    } else {
+        searchResultsTbody.classList.add("d-none");
+        productListingTbody.classList.remove("d-none");
+        paginationBody.classList.remove("d-none");
+    }
 
-        if (!td) {
-            continue;
-        }
-
-        const productName = td.getElementsByClassName("product-name")[0].innerText;
-        const categoryName = td.getElementsByClassName("product-category")[0].innerText;
-        const completeName = productName+ " " + categoryName;
-        if (completeName.toUpperCase().indexOf(filter) > -1) {
+    for (let i = 0; i < allProductsList.length; i++) {
+        if (allProductsList[i].indexOf(filter) > -1) {
             tr[i].style.display = "";
         } else {
             tr[i].style.display = "none";
