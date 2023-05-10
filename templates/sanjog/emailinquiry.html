@@ -44,6 +44,7 @@ body {
     height: 100% !important;
     width: 100% !important;
     background: #f1f1f1;
+    font-family: 'Lato' !important;
 }
 
 /* What it does: Stops email clients resizing small text. */
@@ -167,6 +168,8 @@ img.g-img + div {
 	border-radius: 5px;
 	background: #00917C;
 	color: #ffffff;
+    padding-left: 40px;
+    padding-right: 40px;
 }
 .btn.btn-white{
 	border-radius: 5px;
@@ -334,6 +337,16 @@ ul.social li{
 	color: #fff;
 }
 
+.details table, .details th, .details td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    color: #000;
+}
+
+.details th, .details td {
+    padding: 5px;
+    text-align: left;
+}
 
 @media screen and (max-width: 500px) {
 
@@ -366,19 +379,75 @@ ul.social li{
 </td>
 </tr>
 <tr>
-<td valign="middle" class="hero bg_white" style="padding: 3em 0 2em 0;">
-<img src="static/assets/images/emailone.svg" alt="" style="width: 300px; max-width: 600px; height: auto; margin: auto; display: block;">
-</td>
+<td valign="middle" class="hero bg_white" style="    padding: 3em 0 3em 0;
+    background: #00917C;
+    text-align: center;
+    color: white;">
+    <img src="static/assets/images/question.png" alt="" style="width: 40px; max-width: 50px; height: auto; margin: auto; display: block;">
+
+    <p style="    margin: 0; margin-top: 10px; letter-spacing: 2px;">
+    THANKS FOR YOUR INTEREST!
+    </p>
+    <h4 style="    color: white;
+    margin: 0;
+    font-size: 25px;">{{product.product_name}} Inquiry from Vistaar Trade
+</h4></td>
 </tr>
 <tr>
-<td valign="middle" class="hero bg_white" style="padding: 2em 0 4em 0;">
+<td valign="middle" class="hero bg_white" style="padding: 2em 0 2em 0;">
 <table>
 <tr>
 <td>
- <div class="text" style="padding: 0 2.5em; text-align: center;">
-<h2>Hello!</h2>
-<h3>I am SUPPLIER NAME from Vistaartrade.com. I received your enquiry regarding PRODUCT</h3>
-<p><a href="#" class="btn btn-primary">View Details</a></p>
+ <div class="text" style="padding: 0 2.5em; text-align: left;">
+<h2 style="font-size: 17px;">Dear {{supplier.user}},</h2>
+<h3 style="font-size: 17px; margin-top: 15px; font-weight: 500;">We hope this email finds you well. This is an automated message to inform you that a potential buyer has submitted an inquiry for your product <b>{{product.product_name}}</b> on Vistaar Trade.
+
+</h3>
+<h3 style="font-size: 17px; margin-top: 15px; font-weight: 500;">The details of the inquiry are as follows:
+</h3>
+
+<table style="width:100%" class="details">
+  <tr>
+    <th>Buyer Name:</th>
+    <td>{{user}}</td>
+  </tr>
+  <tr>
+    <th>Product Name:</th>
+    <td>{{product.product_name}}</td>
+  </tr>
+  <tr>
+    <th>Quantity:</th>
+    <td>{{quantity}}</td>
+  </tr>
+</table>
+
+
+<h3 style="font-size: 17px; margin-top: 15px; font-weight: 500;">To respond to the inquiry, please log in to your Vistaar Trade account and navigate to the <b>"Manage Leads"</b> section in your dashboard. You can also access the inquiry directly through the following link:
+
+</h3>
+
+<p><a href="{{ protocol }}://{{ domain }}/{% url 'buy_leads'}" class="btn btn-primary">Link Here</a></p>
+
+<h3 style="font-size: 17px; margin-top: 15px; font-weight: 500;">Please respond to the inquiry within the next 24-48 hours to ensure that you don't miss out on a potential sale. We encourage you to provide as much information as possible to the buyer, including pricing, delivery timelines, and any other relevant details.
+
+</h3>
+
+<h3 style="font-size: 17px; margin-top: 15px; font-weight: 500;">If you have any questions or concerns, please do not hesitate to contact our customer support team at +9779807209802. We are always here to help you and ensure a smooth buying and selling experience on Vistaar Trade.
+</h3>
+
+<h3 style="font-size: 17px; margin-top: 15px; font-weight: 500;">Thank you for choosing Vistaar Trade as your B2B marketplace. We look forward to facilitating successful business transactions between you and our valuable buyers.
+
+</h3>
+
+
+<h3 style="font-size: 17px; margin-top: 15px; font-weight: 500;">
+    Best regards, <br>
+    The Vistaar Trade Team
+</h3>
+
+
+
+
 </div>
 </td>
 </tr>

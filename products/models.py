@@ -50,7 +50,7 @@ class Products(models.Model):
     product_name = models.CharField(max_length=100, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True)
     description = RichTextField(blank=True, null=True)
-    brand = models.CharField(max_length=100, blank=True, null=True)
+    brand = models.CharField(max_length=100, blank=True, null=True, default="Not Mentioned")
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 

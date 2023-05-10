@@ -9303,7 +9303,7 @@ form .form-control{
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.3);
-  z-index: 9999;
+  z-index: 99999999;
   visibility: hidden;
   opacity: 0;
   -webkit-transition: visibility 0.3s ease, opacity 0.3s ease;
@@ -9330,6 +9330,106 @@ padding: 10px !important;
   display: none;
 }
 
+.aiz-sidebarthree.left {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: -265px;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 99;
+  background-color: #141423;
+  width: 265px;
+  -webkit-transition: left 0.3s ease;
+  transition: left 0.3s ease;
+}
+
+.aiz-sidebarthree .navbar-nav {
+    flex-direction: column;
+    align-items: initial;
+}
+
+.aiz-sidebarthree .dropdown-menu>li>a {
+    background-color: transparent !important;
+}
+
+.aiz-sidebarthree .navbar-nav>li>.dropdown-menu {
+    margin-left: 20px !important;
+}
+
+.aiz-sidebarthree .nav .open>a {
+    background-color: unset;
+}
+
+.aiz-sidebarthree .nav>li>a:hover {
+    background-color: unset;
+}
+
+.aiz-side-nav-logo-wrapthree {
+  background-color: #1a1a27;
+}
+
+.side-menu-openthree .aiz-sidebar-wrapthree .left {
+  left: 0px;
+      z-index: 99999999;
+      padding-left: 10px;
+      padding-right: 10px;
+}
+
+.side-menu-openthree .navbar-header{z-index:-1;}
+
+.aiz-sidebarthree.left {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: -308px;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 99;
+  background-color: white;
+  width: 308px;
+  -webkit-transition: left 0.3s ease;
+  transition: left 0.3s ease;
+  padding: 30px;
+}
+
+.aiz-sidebar-overlaythree {
+  cursor: pointer;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: visibility 0.3s ease, opacity 0.3s ease;
+  transition: visibility 0.3s ease, opacity 0.3s ease;
+}
+
+.side-menu-openthree .aiz-sidebar-overlaythree {
+    visibility: visible;
+    opacity: 1;
+}
+
+.aiz-side-nav-wrapthree ul{
+    margin: 10px;
+}
+
+.aiz-side-nav-wrapthree ul>li>a {
+padding: 10px !important;
+    padding-right: 0;
+    font-size: 14px !important;
+    color: white !important;
+}
+
+.aiz-mobile-togglerthree{
+  display: none !important;
+}
+
 @media (max-width: 600px){
 .toolbox select {
     max-width: 14.6rem !important;
@@ -9337,6 +9437,10 @@ padding: 10px !important;
 
 .aiz-mobile-togglertwo{
   display: block;
+}
+
+.aiz-mobile-togglerthree{
+  display: flex !important;
 }
 
 .toolbox-right form{
@@ -9608,12 +9712,13 @@ padding: 10px !important;
 }
 
 .profile-pic img {
-  object-fit: cover;
-  width: 200px;
-  height: 200px;
+  object-fit: contain;
   box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.35);
   border-radius: 100px;
   z-index: 0;
+  object-position: center;
+  width: 280px;
+  height: 280px;
 }
 
 .profile-pic .changable {
@@ -9736,4 +9841,12 @@ padding: 10px !important;
   right: 0px;
   background: var(--main-color);
   color: white;
+}
+
+.product-single .product-short-desc {
+  white-space: normal;
+}
+
+.bodyhidden{
+  overflow:hidden;
 }

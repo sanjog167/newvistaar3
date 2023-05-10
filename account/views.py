@@ -32,7 +32,8 @@ from django.contrib.admin.views.decorators import staff_member_required
 import qrcode
 from PIL import Image
 from pathlib import Path
-
+from django.core.mail import send_mail
+from django.template.loader import get_template
 import json
 
 from itertools import chain
@@ -40,6 +41,29 @@ from itertools import chain
 # from openpyxl import Workbook
 
 # Create your views here.
+from django.core.mail import get_connection, EmailMultiAlternatives
+
+def send_mass_html_mail(datatuple, fail_silently=False, user=None, password=None, 
+                        connection=None):
+    """
+    Given a datatuple of (subject, text_content, html_content, from_email,
+    recipient_list), sends each message to each recipient list. Returns the
+    number of emails sent.
+
+    If from_email is None, the DEFAULT_FROM_EMAIL setting is used.
+    If auth_user and auth_password are set, they're used to log in.
+    If auth_user is None, the EMAIL_HOST_USER setting is used.
+    If auth_password is None, the EMAIL_HOST_PASSWORD setting is used.
+
+    """
+    connection = connection or get_connection(
+        username=user, password=password, fail_silently=fail_silently)
+    messages = []
+    for subject, text, html, from_email, recipient in datatuple:
+        message = EmailMultiAlternatives(subject, text, from_email, recipient)
+        message.attach_alternative(html, 'text/html')
+        messages.append(message)
+    return connection.send_messages(messages)
 def send_supplier_verification_email(user,request):
     current_site = get_current_site(request)
     email_subject = f"{user.username} applied for seller account!"
@@ -54,30 +78,27 @@ def send_supplier_verification_email(user,request):
 def send_action_email(user,request):
     current_site = get_current_site(request)
     email_subject = "Action Required: Verify Your Email Address on Vistaar Trade"
-    email_body = render_to_string('account/activate.html',{
+
+    context = {
         'user':user,
         'domain':current_site,
         'uid':urlsafe_base64_encode(force_bytes(user.pk)),
         'token': generate_token.make_token(user),
-    })
-    
-    email = EmailMessage(subject=email_subject,body=email_body,from_email=conf_settings.EMAIL_FROM_USER,to=[user.email])
+    }
+    template = get_template('sanjog/emailverify.html').render(context) 
+    email = send_mail(email_subject,None,conf_settings.EMAIL_FROM_USER,[user.email], fail_silently=True, html_message=template)
 
-    email.send()
-    
     
 #Lead notification Email
 def send_lead_email(user,supplier,product,request, quantity_required):
     email_subject = f"{product.product_name} Inquiry from Vistaar Trade" 
-    email_body = render_to_string('supplier/new_lead.html',{
+    template = get_template('sanjog/emailopenrequest.html').render({
         'user':user,
         'supplier':supplier,
         'product':product,
         'quantity': quantity_required,
-    })
-    
-    email = EmailMessage(subject=email_subject,body=email_body,from_email=conf_settings.EMAIL_FROM_USER,to=[supplier.email,supplier.user.email])
-    email.send()
+    }) 
+    email = send_mail(email_subject,None,conf_settings.EMAIL_FROM_USER,[supplier.email,supplier.user.email], fail_silently=True, html_message=template)
 def send_contact_view_email(user,supplier,product,request):
     email_subject = 'Vistaar - You have a new notification!'
     email_body = render_to_string('supplier/user_viewed_contact.html',{
@@ -237,17 +258,16 @@ def create_rfq_leads(request):
                 request_description=description,
             )
             rfq_leads_list.append(rfq_lead)
-            email_payload = render_to_string('sanjog/rfq_leads.html', context) 
-            messages += ((f"{product} Inquiry from Vistaar Trade", email_payload, conf_settings.EMAIL_FROM_USER, [product.supplier.contact_email]),)
+            email_payload = render_to_string('sanjog/emailinquiry.html', context) 
+            messages += ((f"{product} Inquiry from Vistaar Trade", None, email_payload, conf_settings.EMAIL_FROM_USER, [product.supplier.contact_email]),)
         email_payload = (
                 f"User {user.username} wants to buy {keyword}",
                 description,
                 conf_settings.EMAIL_FROM_USER,  # From email address
             )
             # now create rfq lead
-        send_mass_mail(messages, fail_silently=False)
+        send_mass_html_mail(messages, fail_silently=False)
         RFQ_leads.objects.bulk_create(rfq_leads_list)
-        print(messages)
     else:
         return redirect('home') 
     return redirect('home') 
@@ -396,7 +416,7 @@ def company_profile(request):
 #
 #
 
-    fields = ["phone_number", "establishment_year", "ceo_name", "website", "state", "address1", "address2", "exim", "pan", "vat", "contact_name", "contact_phone", "contact_email"]
+    fields = ["establishment_year", "ceo_name", "website", "state", "address1", "address2", "exim", "pan", "vat", "contact_name", "contact_phone", "contact_email"]
     array_fields = ["secondary_business"]
 
     form = SupplierFormEdit(request.POST, instance = supplier)
@@ -408,7 +428,10 @@ def company_profile(request):
                     supplier.profile_picture = request.FILES["profile_picture"]
                 else:
                     supplier.profile_picture = "default.jpg"
-
+            if request.POST.get("phone_number"):
+                supplier.phone_number = request.POST.get("phone_number")
+            else:
+                supplier.phone_number = None 
             for field in fields:
                 setattr(supplier, field, request.POST.get(field))
             for field in array_fields:
@@ -750,7 +773,7 @@ def generate_qr(new_supplier):
 
 
 # taking url or text
-    url = 'vistaartrade.com/'+'supplier/'+ str(new_supplier.slug)
+    url = 'https://vistaartrade.com/'+'supplier/'+ str(new_supplier.slug)
 
 # adding URL or text to QRcode
     QRcode.add_data(url)

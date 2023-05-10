@@ -516,6 +516,7 @@ def edit_product(request,id):
                                                  price=request.POST['min-price'],
                                                  max_price=request.POST['max-price'],
                                                  minimum_order_quantity=request.POST['min-qty'],
+                                                 brand=request.POST['brand'],
                                                  sub_category = subcat_id)
 
         new = Products.objects.get(id=id)
@@ -549,6 +550,7 @@ def edit_product(request,id):
         context['prepopulated_sub_category_name'] = product.sub_category
         context['prepopulated_category_id'] = product.category.id
         context['prepopulated_sub_category_id'] = product.sub_category.id
+        context['prepopulated_brand'] = product.brand
         context['submit_product_form'] = submit_product_form
         context['product'] = product
         context['cat'] = categories
@@ -830,6 +832,30 @@ def email_verify(request):
     
     return render(request, 'sanjog/verifyemail.html',{'success':success,})
 
+def emailverify(request):
+    
+    success = 1
+    
+    return render(request, 'sanjog/emailverify.html',{'success':success,})
+
+def emailinquiry(request):
+    
+    success = 1
+    
+    return render(request, 'sanjog/emailinquiry.html',{'success':success,})
+
+def emailopenrequest(request):
+    
+    success = 1
+    
+    return render(request, 'sanjog/emailopenrequest.html',{'success':success,})
+
+def emailforgotpassword(request):
+    
+    success = 1
+    
+    return render(request, 'sanjog/emailforgotpassword.html',{'success':success,})
+
 def seller_leads(request):
     
     success = 1
@@ -1048,6 +1074,9 @@ def search_manager(search_dictionary):
             result = result.filter(sub_category__slug__in=search_dictionary["subcategorys"])
         if search_dictionary["selected_brands"] != []:
             result = result.filter(brand__in=search_dictionary["selected_brands"])
+        if search_dictionary["selected_business"] != []:
+            for search_item in search_dictionary["selected_business"]:
+                result = result.filter(supplier__secondary_business__icontains=search_item)
         if search_dictionary["sellers"] != []:
             result = result.filter(supplier__slug__in=search_dictionary["sellers"])
         if search_dictionary["min_value"] != None and search_dictionary["min_value"] != "":
@@ -1238,7 +1267,7 @@ def main_search(request):
     search_dictionary["subcategorys"] = request.GET.getlist('sub_categ')
     search_dictionary["selected_brands"] = request.GET.getlist("brand")
     search_dictionary["sellers"] = request.GET.getlist('seller')
-    
+    search_dictionary["selected_business"] = request.GET.getlist('business') 
     search_dictionary["search_type"] = "normal"
     print(search_dictionary)
     products = search_manager(search_dictionary)
@@ -1249,15 +1278,11 @@ def main_search(request):
 
     search_seller = []
     search_subcategory = []
-    brands = []
     for p in products:
         if not p.supplier in search_seller:
             search_seller.append(p.supplier)    
         if not p.sub_category in search_subcategory:
             search_subcategory.append(p.sub_category)
-        if p.brand != None and not p.brand in brands:
-            brands.append(p.brand)
-
 
     pag = Paginator(products,16)
     page_number = request.GET.get("page")
@@ -1275,13 +1300,13 @@ def main_search(request):
 
     context["suppliers"] = search_seller
     context["subcategory"] = search_subcategory
-    context["brands"] = brands
     context["keyword"] = search_dictionary["keyword"]
     # from search_dictionary['keyword'] find me a list of subcategories
     all_filters = Products.objects.select_related("supplier").select_related("sub_category").filter(Q(product_name__icontains=search_dictionary["keyword"])|Q(description__icontains=search_dictionary["keyword"])|Q(supplier__company_name__icontains=search_dictionary["keyword"])|Q(keywords__icontains=search_dictionary["keyword"]))
     all_subcategories = []
     all_sellers = []
     all_brands = []
+    all_business = []
     max_price_of_all_products = Products.objects.filter(Q(product_name__icontains=search_dictionary["keyword"])).aggregate(max_price=Max('price'))['max_price'] 
     min_price_of_all_products = Products.objects.filter(Q(product_name__icontains=search_dictionary["keyword"])).filter(price__gt=0).aggregate(min_price=Min('price'))['min_price'] 
     context["min_price_of_all_products"] = min_price_of_all_products
@@ -1294,13 +1319,22 @@ def main_search(request):
             all_sellers.append(subs.supplier)
         if subs.brand not in all_brands:
             all_brands.append(subs.brand)
+        if subs.supplier.secondary_business not in all_business:
+           all_business.append(subs.supplier.secondary_business)
+   
+    for b in all_brands:
+        if b == "Not Mentioned":
+            all_brands.remove(b)
+            all_brands.append(b)
     context["all_subcategories"] = all_subcategories
     context["all_sellers"] = all_sellers
     context["all_brands"] = all_brands
+    context["all_business"] = all_business
     context["selected_subcats"] = search_dictionary["subcategorys"]
     context["selected_suppliers"] = search_dictionary["sellers"]
     context["selected_brands"] = search_dictionary["selected_brands"]
-    
+    context["selected_business"] = search_dictionary["selected_business"]
+    print(context['selected_business']) 
     pagination_string_next = ""
     pagination_string_prev = ""
     if context["pag"].has_next(): 
