@@ -352,6 +352,7 @@ def category_detail(request,id,slug):
     context["supplier"] = search_seller
     context["subcategory"] = search_subcategory
     context["brands"] = brands
+    context["has_filters_applied"] = request.GET.get("min_value") or request.GET.get("max_value") or request.GET.get("sub_categ") or supplier or selected_brands
     return render(request, 'sanjog/category_page.html',context)
     
 def subcategory_detail(request,id,slug):
@@ -1397,6 +1398,8 @@ def main_search(request):
    
     context["pagination_string_next"] = pagination_string_next
     context["pagination_string_prev"] = pagination_string_prev
+    context["has_filters_applied"] = search_dictionary["sort"] or search_dictionary["min_value"] or search_dictionary["max_value"] or search_dictionary["subcategorys"] or search_dictionary["selected_brands"] or search_dictionary["sellers"] or search_dictionary["selected_business"]
+
     return render(request, "sanjog/searchpage.html", context) 
     
 
