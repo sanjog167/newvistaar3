@@ -85,6 +85,9 @@ def search_algorithm(category, sub_categ, keyword, min_value, max_value, sort_by
             keyword_filtered = keyword_filtered.filter(price__gte=min_value)
         if max_value != None:
             keyword_filtered = keyword_filtered.filter(price__lte=max_value)
+        # filter by seller if present
+        if seller != None and seller != "None" and seller != "":
+            keyword_filtered = keyword_filtered.filter(supplier=seller)
         # sort by latest, low to high, high to low
         if sort_by == "LST":
             keyword_filtered = keyword_filtered.order_by("-id")
@@ -260,8 +263,13 @@ def category_detail(request,id,slug):
     max_value = request.GET.get("max_value")
     selected_brands = request.GET.getlist("brands")
     context["selected_brands"] = selected_brands
+    supplier = request.GET.get("supplier")
+    if supplier != None:
+        supplier_obj = get_object_or_404(Supplier, slug=supplier)
+    else:
+        supplier_obj = None
 
-    products = search_algorithm(category, sub_categ, keyword, min_value, max_value, sort, seller=None, _type="search")
+    products = search_algorithm(category, sub_categ, keyword, min_value, max_value, sort, seller=supplier_obj, _type="search")
 
     # First find the min-max price of all products (when not filtered with the min-max price range)
     min_price_of_all_products = 0
@@ -328,6 +336,8 @@ def category_detail(request,id,slug):
 
     context["slug"] = slug
     context["current_category"] = category
+    context["current_subcategory"] = sub_categ
+    context["current_supplier"] = supplier_obj
     context["pag"] = page_obj
     context["sub_category"] = Subcategory.objects.filter(category=category)
 
