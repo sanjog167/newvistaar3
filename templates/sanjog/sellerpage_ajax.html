@@ -139,7 +139,101 @@
 
     </div>
 
-    <div class="container pt-5 sellercontainer"> 
+    <div class="mt-5 pb-8" style="background-color: #03917c">
+        <div class="container">
+            <div class="products_with_image">
+                <div class="row">
+
+                    <h3 class="featured_title pt-10 pb-10" style="    text-align: center;
+                    color: white;
+                    font-size: 40px !important;
+                    width: fit-content;
+                    margin: auto;
+                ">Featured Products</h3>
+                
+                    <div class="col-lg-12 p-0" style="padding:0">
+
+                        
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                {% for p in featured_products %}
+                <div class="swiper-slide">
+                <div class="product-wrap " style="max-width: 100%">
+<div class="product text-center">
+    <figure class="product-media">
+        <a href="{{p.get_absolute_url}}">
+            {% if p.image %}
+            <img src="{{p.image.url}}" alt="Product" width="300" height="338">
+            <img src="{{p.image.url}}" alt="Product" width="300" height="338">
+
+            {% else %}
+            <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=>
+                                            width=" 300" height="338">
+            <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=>
+                                            width=" 300" height="338">
+            {% endif %}
+        </a>
+        <div class="product-action-vertical">
+            <a href="#" class="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
+            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+            <a href="#" class="btn-product-icon btn-quickview w-icon-search" title="Quickview"></a>
+            <a href="#" class="btn-product-icon btn-compare w-icon-compare" title="Add to Compare"></a>
+        </div>
+
+    </figure>
+    <div class="product-details">
+        <h4 class="product-name"><a href="{{p.get_absolute_url}}">{{p.product_name}}</a>
+        </h4>
+        <div class="ratings-container">
+            <div class="ratings-full">
+                <span class="ratings" style="width: 100%;"></span>
+                <span class="tooltiptext tooltip-top"></span>
+            </div>
+            <a # class="rating-reviews">(3 Reviews)</a>
+        </div>
+        {% if p.price != 0 %}
+        <div class="product-price pl-3">
+            <ins class="new-price">Rs. {{p.price}}{% if p.max_price and p.max_price != 0 %}
+                - Rs. {{ p.max_price }}{% endif %}</ins>
+        </div>
+        {% else %}
+        <div class="product-price ask-forprice">
+            <ins class="new-price">Ask for Price</ins>
+        </div>
+        {% endif %}
+        <div style="padding-left: 10px;">
+            <p>MOQ: {{p.minimum_order_quantity}}</p>
+        </div>
+
+    </div>
+</div>
+</div>
+</div>
+                {% endfor %}
+          
+     
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+          </div>
+
+
+               
+                    </div>
+                </div>
+             
+           
+
+            </div>
+            </div>
+        </div>
+
+
+    <div class="container  sellercontainer mt-5"> 
+
+  
+
+
 
         <div class="row"> 
             <div class="col-lg-3">
@@ -154,6 +248,7 @@
                         <div class="sticky-sidebar">
                             <div class="filter-actions mb-3">
                                 <label>Filter :</label>
+                                <a class="fw-500">Reset Filter</a>
                             </div>
 
                  
@@ -163,7 +258,7 @@
                                 <h3 class="widget-title text-dark"><label>Sub Categories</label>
                                     <span class="toggle-btn"></span>
                                 </h3>
-                                <ul class="widget-body asdas filter-items item-check mt-1{% if all_subcategories|length > 5 %} more-than-five-categories{% endif %}">
+                                <ul class="widget-body asdas filter-items item-check mt-1">
 
                                     <form method="GET" class="mb-3" onSubmit="return disableNullFields(this);">
                                         <input type="hidden" name="keyword" value="{{keyword}}">
@@ -173,6 +268,7 @@
                                         {% for brand in selected_brands %}
                                         <input type="hidden" name="brand" value="{{brand}}">
                                         {% endfor %}
+                                        <div class="{% if all_subcategories|length > 5 %} more-than-five-categories{% endif %}">
                                         {% for c in all_subcategories %}
                                         <li><label class="checkbox">{{c}}
                                             <input name="sub_categ" value="{{c.slug}}" type="checkbox" 
@@ -181,6 +277,7 @@
                                             <span class="checkmark" />
                                         </label></li>
                                         {% endfor %}
+                                    </div>
                                 <button class="btn btn-outline-green btn-filter-green btn-border-green mx-auto d-block mt-3 w-100" type="submit">Filter</button>
                                     </form>
                                 </ul> 
@@ -189,7 +286,7 @@
                                 <h3 class="widget-title text-dark"><label>Brands</label>
                                     <span class="toggle-btn"></span>
                                 </h3>
-                                <ul class="widget-body filter-items item-check mt-1{% if all_brands|length > 5 %} more-than-five-categories{% endif %}">
+                                <ul class="widget-body filter-items item-check mt-1">
 
                                     <form method="GET" class="mb-3" onSubmit="return disableNullFields(this);">
                                         <input type="hidden" name="keyword" value="{{keyword}}">
@@ -199,7 +296,7 @@
                                         {% for subcat in selected_subcats %}
                                         <input type="hidden" name="sub_categ" value="{{subcat}}">
                                         {% endfor %}
-
+<div class="{% if all_brands|length > 5 %} more-than-five-categories{% endif %}">
                                         {% for b in all_brands %}
                                         <li><label class="checkbox">{{b}}
                                             <input name="brand" value="{{b}}" type="checkbox" 
@@ -208,6 +305,7 @@
                                             <span class="checkmark" />
                                         </label></li>
                                         {% endfor %}
+                                    </div>
                                 <button class="btn btn-outline-green btn-filter-green btn-border-green mx-auto d-block mt-3 w-100" type="submit">Filter</button>
                                     </form>
                                 </ul> 
@@ -249,7 +347,7 @@
                                 <h3 class="widget-title text-dark"><label>Sub Categories</label>
                                     <span class="toggle-btn"></span>
                                 </h3>
-                                <ul class="widget-body asdas filter-items item-check mt-1{% if all_subcategories|length > 5 %} more-than-five-categories{% endif %}">
+                                <ul class="widget-body asdas filter-items item-check mt-1">
 
                                     <form method="GET" class="mb-3" onSubmit="return disableNullFields(this);">
                                         <input type="hidden" name="keyword" value="{{keyword}}">
@@ -259,6 +357,7 @@
                                         {% for brand in selected_brands %}
                                         <input type="hidden" name="brand" value="{{brand}}">
                                         {% endfor %}
+                                        <div class="{% if all_subcategories|length > 5 %} more-than-five-categories{% endif %}">
                                         {% for c in all_subcategories %}
                                         <li><label class="checkbox">{{c}}
                                             <input name="sub_categ" value="{{c.slug}}" type="checkbox" 
@@ -267,6 +366,7 @@
                                             <span class="checkmark" />
                                         </label></li>
                                         {% endfor %}
+                                    </div>
                                         <button class="btn btn-outline-green btn-filter-green btn-border-green mx-auto d-block mt-3 w-100" type="submit">Filter</button>
 
                                     </form>
@@ -277,7 +377,7 @@
                                 <h3 class="widget-title text-dark"><label>Brands</label>
                                     <span class="toggle-btn"></span>
                                 </h3>
-                                <ul class="widget-body asdas filter-items item-check mt-1{% if all_brands|length > 5 %} more-than-five-categories{% endif %}">
+                                <ul class="widget-body asdas filter-items item-check mt-1">
 
                                     <form method="GET" class="mb-3" onSubmit="return disableNullFields(this);">
                                         <input type="hidden" name="keyword" value="{{keyword}}">
@@ -287,7 +387,7 @@
                                         {% for subcat in selected_subcats %}
                                         <input type="hidden" name="sub_categ" value="{{subcat}}">
                                         {% endfor %}
-
+<div class="{% if all_brands|length > 5 %} more-than-five-categories{% endif %}">
                                         {% for b in all_brands %}
                                         <li><label class="checkbox">{{b}}
                                             <input name="brand" value="{{b}}" type="checkbox" 
@@ -296,6 +396,7 @@
                                             <span class="checkmark" />
                                         </label></li>
                                         {% endfor %}
+                                    </div>
                                         <button class="btn btn-outline-green btn-filter-green btn-border-green mx-auto d-block mt-3 w-100" type="submit">Filter</button>
 
                                     </form>
@@ -316,58 +417,37 @@
 
             <div class="col-lg-9" style="padding: 0;">
 
+         
+
                 <div class="d-flex align-items-center justify-content-between class mt-0 mb-4">
 
-                    <form  class="search-form">
-                                    <input type="hidden" name="min_value" value="{{min_value}}">
-                                    <input type="hidden" name="max_value" value="{{max_value}}">
-                                    <input type="hidden" name="sort" value="popular">
-                                    {% for subcat in selected_subcats %}
-                                    <input type="hidden" name="sub_categ" value="{{subcat}}">
-                                    {% endfor %}
-                                    {% for brand in selected_brands %}
-                                    <input type="hidden" name="brand" value="{{brand}}">
-                                    {% endfor %}
-                        <input id="dt-search-filter" style="border:1px solid lightgray; border-radius: 999px;"
-                            type="search" name="keyword" placeholder="Search">
-                        <button><i class="fa fa-search"></i></button>
-                        <div id="supplier-results-box" class="results-card"></div>
-                    </form>
+                 <h4>40 Products</h4>
 
                     <div class="d-md-flex align-items-center mb-0 filter mt-0">
-                        <ul class="nav nav-pills mb-3 flex-grow-1" id="pills-tab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home"
-                                    role="tab" aria-controls="pills-home" aria-selected="true">Seller Home</a>
-                            </li>
-                            <!--li class="nav-item">
-                              <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">All Selling</a>
-                            </li-->
-                            <li class="nav-item">
-                                <form method="GET" id="popularform" class="mb-3"
-                                    onSubmit="return disableNullFieldsAndSubmit(this);">
-                                    <input type="hidden" name="keyword" value="{{keyword}}">
-                                    <input type="hidden" name="min_value" value="{{min_value}}">
-                                    <input type="hidden" name="max_value" value="{{max_value}}">
-                                    <input type="hidden" name="sort" value="popular">
-                                    {% for subcat in selected_subcats %}
-                                    <input type="hidden" name="sub_categ" value="{{subcat}}">
-                                    {% endfor %}
-                                    {% for brand in selected_brands %}
-                                    <input type="hidden" name="brand" value="{{brand}}">
-                                    {% endfor %}
 
-                                    <button class="filterbtn" id="pills-last-tab" data-toggle="pill" href="#pills-last"
-                                        role="tab" aria-controls="pills-last" aria-selected="false">Top
-                                        Products</button>
-                                </form>
-                            </li>
-
+                        <ul>
+                       
+                            <form  class="search-form">
+                                <input type="hidden" name="min_value" value="{{min_value}}">
+                                <input type="hidden" name="max_value" value="{{max_value}}">
+                                <input type="hidden" name="sort" value="popular">
+                                {% for subcat in selected_subcats %}
+                                <input type="hidden" name="sub_categ" value="{{subcat}}">
+                                {% endfor %}
+                                {% for brand in selected_brands %}
+                                <input type="hidden" name="brand" value="{{brand}}">
+                                {% endfor %} 
+                    <input id="dt-search-filter" style="border:1px solid lightgray; border-radius: 999px;"
+                        type="search" name="keyword" placeholder="Search">
+                    <button><i class="fa fa-search"></i></button>
+                    <div id="supplier-results-box" class="results-card"></div>
+                </form>
+                  
                             <button class="aiz-mobile-togglerthree" style="    background: unset;
                             width: 25px;
                             position: absolute;
                             right: 45px;
-                            top: 70px;
+                            top: 55px;
                             display: flex;
                             align-items: center;">
                                 <img style="width: 20px;" src="{% static "assets/images/filternow.png" %}" alt="" style="width: 20px;"/>
@@ -375,76 +455,197 @@
                                 margin-left: 5px;
                                 color: #00917c;">Filter</p>
                             </button> 
-                        </ul>
+                          </ul>
+                 
+
+
 
 
                     </div>
                 </div>
-                <div class="product-wrapper row cols-md-4 cols-sm-2 cols-1" id="categorylists">
-                    {% for p in pag %}
-                    <div class="product-wrap" style="max-width: 100%">
-    <div class="product text-center">
-        <figure class="product-media">
-            <a href="{{p.get_absolute_url}}">
-                {% if p.image %}
-                <img src="{{p.image.url}}" alt="Product" width="300" height="338">
-                <img src="{{p.image.url}}" alt="Product" width="300" height="338">
 
-                {% else %}
-                <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=>
-                                                width=" 300" height="338">
-                <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=>
-                                                width=" 300" height="338">
-                {% endif %}
-            </a>
-            <div class="product-action-vertical">
-                <a href="#" class="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
-                <a href="#" class="btn-product-icon btn-wishlist w-icon-heart" title="Add to wishlist"></a>
-                <a href="#" class="btn-product-icon btn-quickview w-icon-search" title="Quickview"></a>
-                <a href="#" class="btn-product-icon btn-compare w-icon-compare" title="Add to Compare"></a>
-            </div>
-
-        </figure>
-        <div class="product-details">
-            <h4 class="product-name"><a href="{{p.get_absolute_url}}">{{p.product_name}}</a>
-            </h4>
-            <div class="ratings-container">
-                <div class="ratings-full">
-                    <span class="ratings" style="width: 100%;"></span>
-                    <span class="tooltiptext tooltip-top"></span>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="product-wrapper row cols-md-4 cols-sm-2 cols-1" id="categorylists">
+                            {% for p in pag %}
+                            <div class="product-wrap" style="max-width: 100%">
+            <div class="product text-center">
+                <figure class="product-media">
+                    <a href="{{p.get_absolute_url}}">
+                        {% if p.image %}
+                        <img src="{{p.image.url}}" alt="Product" width="300" height="338">
+                        <img src="{{p.image.url}}" alt="Product" width="300" height="338">
+        
+                        {% else %}
+                        <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=>
+                                                        width=" 300" height="338">
+                        <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=>
+                                                        width=" 300" height="338">
+                        {% endif %}
+                    </a>
+                    <div class="product-action-vertical">
+                        <a href="#" class="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
+                        <a href="#" class="btn-product-icon btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                        <a href="#" class="btn-product-icon btn-quickview w-icon-search" title="Quickview"></a>
+                        <a href="#" class="btn-product-icon btn-compare w-icon-compare" title="Add to Compare"></a>
+                    </div>
+        
+                </figure>
+                <div class="product-details">
+                    <h4 class="product-name"><a href="{{p.get_absolute_url}}">{{p.product_name}}</a>
+                    </h4>
+                    <div class="ratings-container">
+                        <div class="ratings-full">
+                            <span class="ratings" style="width: 100%;"></span>
+                            <span class="tooltiptext tooltip-top"></span>
+                        </div>
+                        <a # class="rating-reviews">(3 Reviews)</a>
+                    </div>
+                    {% if p.price != 0 %}
+                    <div class="product-price pl-3">
+                        <ins class="new-price">Rs. {{p.price}}{% if p.max_price and p.max_price != 0 %}
+                            - Rs. {{ p.max_price }}{% endif %}</ins>
+                    </div>
+                    {% else %}
+                    <div class="product-price ask-forprice">
+                        <ins class="new-price">Ask for Price</ins>
+                    </div>
+                    {% endif %}
+                    <div style="padding-left: 10px;">
+                        <p>MOQ: {{p.minimum_order_quantity}}</p>
+                    </div>
+        
                 </div>
-                <a # class="rating-reviews">(3 Reviews)</a>
             </div>
-            {% if p.price != 0 %}
-            <div class="product-price pl-3">
-                <ins class="new-price">Rs. {{p.price}}{% if p.max_price and p.max_price != 0 %}
-                    - Rs. {{ p.max_price }}{% endif %}</ins>
-            </div>
-            {% else %}
-            <div class="product-price ask-forprice">
-                <ins class="new-price">Ask for Price</ins>
-            </div>
-            {% endif %}
-            <div style="padding-left: 10px;">
-                <p>MOQ: {{p.minimum_order_quantity}}</p>
-            </div>
-
         </div>
-    </div>
-</div>
-                    {% endfor %}
+                            {% endfor %}
+                        </div>
+                        <div id="lds-roller" style="display: none;">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            
+                          </div> 
+                    </div>
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="product-wrap row cols-md-4 cols-sm-2 cols-1" id="categorylists">
+                            {% for p in featured_products %}
+                            <div class="product-wrap" style="max-width: 100%">
+            <div class="product text-center">
+                <figure class="product-media">
+                    <a href="{{p.get_absolute_url}}">
+                        {% if p.image %}
+                        <img src="{{p.image.url}}" alt="Product" width="300" height="338">
+                        <img src="{{p.image.url}}" alt="Product" width="300" height="338">
+        
+                        {% else %}
+                        <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=>
+                                                        width=" 300" height="338">
+                        <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=>
+                                                        width=" 300" height="338">
+                        {% endif %}
+                    </a>
+                    <div class="product-action-vertical">
+                        <a href="#" class="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
+                        <a href="#" class="btn-product-icon btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                        <a href="#" class="btn-product-icon btn-quickview w-icon-search" title="Quickview"></a>
+                        <a href="#" class="btn-product-icon btn-compare w-icon-compare" title="Add to Compare"></a>
+                    </div>
+        
+                </figure>
+                <div class="product-details">
+                    <h4 class="product-name"><a href="{{p.get_absolute_url}}">{{p.product_name}}</a>
+                    </h4>
+                    <div class="ratings-container">
+                        <div class="ratings-full">
+                            <span class="ratings" style="width: 100%;"></span>
+                            <span class="tooltiptext tooltip-top"></span>
+                        </div>
+                        <a # class="rating-reviews">(3 Reviews)</a>
+                    </div>
+                    {% if p.price != 0 %}
+                    <div class="product-price pl-3">
+                        <ins class="new-price">Rs. {{p.price}}{% if p.max_price and p.max_price != 0 %}
+                            - Rs. {{ p.max_price }}{% endif %}</ins>
+                    </div>
+                    {% else %}
+                    <div class="product-price ask-forprice">
+                        <ins class="new-price">Ask for Price</ins>
+                    </div>
+                    {% endif %}
+                    <div style="padding-left: 10px;">
+                        <p>MOQ: {{p.minimum_order_quantity}}</p>
+                    </div>
+        
                 </div>
-                <div id="lds-roller" style="display: none;">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    
+            </div>
+        </div>
+                            {% endfor %}
+                        </div></div>
+                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                        <div class="product-wrap row cols-md-4 cols-sm-2 cols-1" id="categorylists">
+                            {% for p in top_products %}
+                            <div class="product-wrap" style="max-width: 100%">
+            <div class="product text-center">
+                <figure class="product-media">
+                    <a href="{{p.get_absolute_url}}">
+                        {% if p.image %}
+                        <img src="{{p.image.url}}" alt="Product" width="300" height="338">
+                        <img src="{{p.image.url}}" alt="Product" width="300" height="338">
+        
+                        {% else %}
+                        <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=>
+                                                        width=" 300" height="338">
+                        <img src="https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=>
+                                                        width=" 300" height="338">
+                        {% endif %}
+                    </a>
+                    <div class="product-action-vertical">
+                        <a href="#" class="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
+                        <a href="#" class="btn-product-icon btn-wishlist w-icon-heart" title="Add to wishlist"></a>
+                        <a href="#" class="btn-product-icon btn-quickview w-icon-search" title="Quickview"></a>
+                        <a href="#" class="btn-product-icon btn-compare w-icon-compare" title="Add to Compare"></a>
+                    </div>
+        
+                </figure>
+                <div class="product-details">
+                    <h4 class="product-name"><a href="{{p.get_absolute_url}}">{{p.product_name}}</a>
+                    </h4>
+                    <div class="ratings-container">
+                        <div class="ratings-full">
+                            <span class="ratings" style="width: 100%;"></span>
+                            <span class="tooltiptext tooltip-top"></span>
+                        </div>
+                        <a # class="rating-reviews">(3 Reviews)</a>
+                    </div>
+                    {% if p.price != 0 %}
+                    <div class="product-price pl-3">
+                        <ins class="new-price">Rs. {{p.price}}{% if p.max_price and p.max_price != 0 %}
+                            - Rs. {{ p.max_price }}{% endif %}</ins>
+                    </div>
+                    {% else %}
+                    <div class="product-price ask-forprice">
+                        <ins class="new-price">Ask for Price</ins>
+                    </div>
+                    {% endif %}
+                    <div style="padding-left: 10px;">
+                        <p>MOQ: {{p.minimum_order_quantity}}</p>
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+                            {% endfor %}
+                        </div></div>
                   </div>
+
+
+              
                 
 
             </div>
@@ -483,6 +684,8 @@
 <script src="/static/assets/js/popper.min.js"></script>
 <script src="/static/assets/js/lunar.js"></script>
 <script src="/static/assets/js/main.js"></script>
+
+<script src="{% static "assets/vendor/swiper/swiper-bundle.min.js" %}"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/ScrollTrigger.min.js"></script>
@@ -568,7 +771,7 @@
             searchinput.value = item
             resultsbox.classList.add('not-visible')
         }
-
+        kathmandu-machinery-traders
         $("#dt-search-filter").on('input',function(){
             if (supplier_resultsbox.classList.contains('not-visible')){
                 supplier_resultsbox.classList.remove('not-visible')
@@ -690,6 +893,31 @@
       $('body').removeClass('side-menu-openthree');
       $('body').removeClass('bodyhidden');
     })
+  </script>
+
+<script>
+    var swiper = new Swiper(".mySwiper", {
+      slidesPerView: 2,
+      spaceBetween: 10,
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      breakpoints: {
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        768: {
+          slidesPerView: 4,
+          spaceBetween: 40,
+        },
+        1024: {
+          slidesPerView: 4,
+          spaceBetween: 50,
+        },
+      },
+    });
   </script>
 
 {% endblock %}

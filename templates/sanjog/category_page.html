@@ -333,7 +333,7 @@ sewing machine
                                     <span class="toggle-btn"></span>
                                 </h3>
                                 <ul
-                                    class="widget-body asdass filter-items item-check mt-1{% if subcategory|length > 5 %} more-than-five-categories{% endif %}">
+                                    class="widget-body asdass filter-items item-check mt-1">
 
                                     <form method="GET" class="mb-3" onSubmit="return disableNullFields(this);">
                                         <input type="hidden" name="keyword" value="{{keyword}}">
@@ -341,15 +341,15 @@ sewing machine
                                         <input type="hidden" name="max_value" value="{{max_value}}">
                                         <input type="hidden" name="sort" value="{{sort}}">
                                         <input type="hidden" name="sub_categ" value="{{c.slug}}">
-                                        <input type="hidden" name="supplier" value="{{current_supplier}}">
-
+<div class="{% if subcategory|length > 5 %} more-than-five-categories{% endif %}">
                                         {% for c in subcategory %}
                                         <li><label class="checkbox">{{c}}
-                                                <input name="sub_categ" type="{% if subcategory|length > 1 %}radio{% else %}checkbox{% endif %}" {% if c == current_subcategory %} checked
+                                                <input name="sub_categ" type="radio" {% if c == current_category %} checked
                                                     {% endif %} value="{{ c.slug}}" />
                                                 <span class="checkmark" />
                                             </label></li>
                                         {% endfor %}
+                                    </div>
                                         <button
                                     class="btn btn-outline-green btn-filter-green btn-border-green mx-auto d-block mt-3 w-100"
                                     type="submit">Filter</button>
@@ -390,25 +390,9 @@ sewing machine
 
                                 <ul
                                     class="widget-body filter-items search-ul {% if supplier|length > 5 %} more-than-five-categories{% endif %}">
-
-                                    <form method="GET" class="mb-3" onSubmit="return disableNullFields(this);">
-                                        <input type="hidden" name="keyword" value="{{keyword}}">
-                                        <input type="hidden" name="min_value" value="{{min_value}}">
-                                        <input type="hidden" name="max_value" value="{{max_value}}">
-                                        <input type="hidden" name="sort" value="{{sort}}">
-                                        <input type="hidden" name="sub_categ" value="{{c.slug}}">
-
-                                        {% for s in supplier %}
-                                        <li><label class="checkbox">{{s}}
-                                                <input name="supplier" type="radio" {% if s == current_supplier %} checked
-                                                    {% endif %} value="{{ s.slug}}" />
-                                                <span class="checkmark" />
-                                            </label></li>
-                                        {% endfor %}
-                                        <button
-                                    class="btn btn-outline-green btn-filter-green btn-border-green mx-auto d-block mt-3 w-100"
-                                    type="submit">Filter</button>
-                                    </form>
+                                    {% for s in supplier %}
+                                    <li><a href="#">{{s}}</a></li>
+                                    {% endfor %}
                                 </ul>
                             </div>
 

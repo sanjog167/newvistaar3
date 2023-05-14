@@ -85,9 +85,6 @@ def search_algorithm(category, sub_categ, keyword, min_value, max_value, sort_by
             keyword_filtered = keyword_filtered.filter(price__gte=min_value)
         if max_value != None:
             keyword_filtered = keyword_filtered.filter(price__lte=max_value)
-        # filter by seller if present
-        if seller != None and seller != "None" and seller != "":
-            keyword_filtered = keyword_filtered.filter(supplier=seller)
         # sort by latest, low to high, high to low
         if sort_by == "LST":
             keyword_filtered = keyword_filtered.order_by("-id")
@@ -263,13 +260,8 @@ def category_detail(request,id,slug):
     max_value = request.GET.get("max_value")
     selected_brands = request.GET.getlist("brands")
     context["selected_brands"] = selected_brands
-    supplier = request.GET.get("supplier")
-    if supplier != None:
-        supplier_obj = get_object_or_404(Supplier, slug=supplier)
-    else:
-        supplier_obj = None
 
-    products = search_algorithm(category, sub_categ, keyword, min_value, max_value, sort, seller=supplier_obj, _type="search")
+    products = search_algorithm(category, sub_categ, keyword, min_value, max_value, sort, seller=None, _type="search")
 
     # First find the min-max price of all products (when not filtered with the min-max price range)
     min_price_of_all_products = 0
@@ -336,8 +328,6 @@ def category_detail(request,id,slug):
 
     context["slug"] = slug
     context["current_category"] = category
-    context["current_subcategory"] = sub_categ
-    context["current_supplier"] = supplier_obj
     context["pag"] = page_obj
     context["sub_category"] = Subcategory.objects.filter(category=category)
 
@@ -454,7 +444,9 @@ def submit_product(request):
             return redirect('products:submit_product')
 
         new_slug = slugify(request.POST['product-name'])
-
+        feature_this = request.POST.get('feature_product_in_supplier_page', False)
+        if feature_this == "True":
+            feature_this = True
         new_product = Products.objects.create(product_name=request.POST['product-name'],
                                                  slug = new_slug,
                                                  description=request.POST['description'],
@@ -465,6 +457,7 @@ def submit_product(request):
                                                  minimum_order_quantity=request.POST['min-qty'],
                                                  sub_category = subcat_id,
                                                  brand = request.POST['brand'],
+                                                 seller_top_product = feature_this,
                                                  )
         
         if 'image1' in request.FILES:
@@ -519,7 +512,10 @@ def edit_product(request,id):
         else:
             messages.success(request,'Select a sub-category!')
             return redirect('products:submit_product')
-        
+        feature_this = request.POST.get('feature_product_in_supplier_page', False)
+        if feature_this == "True":
+            feature_this = True
+
         Products.objects.filter(id=id).update(product_name=request.POST['product-name'],
                                                  description=request.POST['description'],
                                                  category=cat_id,
@@ -527,7 +523,9 @@ def edit_product(request,id):
                                                  max_price=request.POST['max-price'],
                                                  minimum_order_quantity=request.POST['min-qty'],
                                                  brand=request.POST['brand'],
-                                                 sub_category = subcat_id)
+                                                 sub_category = subcat_id,
+                                                 seller_top_product = feature_this,
+                                                 )
 
         new = Products.objects.get(id=id)
 
@@ -1164,7 +1162,7 @@ def search_manager(search_dictionary):
         return result
     
     if search_dictionary["search_type"] == "seller":
-        result = Products.objects.select_related("supplier").filter(supplier__slug=search_dictionary["seller_slug"])
+        result = Products.objects.select_related("supplier").filter(supplier__slug=search_dictionary["seller_slug"]).order_by("-seller_top_product")
         if search_dictionary["keyword"] != "" and search_dictionary["keyword"] != "None" and search_dictionary["keyword"] != None:
             result = result.filter(Q(product_name__icontains=search_dictionary["keyword"])|Q(description__icontains=search_dictionary["keyword"])|Q(supplier__company_name__icontains=search_dictionary["keyword"])|Q(keywords__icontains=search_dictionary["keyword"]))
         if search_dictionary["subcategorys"] != []:

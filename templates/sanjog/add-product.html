@@ -162,9 +162,12 @@
                       </div>
 
                       <div class="shownoprice">
-
           <div>
-            <input type="checkbox"/>
+            <input type="checkbox"/ name="feature_product_in_supplier_page" value="True">
+            <label>Feature this product in supplier page</label>
+          </div>
+          <div>
+            <input type="checkbox"/ id="do_not_show_price">
             <label>I do not want to show any prices for now</label>
           </div>
                     
@@ -603,7 +606,7 @@ function loadFileFour(event) {
 </script>
 
 <script>
-  const checkbox = document.querySelector('input[type="checkbox"]');
+  const checkbox = document.getElementById('do_not_show_price');
 const minPriceInput = document.querySelector('input[name="min-price"]');
 const maxPriceInput = document.querySelector('input[name="max-price"]');
 

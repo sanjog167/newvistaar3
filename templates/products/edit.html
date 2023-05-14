@@ -140,7 +140,14 @@
 
                       
                       <div class="shownoprice">
-
+        <div>
+            <input type="checkbox" name="feature_product_in_supplier_page" 
+            {% if product.seller_top_product %}
+            checked
+            {% endif %}/
+            >
+            <label>Feature this product in supplier page</label>
+          </div>
                         <div>
                           <input type="checkbox"/>
                           <label>I do not want to show any prices for now</label>
