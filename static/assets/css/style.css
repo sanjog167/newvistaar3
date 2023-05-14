@@ -7923,6 +7923,11 @@ li{
   overflow-y: scroll;
 } 
 
+.more-than-five-categories {
+  height: 250px;
+  overflow-y: scroll;
+} 
+
 .sidebar .widget .widget-body {
   padding-top: 20px;
 }
@@ -9271,7 +9276,7 @@ form .form-control{
 
 .side-menu-opentwo .aiz-sidebar-wraptwo .left {
   left: 0px;
-      z-index: 99999;
+      z-index: 99999999999;
       padding-left: 10px;
       padding-right: 10px;
 }
@@ -9469,6 +9474,8 @@ padding: 10px !important;
 
 #categorylists {
   padding: 20px;
+  padding-left: 0;
+    padding-right: 0;
 }
 
 .sellfilter{
