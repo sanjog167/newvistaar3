@@ -811,14 +811,13 @@
         })
     </script>
  <script>
-
     $(document).ready(function () {
         var page = 1;
         var block_request = false;
         var end_pagination = false;
 
         $(window).scroll(function () {
-            var margin = $(document).height() - $(window).height() - 200;
+            var margin = $(document).height() - $(window).height() - ($("footer").height() + 100);
 
             if ($(window).scrollTop() > margin && end_pagination === false && block_request === false) {
                 block_request = true;
